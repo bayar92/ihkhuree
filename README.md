@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ikh Khuree — International Business Cooperation Association
 
-## Getting Started
+Олон улсын бизнесс хамтын ажиллагааны холбооны вэбсайт. 3 хэл дээр (Монгол / English / 日本語), агуулгыг админ хэсгээс засварлах боломжтой.
 
-First, run the development server:
+## Технологи
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Tailwind CSS v4**
+- **next-intl** — олон хэлний дэмжлэг (`mn`, `en`, `ja`)
+- **Prisma + PostgreSQL** — өгөгдлийн сан (Railway дээр host хийгдсэн)
+- **Auth.js (NextAuth v5)** — админ нэвтрэлт (credentials)
+
+## Эхлүүлэх
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`.env` файлыг `.env.example`-ээс хуулж тохируул:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cp .env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Шаардлагатай хувьсагчид:
 
-## Learn More
+| Хувьсагч | Тайлбар |
+| --- | --- |
+| `DATABASE_URL` | PostgreSQL холболтын string (Railway) |
+| `AUTH_SECRET` | Auth.js secret — `openssl rand -base64 32` |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | seed-ээр үүсэх анхны админ |
 
-To learn more about Next.js, take a look at the following resources:
+Өгөгдлийн сан болон анхны контент:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run db:push   # schema-г DB рүү тулгах
+npm run db:seed   # анхны контент + админ хэрэглэгч үүсгэх
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Хөгжүүлэлтийн сервер:
 
-## Deploy on Vercel
+```bash
+npm run dev       # http://localhost:3000
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Чухал замууд
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Зам | Тайлбар |
+| --- | --- |
+| `/mn`, `/en`, `/ja` | Нийтийн сайт (хэл бүрээр) |
+| `/admin` | Удирдлагын самбар (нэвтрэлт шаардана) |
+| `/admin/login` | Админ нэвтрэх |
+
+Анхны админ (seed-ийн дараа):
+
+- **Email:** `admin@ikhkhuree.mn`
+- **Password:** `Admin12345!` (production-д заавал солих!)
+
+## Админаас юу засах вэ
+
+- **Нүүр баннер** (`/admin/hero`) — гарчиг, тайлбар, товч
+- **Үнэт зүйлс** (`/admin/features`) — нүүрний 4 карт
+- **Чиглэлүүд** (`/admin/focus-areas`) — доод цэнхэр зурвас
+- **Хуудаснууд** (`/admin/pages`) — Бидний тухай / Гишүүнчлэл / Үйлчилгээ / Холбоо барих
+- **Мэдээ** (`/admin/news`) — бүрэн CRUD
+- **Арга хэмжээ** (`/admin/events`) — бүрэн CRUD
+- **Хүсэлтүүд** (`/admin/inquiries`) — холбоо барих / элсэх формын мэдээлэл
+- **Тохиргоо** (`/admin/settings`) — холбоо барих мэдээлэл
+
+Бүх текст талбар 3 хэлээр (МН / EN / JA) тус тусдаа орох ба хадгалсны дараа нийтийн сайтад шууд тусна.
+
+## Бүтэц
+
+```
+src/
+  app/
+    [locale]/        # нийтийн сайт (multilingual)
+    admin/           # удирдлагын самбар (localized биш)
+      (panel)/       # нэвтрэлтээр хамгаалагдсан хуудаснууд
+    api/             # auth, inquiry endpoints
+  components/        # UI бүрэлдэхүүн хэсгүүд
+  i18n/              # next-intl тохиргоо
+  lib/               # prisma, auth, helpers
+  messages/          # UI орчуулгууд (mn/en/ja.json)
+prisma/
+  schema.prisma      # өгөгдлийн загвар
+  seed.ts            # анхны контент
+```
+
+## Production build
+
+```bash
+npm run build
+npm start
+```
+
+## Railway дээр deploy хийх
+
+1. Энэ repo-г Railway төсөлд холбоно.
+2. PostgreSQL plugin нэмнэ (`DATABASE_URL` автоматаар орно — дотоод хаягийг ашиглах нь хурдан).
+3. Environment variables: `AUTH_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`.
+4. Build үед `prisma generate` (postinstall) ажиллана. Анх удаа `npm run db:push && npm run db:seed` ажиллуулна.
