@@ -3,22 +3,17 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import "../globals.css";
 
-const inter = Inter({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
+// Single elegant family for the entire public site (headings + body).
 const playfair = Playfair_Display({
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-serif",
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-sans",
   display: "swap",
 });
 
@@ -51,7 +46,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={`${inter.variable} ${playfair.variable}`}>
+    <html lang={locale} className={playfair.variable}>
       <body
         suppressHydrationWarning
         className="flex min-h-screen flex-col bg-white text-neutral-800"

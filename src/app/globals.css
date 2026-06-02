@@ -13,8 +13,10 @@
   --color-brand-900: #112c4f;
   --color-brand-950: #0b1d36;
 
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-serif), Georgia, "Times New Roman", serif;
+  /* The whole public site uses one elegant family (set via --font-sans in the
+     layout). The serif token simply follows it so headings + body match. */
+  --font-sans: var(--font-sans), Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-sans), Georgia, "Times New Roman", serif;
 }
 
 :root {

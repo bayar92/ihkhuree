@@ -40,19 +40,26 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-0.5 xl:flex">
-          {links.map((l) => (
-            <Link
-              key={l.key}
-              href={l.href}
-              className={`whitespace-nowrap rounded-md px-2.5 py-2 text-[13px] font-medium uppercase transition ${
-                isActive(l.href)
-                  ? "text-brand-700"
-                  : "text-neutral-600 hover:text-brand-600"
-              }`}
-            >
-              {t(l.key)}
-            </Link>
-          ))}
+          {links.map((l) => {
+            const active = isActive(l.href);
+            return (
+              <Link
+                key={l.key}
+                href={l.href}
+                aria-current={active ? "page" : undefined}
+                className={`group relative whitespace-nowrap px-2.5 py-2 text-[13px] font-medium uppercase transition-colors ${
+                  active ? "text-brand-700" : "text-neutral-600 hover:text-brand-700"
+                }`}
+              >
+                {t(l.key)}
+                <span
+                  className={`pointer-events-none absolute inset-x-2.5 bottom-1 h-0.5 origin-left rounded-full bg-brand-600 transition-transform duration-300 ease-out ${
+                    active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  }`}
+                />
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-2">
