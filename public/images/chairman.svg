@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Chairman portrait">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d6e4f5"/>
+      <stop offset="1" stop-color="#adc8ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg)"/>
+  <!-- suit + shoulders -->
+  <path d="M70 400c0-72 58-118 130-118s130 46 130 118Z" fill="#194278"/>
+  <path d="M170 300h60v60l-30 20-30-20Z" fill="#ffffff"/>
+  <path d="M200 300l22 14-22 66-22-66Z" fill="#2a61ac"/>
+  <!-- head -->
+  <circle cx="200" cy="180" r="74" fill="#e9d3bf"/>
+  <!-- hair -->
+  <path d="M126 175c0-44 33-78 74-78s74 34 74 78c0-10-12-30-30-34-10 18-78 22-104 6-8 8-14 18-14 28Z" fill="#3a2b22"/>
+</svg>

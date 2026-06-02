@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Admin users who can edit site content.
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Hero / banner section on the home page. Localized text stored as
+// JSON: { mn: string, en: string, ja: string }
+model Hero {
+  id          String   @id @default(cuid())
+  title       Json
+  subtitle    Json
+  tagline     Json
+  ctaLabel    Json
+  ctaHref     String   @default("/about")
+  image       String?
+  updatedAt   DateTime @updatedAt
+}
+
+// The four highlight cards (Mission / Vision / Membership / Services).
+model Feature {
+  id        String   @id @default(cuid())
+  icon      String // icon key: globe | users | handshake | growth
+  title     Json
+  body      Json
+  href      String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Focus areas shown in the bottom blue strip.
+model FocusArea {
+  id        String   @id @default(cuid())
+  icon      String
+  label     Json
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// News / blog posts.
+model News {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       Json
+  excerpt     Json
+  content     Json
+  coverImage  String?
+  published   Boolean   @default(true)
+  publishedAt DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Events.
+model Event {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       Json
+  description Json
+  location    Json
+  image       String?
+  startsAt    DateTime
+  endsAt      DateTime?
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Free-form page content (about / membership / services / contact).
+// `body` holds an array of localized blocks managed from the admin.
+model Page {
+  id        String   @id @default(cuid())
+  key       String   @unique // home | about | membership | services | contact
+  title     Json
+  intro     Json
+  body      Json // array of { heading: LocalizedText, text: LocalizedText }
+  updatedAt DateTime @updatedAt
+}
+
+// Site-wide settings (contact info, socials, etc.).
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+// Submissions from the "Join us" / contact form.
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  company   String?
+  message   String
+  type      String   @default("contact") // contact | join
+  handled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

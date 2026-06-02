@@ -1,26 +1,41 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-50: #eef4fb;
+  --color-brand-100: #d6e4f5;
+  --color-brand-200: #adc8ea;
+  --color-brand-300: #7ba6db;
+  --color-brand-400: #4a80c7;
+  --color-brand-500: #2a61ac;
+  --color-brand-600: #1d4e8f;
+  --color-brand-700: #194278;
+  --color-brand-800: #163a68;
+  --color-brand-900: #112c4f;
+  --color-brand-950: #0b1d36;
+
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif), Georgia, "Times New Roman", serif;
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground: #1a1a1a;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle decorative wave/line backdrop used in the hero. */
+.hero-lines {
+  background-image: repeating-linear-gradient(
+    115deg,
+    rgba(29, 78, 143, 0.06) 0px,
+    rgba(29, 78, 143, 0.06) 1px,
+    transparent 1px,
+    transparent 9px
+  );
 }
