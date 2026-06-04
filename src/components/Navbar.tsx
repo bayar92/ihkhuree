@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
+import Image from "next/image";
 import { BrandLogo } from "./BrandLogo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
@@ -30,8 +31,15 @@ export function Navbar() {
         <Link href="/" className="flex items-center gap-3">
           <BrandLogo size={46} priority />
           <span className="leading-tight">
-            <span className="block font-serif text-xl font-semibold tracking-wide text-brand-700">
+            <span className="flex items-center gap-2 font-serif text-xl font-semibold tracking-wide text-brand-700">
               Ikh Khuree
+              <Image
+                src="/dalbaa.png"
+                alt="Mongolia"
+                width={32}
+                height={16}
+                className="h-4 w-auto rounded-[2px] shadow-sm ring-1 ring-black/5"
+              />
             </span>
             <span className="block text-[11px] text-neutral-500">
               international business cooperation association
