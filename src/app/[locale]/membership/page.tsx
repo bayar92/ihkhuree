@@ -19,6 +19,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/i18n";
 import type { Locale } from "@/i18n/routing";
+import { CertificateGallery } from "@/components/CertificateGallery";
 
 type L = { mn: string; en: string; ja: string };
 
@@ -31,7 +32,17 @@ const labels = {
     en: "HOW TO BECOME A MEMBER",
     ja: "会員になるには",
   },
+  certificates: {
+    mn: "ГИШҮҮНИЙ ГЭРЧИЛГЭЭ",
+    en: "MEMBER CERTIFICATES",
+    ja: "会員証",
+  },
 };
+
+const certificates = Array.from(
+  { length: 15 },
+  (_, i) => `/certificates/cert-${String(i + 1).padStart(2, "0")}.jpg`,
+);
 
 const heroSub = {
   mn: "Дэлхийн сүлжээний нэг хэсэг бол. Хамтдаа өсч, хамтдаа амжилтад хүрье.",
@@ -365,6 +376,16 @@ export default async function MembershipPage({
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Member certificates */}
+      <section className="bg-neutral-50">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <SectionTitle label={pick(labels.certificates, locale)} />
+          <div className="mt-12">
+            <CertificateGallery images={certificates} />
           </div>
         </div>
       </section>
