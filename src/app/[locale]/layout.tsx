@@ -3,17 +3,18 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
-import { Playfair_Display } from "next/font/google";
+import { Noto_Serif } from "next/font/google";
 import { routing } from "@/i18n/routing";
+import { notoSansJP } from "@/lib/fonts";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import "../globals.css";
 
-// Single elegant family for the entire public site (headings + body).
-const playfair = Playfair_Display({
+// Latin + Cyrillic (mn/en) with Japanese fallback via Noto Sans JP.
+const notoSerif = Noto_Serif({
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  variable: "--font-sans",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-noto-serif",
   display: "swap",
 });
 
@@ -46,7 +47,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={playfair.variable}>
+    <html lang={locale} className={`${notoSerif.variable} ${notoSansJP.variable}`}>
       <body
         suppressHydrationWarning
         className="flex min-h-screen flex-col bg-white text-neutral-800"

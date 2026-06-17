@@ -3,7 +3,7 @@
     "home": "ホーム",
     "about": "私たちについて",
     "membership": "会員",
-    "services": "サービス",
+    "services": "コンサルティング",
     "news": "ニュース",
     "events": "イベント",
     "contact": "お問い合わせ",
@@ -20,7 +20,7 @@
     "languageName": "日本語"
   },
   "home": {
-    "highlightsTitle": "私たちの価値観",
+    "highlightsTitle": "私たちの重点分野",
     "focusAreas": "私たちの重点分野",
     "latestNews": "最新ニュース",
     "upcomingEvents": "今後のイベント",

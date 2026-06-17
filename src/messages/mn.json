@@ -3,7 +3,7 @@
     "home": "Нүүр",
     "about": "Бидний тухай",
     "membership": "Гишүүнчлэл",
-    "services": "Үйлчилгээ",
+    "services": "Зөвлөх үйлчилгээ",
     "news": "Мэдээ",
     "events": "Арга хэмжээ",
     "contact": "Холбоо барих",
@@ -20,7 +20,7 @@
     "languageName": "Монгол"
   },
   "home": {
-    "highlightsTitle": "Бидний үнэт зүйлс",
+    "highlightsTitle": "Бидний үндсэн чиглэл",
     "focusAreas": "Бидний үйл ажиллагааны чиглэл",
     "latestNews": "Сүүлийн мэдээ",
     "upcomingEvents": "Удахгүй болох арга хэмжээ",

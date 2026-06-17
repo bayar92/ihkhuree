@@ -12,9 +12,11 @@ export function PageHeader({
           {title}
         </h1>
         {intro && (
-          <p className="mt-4 max-w-2xl text-lg text-neutral-600">{intro}</p>
+          <p className="mt-5 max-w-3xl text-base leading-8 text-neutral-600 sm:text-lg">
+            {intro}
+          </p>
         )}
-        <div className="mt-6 h-1 w-16 bg-brand-300" />
+        <div className="mt-6 h-0.5 w-16 rounded bg-[#c8a44d]" />
       </div>
     </section>
   );

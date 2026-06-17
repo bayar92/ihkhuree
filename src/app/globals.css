@@ -13,10 +13,11 @@
   --color-brand-900: #112c4f;
   --color-brand-950: #0b1d36;
 
-  /* The whole public site uses one elegant family (set via --font-sans in the
-     layout). The serif token simply follows it so headings + body match. */
-  --font-sans: var(--font-sans), Georgia, "Times New Roman", serif;
-  --font-serif: var(--font-sans), Georgia, "Times New Roman", serif;
+  /* mn/en: Noto Serif (public) or Inter (admin); ja: Noto Sans JP fallback. */
+  --font-sans: var(--font-inter, var(--font-noto-serif, system-ui)),
+    var(--font-noto-sans-jp), system-ui, sans-serif;
+  --font-serif: var(--font-noto-serif, Georgia), var(--font-noto-sans-jp), Georgia,
+    "Times New Roman", serif;
 }
 
 :root {
@@ -27,7 +28,8 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-inter, var(--font-noto-serif)), var(--font-noto-sans-jp),
+    system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 

@@ -38,6 +38,25 @@ import { EventCard } from '@/components/EventCard';
 
 export const dynamic = 'force-dynamic';
 
+const aboutTeaser = {
+  label: { mn: 'БИДНИЙ ТУХАЙ', en: 'ABOUT US', ja: '私たちについて' },
+  title1: {
+    mn: 'Хил дамнан холбож,',
+    en: 'Bridging borders.',
+    ja: '国境を越えてつなぎ、',
+  },
+  title2: {
+    mn: 'хамтын ажиллагааг бэхжүүлнэ.',
+    en: 'Empowering cooperation.',
+    ja: '協力を強化する。',
+  },
+  text: {
+    mn: 'Бид олон улсын бизнесийн хамтын ажиллагааг шинэ түвшинд хүргэж, байгууллага, хөрөнгө оруулагчид болон бизнес эрхлэгчдийг холбох замаар урт хугацааны үнэ цэнэ бүхий түншлэлийг бий болгож, тогтвортой өсөлт хөгжил, инноваци, эдийн засгийн үр өгөөжийг дэмжихийг эрхэмлэдэг.',
+    en: "We are committed to elevating international business cooperation to a new level by connecting organizations, investors, and entrepreneurs — building long-term, value-creating partnerships and supporting sustainable growth, innovation, and economic prosperity.",
+    ja: '国際ビジネス協力を新たなレベルに引き上げ、組織、投資家、起業家をつなぐことで、長期的な価値を創造するパートナーシップを構築し、持続可能な成長、イノベーション、経済的繁栄を支援することを使命としています。',
+  },
+};
+
 export default async function HomePage({
   params,
 }: {
@@ -121,47 +140,46 @@ export default async function HomePage({
       </section>
       {/* Highlights */}
       {features.length > 0 && (
-        <section className="border-t border-neutral-100 bg-white">
-          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-            <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="border-t border-neutral-100 bg-gradient-to-b from-brand-50/40 to-white">
+          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 className="font-serif text-2xl font-semibold uppercase tracking-[0.12em] text-brand-700 sm:text-3xl">
+                {t('home.highlightsTitle')}
+              </h2>
+              <span className="mt-3 block h-0.5 w-16 rounded bg-[#c8a44d] mx-auto" />
+            </div>
+            <div className="mt-14 grid gap-6 sm:grid-cols-2">
               {features.map((f) => {
                 const Icon = featureLucide[f.icon] ?? Globe;
 
                 const card = (
-                  <div className="group flex flex-col items-center text-center">
-                    {/* ICON */}
-                    <div className="flex justify-center">
-                      <Icon
-                        className="h-12 w-12 text-brand-500"
-                        strokeWidth={1.5}
-                      />
+                  <article className="group flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-50 transition group-hover:bg-brand-100">
+                      <Icon className="h-6 w-6 text-brand-600" strokeWidth={1.5} />
                     </div>
-
-                    {/* TITLE */}
-                    <h3 className="mt-5 text-lg font-bold uppercase tracking-wide text-brand-700">
+                    <h3 className="mt-5 font-serif text-lg font-bold text-brand-700">
                       {pick(f.title, locale)}
                     </h3>
-
-                    {/* DESCRIPTION */}
-                    <p className="mt-3 max-w-xs text-sm leading-relaxed text-neutral-600">
+                    <p className="mt-3 flex-1 text-sm leading-7 text-neutral-600">
                       {pick(f.body, locale)}
                     </p>
-
-                    {/* LINE */}
-                    <span className="mt-4 h-0.5 w-10 bg-brand-300 transition-all duration-300 group-hover:w-16" />
-                  </div>
+                    {f.href && (
+                      <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-brand-600">
+                        {t('common.learnMore')}
+                        <ArrowRightIcon className="h-3.5 w-3.5 transition group-hover:translate-x-1" />
+                      </span>
+                    )}
+                  </article>
                 );
 
                 return f.href ? (
-                  <Link
-                    key={f.id}
-                    href={f.href}
-                    className="transition-transform duration-300 hover:-translate-y-1"
-                  >
+                  <Link key={f.id} href={f.href} className="block h-full">
                     {card}
                   </Link>
                 ) : (
-                  <div key={f.id}>{card}</div>
+                  <div key={f.id} className="h-full">
+                    {card}
+                  </div>
                 );
               })}
             </div>
@@ -244,82 +262,37 @@ export default async function HomePage({
       {/* About Section */}
       <section className="bg-white py-20">
         <div className="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          {/* LEFT CONTENT */}
           <div>
-            {/* SMALL TITLE */}
             <span className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
-              ABOUT US
+              {pick(aboutTeaser.label, locale)}
             </span>
-
-            {/* LINE */}
-            <div className="mt-4 h-0.5 w-16 bg-brand-400" />
-
-            {/* MAIN TITLE */}
+            <div className="mt-4 h-0.5 w-16 bg-[#c8a44d]" />
             <h2 className="mt-10 font-serif text-4xl leading-tight text-brand-700 sm:text-5xl">
-              Bridging borders.
+              {pick(aboutTeaser.title1, locale)}
               <br />
-              Empowering cooperation.
+              {pick(aboutTeaser.title2, locale)}
             </h2>
-
-            {/* LINE */}
-            <div className="mt-10 h-0.5 w-16 bg-brand-400" />
-
-            {/* DESCRIPTION */}
-            <p className="mt-10 max-w-xl text-base leading-9 text-neutral-700">
-              Ikh Khuree International Business Cooperation Association is a
-              non-profit organization dedicated to fostering international
-              collaboration, knowledge exchange, and sustainable growth.
+            <div className="mt-10 h-0.5 w-16 bg-brand-300" />
+            <p className="mt-10 max-w-xl text-base leading-8 text-neutral-700">
+              {pick(aboutTeaser.text, locale)}
             </p>
-
-            {/* BUTTON */}
-            <button
-              className="
-          group mt-12 inline-flex items-center gap-3
-          text-sm font-semibold uppercase tracking-wider text-brand-600
-          transition-all duration-300 hover:gap-5
-        "
+            <Link
+              href="/about"
+              className="group mt-12 inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-wider text-brand-600 transition-all duration-300 hover:gap-5"
             >
-              READ MORE
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </button>
+              {t('common.readMore')}
+              <ArrowRightIcon className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
           </div>
 
-          {/* RIGHT IMAGE */}
-          <div className="relative overflow-hidden rounded-sm">
-            {/* IMAGE — swap this SVG placeholder for a real photo anytime */}
+          <div className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-neutral-200/60">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/about-city.svg"
-              alt="About"
-              className="
-          h-full w-full object-cover
-          transition-transform duration-700 hover:scale-105
-        "
+              alt=""
+              className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
             />
-
-            {/* OVERLAY */}
-            <div className="absolute inset-0 bg-brand-500/10" />
-
-            {/* OPTIONAL PATTERN */}
-            <div
-              className="
-          absolute right-0 top-0 h-full w-40
-          bg-white/10 backdrop-blur-[1px]
-        "
-            />
+            <div className="absolute inset-0 bg-brand-700/10" />
           </div>
         </div>
       </section>

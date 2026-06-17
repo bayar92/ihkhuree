@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 const knownPages = [
   { key: "about", label: "Бидний тухай" },
   { key: "membership", label: "Гишүүнчлэл" },
-  { key: "services", label: "Үйлчилгээ" },
+  { key: "services", label: "Зөвлөх үйлчилгээ" },
   { key: "contact", label: "Холбоо барих" },
 ];
 

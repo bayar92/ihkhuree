@@ -46,9 +46,9 @@ async function main() {
         href: "/about",
         title: { mn: "Бидний эрхэм зорилго", en: "Our Mission", ja: "私たちの使命" },
         body: {
-          mn: "Олон улсын бизнесийн хамтын ажиллагаа болон тогтвортой хөгжлийг дэмжих.",
-          en: "To promote international business cooperation and sustainable development.",
-          ja: "国際ビジネス協力と持続可能な発展を促進すること。",
+          mn: "Олон улсын бизнесийн хамтын ажиллагааг өргөжүүлж, хөрөнгө оруулалт, худалдаа, инноваци болон мэдлэг туршлагын солилцоог дэмжих замаар харилцан ашигтай түншлэлийг бий болгон, тогтвортой эдийн засаг, нийгмийн хөгжилд бодит хувь нэмэр оруулах.",
+          en: "We expand international business cooperation by supporting investment, trade, innovation, and knowledge exchange — building mutually beneficial partnerships that contribute to sustainable economic and social development.",
+          ja: "国際ビジネス協力を拡大し、投資、貿易、イノベーション、知識・経験の交流を支援することで、相互に有益なパートナーシップを構築し、持続可能な経済・社会発展に実質的な貢献をします。",
         },
       },
       {
@@ -57,9 +57,9 @@ async function main() {
         href: "/about",
         title: { mn: "Бидний алсын хараа", en: "Our Vision", ja: "私たちのビジョン" },
         body: {
-          mn: "Дэлхийн бизнесүүдийг холбосон тэргүүлэгч платформ болох.",
-          en: "To be a leading platform connecting businesses across the world.",
-          ja: "世界中のビジネスをつなぐ主要なプラットフォームになること。",
+          mn: "Дэлхийн бизнес, хөрөнгө оруулалт, инновацын экосистемийг холбосон тэргүүлэгч платформ болж, олон улсын хамтын ажиллагаа, тогтвортой хөгжил, харилцан өсөлтийн шинэ боломжуудыг бий болгох.",
+          en: "To become a leading platform connecting the global business, investment, and innovation ecosystem — creating new opportunities for international cooperation, sustainable development, and mutual growth.",
+          ja: "世界のビジネス、投資、イノベーションのエコシステムをつなぐ主要なプラットフォームとなり、国際協力、持続可能な発展、相互成長の新たな機会を創出します。",
         },
       },
       {
@@ -68,20 +68,20 @@ async function main() {
         href: "/membership",
         title: { mn: "Гишүүнчлэл", en: "Membership", ja: "会員" },
         body: {
-          mn: "Дэлхийн манлайлагч, бизнес эрхлэгч, мэргэжилтнүүдийн сүлжээнд нэгдээрэй.",
-          en: "Join our network of global leaders, entrepreneurs, and industry experts.",
-          ja: "世界のリーダー、起業家、専門家のネットワークに参加しましょう。",
+          mn: "Дэлхийн манлайлагч бизнес эрхлэгчид, хөрөнгө оруулагчид, салбар бүрийн нэр хүндтэй мэргэжилтнүүдийг холбосон онцгой сүлжээнд нэгдэж, үнэ цэнтэй харилцаа, тогтвортой өсөлт, шинэ боломжуудын нэг хэсэг болоорой.",
+          en: "Join an exclusive network connecting global business leaders, investors, and respected professionals across industries — become part of valuable relationships, sustainable growth, and new opportunities.",
+          ja: "世界のビジネスリーダー、投資家、各分野の著名な専門家をつなぐ特別なネットワークに参加し、価値ある関係、持続可能な成長、新しい機会の一部になりましょう。",
         },
       },
       {
         icon: "growth",
         order: 4,
         href: "/services",
-        title: { mn: "Бидний үйлчилгээ", en: "Our Services", ja: "私たちのサービス" },
+        title: { mn: "Зөвлөх үйлчилгээ", en: "Consulting Services", ja: "コンサルティング" },
         body: {
-          mn: "Зөвлөгөө, сүлжээ, мэдээлэл, төслийн дэмжлэгээр таны бизнесийг хөгжүүлнэ.",
-          en: "We provide consulting, networking, information, and project support to help your business grow.",
-          ja: "コンサルティング、ネットワーキング、情報、プロジェクト支援を提供します。",
+          mn: "Бид гишүүд болон түнш байгууллагууддаа бизнесийн өсөлт, хөрөнгө оруулалт, олон улсын хамтын ажиллагааг дэмжих зорилгоор мэргэжлийн зөвлөх үйлчилгээг үзүүлдэг.",
+          en: "We provide professional advisory services to our members and partner organizations to support business growth, investment, and international cooperation.",
+          ja: "会員およびパートナー組織に対し、ビジネス成長、投資、国際協力を支援する専門的なコンサルティングサービスを提供しています。",
         },
       },
     ],
@@ -135,17 +135,33 @@ async function main() {
         {
           heading: { mn: "Эрхэм зорилго", en: "Mission", ja: "使命" },
           text: {
-            mn: "Бид олон улсын бизнесийн хамтын ажиллагаа, тогтвортой хөгжлийг дэмжиж, гишүүддээ үнэ цэнэ бүтээдэг.",
-            en: "We promote international business cooperation and sustainable development, creating value for our members.",
-            ja: "私たちは国際ビジネス協力と持続可能な発展を促進し、会員に価値を創造します。",
+            mn: "Бид олон улсын бизнесийн хамтын ажиллагааг шинэ түвшинд хүргэж, байгууллага, хөрөнгө оруулагчид болон бизнес эрхлэгчдийг холбох замаар урт хугацааны үнэ цэнэ бүхий түншлэлийг бий болгож, тогтвортой өсөлт хөгжил, инноваци, эдийн засгийн үр өгөөжийг дэмжихийг эрхэмлэдэг.",
+            en: "We are committed to elevating international business cooperation to a new level by connecting organizations, investors, and entrepreneurs — building long-term, value-creating partnerships and supporting sustainable growth, innovation, and economic prosperity.",
+            ja: "国際ビジネス協力を新たなレベルに引き上げ、組織、投資家、起業家をつなぐことで、長期的な価値を創造するパートナーシップを構築し、持続可能な成長、イノベーション、経済的繁栄を支援することを使命としています。",
           },
         },
         {
           heading: { mn: "Алсын хараа", en: "Vision", ja: "ビジョン" },
           text: {
-            mn: "Дэлхийн бизнесүүдийг холбосон тэргүүлэгч платформ болох.",
-            en: "To be a leading platform connecting businesses across the world.",
-            ja: "世界中のビジネスをつなぐ主要なプラットフォームになること。",
+            mn: "Бизнес, хөрөнгө оруулагчид, байгууллагуудыг дэлхийн хэмжээнд холбосон найдвартай, үнэ цэн бүтээдэг тэргүүлэгч платформ болж, олон улсын хамтын ажиллагаа болон тогтвортой хөгжлийн шинэ жишгийг тогтоох.",
+            en: "To become a trusted, value-creating leading platform that connects businesses, investors, and organizations worldwide — setting new standards for international cooperation and sustainable development.",
+            ja: "ビジネス、投資家、組織を世界規模でつなぐ信頼できる価値創造の主要プラットフォームとなり、国際協力と持続可能な発展の新しい基準を確立すること。",
+          },
+        },
+        {
+          heading: { mn: "Үнэт зүйлс", en: "Our Values", ja: "価値観" },
+          text: {
+            mn: "• Итгэлцэл, ил тод байдал, хариуцлага\n• Холбоо, түншлэл, хамтын өсөлт\n• Шинэ санаа, шинэ боломж, шинэ шийдэл\n• Урт хугацааны үнэ цэнэ, хариуцлагатай хөгжил",
+            en: "• Trust, transparency, and accountability\n• Connection, partnership, and shared growth\n• New ideas, new opportunities, new solutions\n• Long-term value and responsible development",
+            ja: "• 信頼、透明性、責任\n• つながり、パートナーシップ、共有成長\n• 新しいアイデア、新しい機会、新しい解決策\n• 長期的な価値と責任ある発展",
+          },
+        },
+        {
+          heading: { mn: "Бидний хандлага", en: "Our Approach", ja: "アプローチ" },
+          text: {
+            mn: "Бид бизнесийн харилцааг зөвхөн танилын хүрээ бус, харин итгэлцэлд суурилсан урт хугацааны түншлэл гэж үздэг. Тиймээс бид гишүүддээ чанартай сүлжээ, үнэ цэнтэй мэдээлэл, мэргэжлийн зөвлөгөө, хамтын ажиллагааны бодит боломжийг бий болгоход төвлөрдөг.",
+            en: "We view business relationships not merely as networks of acquaintances, but as long-term partnerships built on trust. Therefore, we focus on providing our members with quality networks, valuable information, professional advisory, and tangible cooperation opportunities.",
+            ja: "私たちはビジネス関係を単なる知人のネットワークではなく、信頼に基づく長期的なパートナーシップと考えています。そのため、会員に質の高いネットワーク、価値ある情報、専門的な助言、具体的な協力の機会を提供することに注力しています。",
           },
         },
       ],
@@ -154,9 +170,9 @@ async function main() {
       key: "membership",
       title: { mn: "Гишүүнчлэл", en: "Membership", ja: "会員" },
       intro: {
-        mn: "Дэлхийн манлайлагч, бизнес эрхлэгч, мэргэжилтнүүдийн сүлжээнд нэгдээрэй.",
-        en: "Join our network of global leaders, entrepreneurs, and industry experts.",
-        ja: "世界のリーダー、起業家、専門家のネットワークに参加しましょう。",
+        mn: "Дэлхийн манлайлагч бизнес эрхлэгчид, хөрөнгө оруулагчид, салбар бүрийн нэр хүндтэй мэргэжилтнүүдийг холбосон онцгой сүлжээнд нэгдэж, үнэ цэнтэй харилцаа, тогтвортой өсөлт, шинэ боломжуудын нэг хэсэг болоорой.",
+        en: "Join an exclusive network connecting global business leaders, investors, and respected professionals across industries.",
+        ja: "世界のビジネスリーダー、投資家、各分野の著名な専門家をつなぐ特別なネットワークに参加しましょう。",
       },
       body: [
         {
@@ -171,19 +187,35 @@ async function main() {
     },
     {
       key: "services",
-      title: { mn: "Үйлчилгээ", en: "Services", ja: "サービス" },
+      title: { mn: "Зөвлөх үйлчилгээ", en: "Consulting Services", ja: "コンサルティング" },
       intro: {
-        mn: "Зөвлөгөө, сүлжээ, мэдээлэл, төслийн дэмжлэг.",
-        en: "Consulting, networking, information, and project support.",
-        ja: "コンサルティング、ネットワーキング、情報、プロジェクト支援。",
+        mn: "Бид гишүүд болон түнш байгууллагууддаа бизнесийн өсөлт, хөрөнгө оруулалт, олон улсын хамтын ажиллагааг дэмжих зорилгоор мэргэжлийн зөвлөх үйлчилгээг үзүүлдэг.",
+        en: "We provide professional advisory services to our members and partner organizations to support business growth, investment, and international cooperation.",
+        ja: "会員およびパートナー組織に対し、ビジネス成長、投資、国際協力を支援する専門的なコンサルティングサービスを提供しています。",
       },
       body: [
         {
-          heading: { mn: "Зөвлөх үйлчилгээ", en: "Consulting", ja: "コンサルティング" },
+          heading: { mn: "Бизнесийн зөвлөгөө", en: "Business Advisory", ja: "ビジネスアドバイザリー" },
           text: {
-            mn: "Бизнесийн стратеги, зах зээлд нэвтрэх зөвлөгөө.",
-            en: "Business strategy and market-entry advisory.",
-            ja: "ビジネス戦略と市場参入のアドバイザリー。",
+            mn: "Стратеги төлөвлөлт, зах зээлд нэвтрэх, түншлэл хөгжүүлэх чиглэлээр мэргэжлийн зөвлөгөө өгнө.",
+            en: "Professional guidance on strategy, market entry, and partnership development.",
+            ja: "戦略立案、市場参入、パートナーシップ構築に関する専門的な助言を提供します。",
+          },
+        },
+        {
+          heading: { mn: "Хөрөнгө оруулалтын зөвлөгөө", en: "Investment Advisory", ja: "投資アドバイザリー" },
+          text: {
+            mn: "Хөрөнгө оруулалтын боломжийг үнэлж, олон улсын хөрөнгө оруулагчидтай холбох дэмжлэг үзүүлнэ.",
+            en: "Evaluate investment opportunities and facilitate connections with international investors.",
+            ja: "投資機会の評価と国際的な投資家との接続を支援します。",
+          },
+        },
+        {
+          heading: { mn: "Олон улсын хамтын ажиллагаа", en: "International Cooperation", ja: "国際協力" },
+          text: {
+            mn: "Олон улсын түнш байгууллагуудтай хамтын ажиллагаа хөгжүүлэх, төсөл хэрэгжүүлэхэд зөвлөх үйлчилгээ үзүүлнэ.",
+            en: "Advisory support for developing cooperation with international partners and implementing joint projects.",
+            ja: "国際パートナーとの協力推進および共同プロジェクトの実施を支援します。",
           },
         },
       ],
@@ -209,21 +241,19 @@ async function main() {
   console.log("✔ pages");
 
   // ---- Settings (contact) ----
+  const contactValue = {
+    address: {
+      mn: "Монгол улс, Улаанбаатар хот, Сүхбаатар дүүрэг, 1-р хороо, Eco International Tower, 2004 тоот",
+      en: "2004, Eco International Tower, 1st Khoroo, Sukhbaatar District, Ulaanbaatar, Mongolia",
+      ja: "モンゴル国ウランバートル市スフバータル区1番小区 Eco International Tower 2004号",
+    },
+    phone: "+976 66556699",
+    email: "ikhkhuree@gmail.com",
+  };
   await prisma.setting.upsert({
     where: { key: "contact" },
-    update: {},
-    create: {
-      key: "contact",
-      value: {
-        address: {
-          mn: "Улаанбаатар хот, Монгол улс",
-          en: "Ulaanbaatar, Mongolia",
-          ja: "モンゴル国ウランバートル市",
-        },
-        phone: "+976 7000 0000",
-        email: "info@ikhkhuree.mn",
-      },
-    },
+    update: { value: contactValue },
+    create: { key: "contact", value: contactValue },
   });
   console.log("✔ settings");
 

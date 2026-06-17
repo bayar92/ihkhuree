@@ -57,37 +57,37 @@ const purpose: {
     icon: Target,
     title: { mn: "Эрхэм зорилго", en: "Our Mission", ja: "使命" },
     text: {
-      mn: "Олон улсын бизнесийн хамтын ажиллагаа, тогтвортой хөгжлийг дэмжих.",
-      en: "To promote international business cooperation and sustainable development.",
-      ja: "国際ビジネス協力と持続可能な発展を促進すること。",
+      mn: "Бид олон улсын бизнесийн хамтын ажиллагааг шинэ түвшинд хүргэж, байгууллага, хөрөнгө оруулагчид болон бизнес эрхлэгчдийг холбох замаар урт хугацааны үнэ цэнэ бүхий түншлэлийг бий болгож, тогтвортой өсөлт хөгжил, инноваци, эдийн засгийн үр өгөөжийг дэмжихийг эрхэмлэдэг.",
+      en: "We are committed to elevating international business cooperation to a new level by connecting organizations, investors, and entrepreneurs — building long-term, value-creating partnerships and supporting sustainable growth, innovation, and economic prosperity.",
+      ja: "国際ビジネス協力を新たなレベルに引き上げ、組織、投資家、起業家をつなぐことで、長期的な価値を創造するパートナーシップを構築し、持続可能な成長、イノベーション、経済的繁栄を支援することを使命としています。",
     },
   },
   {
     icon: Eye,
     title: { mn: "Алсын хараа", en: "Our Vision", ja: "ビジョン" },
     text: {
-      mn: "Дэлхийн бизнесүүдийг холбосон тэргүүлэгч платформ болох.",
-      en: "To be a leading platform connecting businesses across the world.",
-      ja: "世界中のビジネスをつなぐ主要なプラットフォームになること。",
+      mn: "Бизнес, хөрөнгө оруулагчид, байгууллагуудыг дэлхийн хэмжээнд холбосон найдвартай, үнэ цэн бүтээдэг тэргүүлэгч платформ болж, олон улсын хамтын ажиллагаа болон тогтвортой хөгжлийн шинэ жишгийг тогтоох.",
+      en: "To become a trusted, value-creating leading platform that connects businesses, investors, and organizations worldwide — setting new standards for international cooperation and sustainable development.",
+      ja: "ビジネス、投資家、組織を世界規模でつなぐ信頼できる価値創造の主要プラットフォームとなり、国際協力と持続可能な発展の新しい基準を確立すること。",
     },
   },
   {
     icon: Handshake,
     title: { mn: "Үнэт зүйлс", en: "Our Values", ja: "価値観" },
     items: [
-      { mn: "Шударга байдал", en: "Integrity", ja: "誠実さ" },
-      { mn: "Хамтын ажиллагаа", en: "Collaboration", ja: "協働" },
-      { mn: "Инноваци", en: "Innovation", ja: "革新" },
-      { mn: "Тогтвортой байдал", en: "Sustainability", ja: "持続可能性" },
+      { mn: "Итгэлцэл, ил тод байдал, хариуцлага", en: "Trust, transparency, and accountability", ja: "信頼、透明性、責任" },
+      { mn: "Холбоо, түншлэл, хамтын өсөлт", en: "Connection, partnership, and shared growth", ja: "つながり、パートナーシップ、共有成長" },
+      { mn: "Шинэ санаа, шинэ боломж, шинэ шийдэл", en: "New ideas, new opportunities, new solutions", ja: "新しいアイデア、新しい機会、新しい解決策" },
+      { mn: "Урт хугацааны үнэ цэнэ, хариуцлагатай хөгжил", en: "Long-term value and responsible development", ja: "長期的な価値と責任ある発展" },
     ],
   },
   {
     icon: Globe,
     title: { mn: "Бидний хандлага", en: "Our Approach", ja: "アプローチ" },
     text: {
-      mn: "Хүн, санаа, боломжийг холбож, илүү сайхан ирээдүйг хамтдаа бүтээнэ.",
-      en: "We connect people, ideas, and opportunities to build a better future together.",
-      ja: "人、アイデア、機会をつなぎ、より良い未来を共に築きます。",
+      mn: "Бид бизнесийн харилцааг зөвхөн танилын хүрээ бус, харин итгэлцэлд суурилсан урт хугацааны түншлэл гэж үздэг. Тиймээс бид гишүүддээ чанартай сүлжээ, үнэ цэнтэй мэдээлэл, мэргэжлийн зөвлөгөө, хамтын ажиллагааны бодит боломжийг бий болгоход төвлөрдөг.",
+      en: "We view business relationships not merely as networks of acquaintances, but as long-term partnerships built on trust. Therefore, we focus on providing our members with quality networks, valuable information, professional advisory, and tangible cooperation opportunities.",
+      ja: "私たちはビジネス関係を単なる知人のネットワークではなく、信頼に基づく長期的なパートナーシップと考えています。そのため、会員に質の高いネットワーク、価値ある情報、専門的な助言、具体的な協力の機会を提供することに注力しています。",
     },
   },
 ];
@@ -209,7 +209,7 @@ export default async function AboutPage({
               <br />
               {pick(hero.title2, locale)}
             </h1>
-            <p className="mt-6 max-w-lg leading-8 text-neutral-700">
+            <p className="mt-6 max-w-2xl leading-8 text-neutral-700">
               {pick(hero.text, locale)}
             </p>
             <Link
@@ -224,31 +224,44 @@ export default async function AboutPage({
       </section>
 
       {/* Our purpose */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-b from-white to-brand-50/30">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
           <SectionTitle label={pick(sectionLabels.purpose, locale)} />
-          <div className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-neutral-200">
+          <div className="mt-14 grid gap-6 sm:grid-cols-2">
             {purpose.map((p, i) => {
               const Icon = p.icon;
               return (
-                <div key={i} className="flex flex-col items-center px-4 text-center">
-                  <Icon className="h-10 w-10 text-brand-500" strokeWidth={1.5} />
-                  <h3 className="mt-5 text-base font-bold uppercase tracking-wide text-brand-700">
-                    {pick(p.title, locale)}
-                  </h3>
+                <article
+                  key={i}
+                  className="flex flex-col rounded-2xl border border-neutral-200/80 bg-white p-8 shadow-sm"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-50">
+                      <Icon className="h-6 w-6 text-brand-600" strokeWidth={1.5} />
+                    </div>
+                    <h3 className="pt-2 font-serif text-lg font-bold text-brand-700">
+                      {pick(p.title, locale)}
+                    </h3>
+                  </div>
                   {p.text && (
-                    <p className="mt-3 text-sm leading-relaxed text-neutral-600">
+                    <p className="mt-5 text-sm leading-7 text-neutral-600">
                       {pick(p.text, locale)}
                     </p>
                   )}
                   {p.items && (
-                    <ul className="mt-3 space-y-1.5 text-sm text-neutral-600">
+                    <ul className="mt-5 space-y-3">
                       {p.items.map((it, j) => (
-                        <li key={j}>{pick(it, locale)}</li>
+                        <li
+                          key={j}
+                          className="flex gap-3 text-sm leading-relaxed text-neutral-600"
+                        >
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#c8a44d]" />
+                          <span>{pick(it, locale)}</span>
+                        </li>
                       ))}
                     </ul>
                   )}
-                </div>
+                </article>
               );
             })}
           </div>

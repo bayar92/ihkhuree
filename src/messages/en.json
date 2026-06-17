@@ -3,7 +3,7 @@
     "home": "Home",
     "about": "About Us",
     "membership": "Membership",
-    "services": "Services",
+    "services": "Consulting Services",
     "news": "News",
     "events": "Events",
     "contact": "Contact",
@@ -20,7 +20,7 @@
     "languageName": "English"
   },
   "home": {
-    "highlightsTitle": "Our Values",
+    "highlightsTitle": "Our Core Focus",
     "focusAreas": "Our Focus Areas",
     "latestNews": "Latest News",
     "upcomingEvents": "Upcoming Events",

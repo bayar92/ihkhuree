@@ -7,8 +7,11 @@ import {
   Megaphone,
   GraduationCap,
   Star,
-  Briefcase,
+  Crown,
   Gem,
+  Award,
+  Shield,
+  User,
   Users,
   FileText,
   Search,
@@ -45,13 +48,14 @@ const certificates = Array.from(
 );
 
 const heroSub = {
-  mn: "Дэлхийн сүлжээний нэг хэсэг бол. Хамтдаа өсч, хамтдаа амжилтад хүрье.",
-  en: "Be part of a global network. Grow together. Succeed together.",
-  ja: "グローバルネットワークの一員に。共に成長し、共に成功しましょう。",
+  mn: "Дэлхийн манлайлагч бизнес эрхлэгчид, хөрөнгө оруулагчид, салбар бүрийн нэр хүндтэй мэргэжилтнүүдийг холбосон онцгой сүлжээнд нэгдэж, үнэ цэнтэй харилцаа, тогтвортой өсөлт, шинэ боломжуудын нэг хэсэг болоорой.",
+  en: "Join an exclusive network connecting global business leaders, investors, and respected professionals — become part of valuable relationships, sustainable growth, and new opportunities.",
+  ja: "世界のビジネスリーダー、投資家、各分野の著名な専門家をつなぐ特別なネットワークに参加し、価値ある関係、持続可能な成長、新しい機会の一部になりましょう。",
 };
 
 const apply = { mn: "ЭЛСЭХ", en: "APPLY NOW", ja: "今すぐ申込" };
 const perYear = { mn: "/ жил", en: "/ year", ja: "/ 年" };
+const perMonth = { mn: "/ сар", en: "/ mo", ja: "/ 月" };
 
 const benefits: { icon: LucideIcon; title: L; text: L }[] = [
   {
@@ -114,55 +118,196 @@ const types: {
   icon: LucideIcon;
   name: L;
   price: string;
+  monthly: string;
   features: L[];
   featured?: boolean;
   badge?: L;
 }[] = [
   {
-    icon: Briefcase,
-    name: { mn: "КОРПОРАТ ГИШҮҮН", en: "CORPORATE MEMBER", ja: "法人会員" },
-    price: "$300",
+    icon: Crown,
+    name: {
+      mn: "Exclusive Member (Ноён)",
+      en: "Exclusive Member (Noyon)",
+      ja: "エクスクルーシブ会員（ノヨン）",
+    },
+    price: "$2,500",
+    monthly: "$208",
     features: [
-      { mn: "Сүлжээ үүсгэх боломж", en: "Networking opportunities", ja: "ネットワーキングの機会" },
-      { mn: "Арга хэмжээнд оролцох", en: "Access to events", ja: "イベントへの参加" },
-      { mn: "Бизнесийн мэдээлэл", en: "Business information", ja: "ビジネス情報" },
-      { mn: "Байгууллагын профайл", en: "Organization profile", ja: "組織プロフィール" },
+      {
+        mn: "Клубын хүндэт зөвлөх статустай болох",
+        en: "Honorary advisor status within the club",
+        ja: "クラブ内の名誉アドバイザーステータス",
+      },
+      {
+        mn: "Стратегийн шийдвэр гаргах түвшинд оролцох",
+        en: "Participate at the strategic decision-making level",
+        ja: "戦略的意思決定レベルへの参加",
+      },
+      {
+        mn: "Клубын нэрийн өмнөөс олон улсын хамтын ажиллагаа хөгжүүлэх",
+        en: "Develop international cooperation on behalf of the club",
+        ja: "クラブ名義での国際協力の推進",
+      },
+      {
+        mn: "Онцгой хаалттай хөрөнгө оруулалтын боломжуудад нэвтрэх",
+        en: "Access to exclusive closed investment opportunities",
+        ja: "特別な限定投資機会へのアクセス",
+      },
+      {
+        mn: "Насан туршийн VIP гишүүнчлэлийн статус",
+        en: "Lifetime VIP membership status",
+        ja: "生涯VIP会員ステータス",
+      },
     ],
   },
   {
     icon: Gem,
-    name: { mn: "ПРЕМИУМ ГИШҮҮН", en: "PREMIUM MEMBER", ja: "プレミアム会員" },
-    price: "$600",
+    name: {
+      mn: "Elite ангилал (Тайж)",
+      en: "Elite Class (Taij)",
+      ja: "エリートクラス（タイジ）",
+    },
+    price: "$2,000",
+    monthly: "$166",
     featured: true,
-    badge: { mn: "ХАМГИЙН ЭРЭЛТТЭЙ", en: "MOST POPULAR", ja: "人気No.1" },
+    badge: { mn: "ЭРЭЛТТЭЙ", en: "POPULAR", ja: "人気" },
     features: [
-      { mn: "Бүх корпорат давуу тал", en: "All Corporate benefits", ja: "法人会員の全特典" },
-      { mn: "Арга хэмжээнд эрх ямбатай", en: "Priority event access", ja: "イベント優先参加" },
-      { mn: "Онцлох гишүүний профайл", en: "Featured member profile", ja: "注目会員プロフィール" },
-      { mn: "Бизнес тааруулах дэмжлэг", en: "Business matching support", ja: "ビジネスマッチング支援" },
-      { mn: "Хямдралтай сургалт", en: "Discounted training programs", ja: "研修プログラム割引" },
+      {
+        mn: "Клубыг төлөөлөн албан ёсны арга хэмжээнд оролцох",
+        en: "Represent the club at official events",
+        ja: "公式イベントでのクラブ代表",
+      },
+      {
+        mn: "Олон улсын түнш байгууллагуудтай шууд холбогдох",
+        en: "Direct connection with international partner organizations",
+        ja: "国際パートナー組織との直接連携",
+      },
+      {
+        mn: "Бизнесийн зөвлөх үйлчилгээ авах",
+        en: "Receive business advisory services",
+        ja: "ビジネスアドバイザリーサービス",
+      },
+      {
+        mn: "Хамтарсан төсөл санаачлах, удирдах эрх",
+        en: "Right to initiate and lead joint projects",
+        ja: "共同プロジェクトの企画・主導権",
+      },
+      {
+        mn: "VIP зочдыг урих тусгай эрх",
+        en: "Special privilege to invite VIP guests",
+        ja: "VIPゲスト招待の特別権限",
+      },
     ],
   },
   {
-    icon: Users,
-    name: { mn: "ГИШҮҮН", en: "ASSOCIATE MEMBER", ja: "準会員" },
-    price: "$150",
+    icon: Award,
+    name: {
+      mn: "Senior Member (Ван)",
+      en: "Senior Member (Van)",
+      ja: "シニア会員（ヴァン）",
+    },
+    price: "$1,500",
+    monthly: "$125",
     features: [
-      { mn: "Арга хэмжээнд оролцох", en: "Event participation", ja: "イベント参加" },
-      { mn: "Мэдээллийн товхимол", en: "Newsletter access", ja: "ニュースレター" },
-      { mn: "Сүлжээ үүсгэх", en: "Networking", ja: "ネットワーキング" },
-      { mn: "Мэдээлэл солилцоо", en: "Information sharing", ja: "情報共有" },
+      {
+        mn: "Хаалттай бизнес форумд оролцох",
+        en: "Access to closed business forums",
+        ja: "クローズドビジネスフォーラムへの参加",
+      },
+      {
+        mn: "Хөрөнгө оруулагчидтай холбогдох боломж",
+        en: "Opportunities to connect with investors",
+        ja: "投資家との接続機会",
+      },
+      {
+        mn: "Компанийн танилцуулгыг клубын сувгаар түгээх",
+        en: "Promote your company profile through club channels",
+        ja: "クラブチャネルでの企業紹介",
+      },
+      {
+        mn: "Тусгай сургалт, мастер класст үнэ төлбөргүй хамрагдах",
+        en: "Free access to exclusive training and masterclasses",
+        ja: "特別研修・マスタークラスへの無料参加",
+      },
+      {
+        mn: "Олон улсын арга хэмжээний давуу эрх",
+        en: "Priority access to international events",
+        ja: "国際イベントへの優先参加",
+      },
     ],
   },
   {
-    icon: GraduationCap,
-    name: { mn: "ОЮУТАН ГИШҮҮН", en: "STUDENT MEMBER", ja: "学生会員" },
-    price: "$50",
+    icon: Shield,
+    name: {
+      mn: "Middle Member (Засагт)",
+      en: "Middle Member (Zasagt)",
+      ja: "ミドル会員（ザサグト）",
+    },
+    price: "$1,000",
+    monthly: "$83",
     features: [
-      { mn: "Арга хэмжээнд оролцох", en: "Event participation", ja: "イベント参加" },
-      { mn: "Сургалтын нөөц", en: "Learning resources", ja: "学習リソース" },
-      { mn: "Менторшип боломж", en: "Mentorship opportunities", ja: "メンターシップの機会" },
-      { mn: "Нийгэмлэгт нэгдэх", en: "Community access", ja: "コミュニティへの参加" },
+      {
+        mn: "Хаалттай Middle Member Circle-д гишүүнээр элсэх",
+        en: "Join the closed Middle Member Circle",
+        ja: "クローズドMiddle Member Circleへの参加",
+      },
+      {
+        mn: "Дээд түвшний хөрөнгө оруулагчидтай уулзах боломж",
+        en: "Meet with top-tier investors",
+        ja: "トップレベルの投資家との面会",
+      },
+      {
+        mn: "Стратегийн зөвлөхүүдтэй ганцаарчилсан уулзалт",
+        en: "One-on-one meetings with strategic advisors",
+        ja: "戦略アドバイザーとの個別面談",
+      },
+      {
+        mn: "Клубын үйл ажиллагааны бодлогод санал өгөх эрх",
+        en: "Right to contribute to club policy decisions",
+        ja: "クラブ運営方針への意見提出権",
+      },
+      {
+        mn: "Олон улсын дээд түвшний төлөөлөгчдийн арга хэмжээнд тусгай урилга",
+        en: "Special invitations to high-level international events",
+        ja: "国際ハイレベルイベントへの特別招待",
+      },
+    ],
+  },
+  {
+    icon: User,
+    name: {
+      mn: "Member (Хан)",
+      en: "Member (Khan)",
+      ja: "会員（ハン）",
+    },
+    price: "$500",
+    monthly: "$41",
+    features: [
+      {
+        mn: "Клубын албан ёсны гишүүнчлэл",
+        en: "Official club membership",
+        ja: "クラブの正式会員資格",
+      },
+      {
+        mn: "Сар тутмын уулзалт, арга хэмжээнд оролцох эрх",
+        en: "Access to monthly meetings and events",
+        ja: "月例会・イベントへの参加権",
+      },
+      {
+        mn: "Гишүүдийн сүлжээнд нэвтрэх боломж",
+        en: "Access to the members' network",
+        ja: "会員ネットワークへのアクセス",
+      },
+      {
+        mn: "Мэдээллийн товхимол, бизнесийн мэдээлэл авах",
+        en: "Receive newsletters and business insights",
+        ja: "ニュースレターとビジネス情報の受信",
+      },
+      {
+        mn: "Клубын онлайн платформ ашиглах эрх",
+        en: "Access to the club's online platform",
+        ja: "クラブオンラインプラットフォームの利用",
+      },
     ],
   },
 ];
@@ -245,7 +390,7 @@ export default async function MembershipPage({
             <h1 className="font-serif text-4xl font-semibold tracking-wide text-brand-700 sm:text-5xl">
               {pick(labels.title, locale)}
             </h1>
-            <p className="mt-6 max-w-md text-lg leading-8 text-neutral-700">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-700">
               {pick(heroSub, locale)}
             </p>
           </div>
@@ -279,7 +424,7 @@ export default async function MembershipPage({
       <section className="bg-neutral-50">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <SectionTitle label={pick(labels.types, locale)} />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {types.map((tp, i) => {
               const Icon = tp.icon;
               const featured = tp.featured;
@@ -288,7 +433,7 @@ export default async function MembershipPage({
                   key={i}
                   className={`relative flex flex-col overflow-hidden rounded-2xl border p-7 shadow-sm transition ${
                     featured
-                      ? "border-brand-700 bg-brand-700 text-white lg:-my-2 lg:shadow-xl"
+                      ? "border-brand-700 bg-brand-700 text-white ring-2 ring-[#c8a44d] lg:-my-2 lg:shadow-xl"
                       : "border-neutral-200 bg-white"
                   }`}
                 >
@@ -307,16 +452,26 @@ export default async function MembershipPage({
                       strokeWidth={1.5}
                     />
                   </div>
-                  <h3 className="mt-5 text-center text-sm font-bold uppercase tracking-wide">
+                  <h3
+                    className={`mt-5 text-center text-sm font-bold leading-snug uppercase tracking-wide ${
+                      featured ? "text-white" : "text-brand-700"
+                    }`}
+                  >
                     {pick(tp.name, locale)}
                   </h3>
-                  <p className="mt-3 text-center">
-                    <span className="font-serif text-3xl font-bold">{tp.price}</span>
-                    <span className={featured ? "text-brand-100" : "text-neutral-400"}>
-                      {" "}
-                      {pick(perYear, locale)}
-                    </span>
-                  </p>
+                  <div className="mt-3 text-center">
+                    <p>
+                      <span className="font-serif text-3xl font-bold">{tp.price}</span>
+                      <span className={featured ? "text-brand-100" : "text-neutral-400"}>
+                        {" "}
+                        {pick(perYear, locale)}
+                      </span>
+                    </p>
+                    <p className={`mt-1 text-sm ${featured ? "text-brand-100" : "text-neutral-500"}`}>
+                      ({tp.monthly}
+                      {pick(perMonth, locale)})
+                    </p>
+                  </div>
                   <ul className="mt-5 flex-1 space-y-2.5 text-sm">
                     {tp.features.map((f, j) => (
                       <li key={j} className="flex items-start gap-2">
