@@ -213,6 +213,7 @@ export async function saveContactSettings(formData: FormData) {
     social: {
       facebook: String(formData.get("facebook") ?? ""),
       linkedin: String(formData.get("linkedin") ?? ""),
+      instagram: String(formData.get("instagram") ?? ""),
       youtube: String(formData.get("youtube") ?? ""),
     },
   };

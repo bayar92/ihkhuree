@@ -243,12 +243,20 @@ async function main() {
   // ---- Settings (contact) ----
   const contactValue = {
     address: {
-      mn: "Монгол улс, Улаанбаатар хот, Сүхбаатар дүүрэг, 1-р хороо, Eco International Tower, 2004 тоот",
-      en: "2004, Eco International Tower, 1st Khoroo, Sukhbaatar District, Ulaanbaatar, Mongolia",
-      ja: "モンゴル国ウランバートル市スフバータル区1番小区 Eco International Tower 2004号",
+      mn: "Монгол улс, Улаанбаатар хот, Сүхбаатар дүүрэг, 1-р хороо, Eco International Tower, 20 давхар, 2004 тоот",
+      en: "20F, 2004, Eco International Tower, 1st Khoroo, Sukhbaatar District, Ulaanbaatar, Mongolia",
+      ja: "モンゴル国ウランバートル市スフバータル区1番小区 Eco International Tower 20階 2004号",
     },
     phone: "+976 66556699",
     email: "ikhkhuree@gmail.com",
+    social: {
+      facebook: "",
+      linkedin:
+        "https://www.linkedin.com/in/bilguun-jargalsaikhan-39632712a?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+      instagram:
+        "https://www.instagram.com/bilguunjargalsaikhan?igsh=MTdkaXhtNDVhdmt2Yw%3D%3D&utm_source=qr",
+      youtube: "",
+    },
   };
   await prisma.setting.upsert({
     where: { key: "contact" },

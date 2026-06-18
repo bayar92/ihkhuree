@@ -6,7 +6,7 @@ import { prisma, safe } from "@/lib/prisma";
 import { pick } from "@/lib/i18n";
 import type { Locale } from "@/i18n/routing";
 import { MapPin, Phone, Mail } from "lucide-react";
-import { FaYoutube, FaLinkedin, FaFacebook } from "react-icons/fa";
+import { FaYoutube, FaLinkedin, FaFacebook, FaInstagram } from "react-icons/fa";
 
 const links = [
   { href: "/about", key: "about" },
@@ -91,27 +91,50 @@ export async function Footer() {
             </div>
 
             <div className="mt-7 flex items-center gap-5">
-              <a
-                href={social.facebook || "#"}
-                aria-label="Facebook"
-                className="text-brand-100 transition hover:-translate-y-0.5 hover:text-white"
-              >
-                <FaFacebook className="h-6 w-6" />
-              </a>
-              <a
-                href={social.linkedin || "#"}
-                aria-label="LinkedIn"
-                className="text-brand-100 transition hover:-translate-y-0.5 hover:text-white"
-              >
-                <FaLinkedin className="h-6 w-6" />
-              </a>
-              <a
-                href={social.youtube || "#"}
-                aria-label="YouTube"
-                className="text-brand-100 transition hover:-translate-y-0.5 hover:text-white"
-              >
-                <FaYoutube className="h-6 w-6" />
-              </a>
+              {social.facebook && (
+                <a
+                  href={social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="text-brand-100 transition hover:-translate-y-0.5 hover:text-white"
+                >
+                  <FaFacebook className="h-6 w-6" />
+                </a>
+              )}
+              {social.linkedin && (
+                <a
+                  href={social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="text-brand-100 transition hover:-translate-y-0.5 hover:text-white"
+                >
+                  <FaLinkedin className="h-6 w-6" />
+                </a>
+              )}
+              {social.instagram && (
+                <a
+                  href={social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="text-brand-100 transition hover:-translate-y-0.5 hover:text-white"
+                >
+                  <FaInstagram className="h-6 w-6" />
+                </a>
+              )}
+              {social.youtube && (
+                <a
+                  href={social.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="YouTube"
+                  className="text-brand-100 transition hover:-translate-y-0.5 hover:text-white"
+                >
+                  <FaYoutube className="h-6 w-6" />
+                </a>
+              )}
             </div>
           </div>
 

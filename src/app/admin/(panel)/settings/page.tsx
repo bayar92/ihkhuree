@@ -51,7 +51,7 @@ export default async function SettingsPage({
               />
             </div>
           </div>
-          <div className="grid gap-5 sm:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-neutral-700">
                 Facebook URL
@@ -63,6 +63,12 @@ export default async function SettingsPage({
                 LinkedIn URL
               </label>
               <input name="linkedin" defaultValue={social.linkedin ?? ""} placeholder="https://linkedin.com/..." className={input} />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-neutral-700">
+                Instagram URL
+              </label>
+              <input name="instagram" defaultValue={social.instagram ?? ""} placeholder="https://instagram.com/..." className={input} />
             </div>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-neutral-700">

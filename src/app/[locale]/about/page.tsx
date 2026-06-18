@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { setRequestLocale } from "next-intl/server";
+import Image from 'next/image';
+import { setRequestLocale } from 'next-intl/server';
 import {
   Target,
   Eye,
@@ -13,38 +13,42 @@ import {
   Quote,
   ArrowRight,
   type LucideIcon,
-} from "lucide-react";
-import { Link } from "@/i18n/navigation";
-import { pick } from "@/lib/i18n";
-import type { Locale } from "@/i18n/routing";
+} from 'lucide-react';
+import { Link } from '@/i18n/navigation';
+import { pick } from '@/lib/i18n';
+import type { Locale } from '@/i18n/routing';
 
 type L = { mn: string; en: string; ja: string };
 
 const sectionLabels = {
-  about: { mn: "БИДНИЙ ТУХАЙ", en: "ABOUT US", ja: "私たちについて" },
-  purpose: { mn: "БИДНИЙ ЗОРИЛГО", en: "OUR PURPOSE", ja: "私たちの目的" },
+  about: { mn: 'БИДНИЙ ТУХАЙ', en: 'ABOUT US', ja: '私たちについて' },
+  purpose: { mn: 'БИДНИЙ ЗОРИЛГО', en: 'OUR PURPOSE', ja: '私たちの目的' },
   numbers: {
-    mn: "ИХ ХҮРЭЭ ТООН ДЭЭР",
-    en: "IKH KHUREE IN NUMBERS",
-    ja: "数字で見るイフ・フレー",
+    mn: 'ИХ ХҮРЭЭ ТООН ДЭЭР',
+    en: 'IKH KHUREE IN NUMBERS',
+    ja: '数字で見るイフ・フレー',
   },
-  history: { mn: "БИДНИЙ ТҮҮХ", en: "OUR HISTORY", ja: "私たちの歩み" },
-  leadership: { mn: "УДИРДЛАГА", en: "LEADERSHIP", ja: "リーダーシップ" },
+  history: { mn: 'БИДНИЙ ТҮҮХ', en: 'OUR HISTORY', ja: '私たちの歩み' },
+  leadership: { mn: 'УДИРДЛАГА', en: 'LEADERSHIP', ja: 'リーダーシップ' },
 };
 
 const hero = {
-  title1: { mn: "Хил дамнан холбож,", en: "Bridging borders.", ja: "国境を越えてつなぎ、" },
+  title1: {
+    mn: 'Хил дамнан холбож,',
+    en: 'Bridging borders.',
+    ja: '国境を越えてつなぎ、',
+  },
   title2: {
-    mn: "хамтын ажиллагааг бэхжүүлнэ.",
-    en: "Empowering cooperation.",
-    ja: "協力を強化する。",
+    mn: 'хамтын ажиллагааг бэхжүүлнэ.',
+    en: 'Empowering cooperation.',
+    ja: '協力を強化する。',
   },
   text: {
-    mn: "Их Хүрээ олон улсын бизнесийн хамтын ажиллагааны холбоо нь олон улсын хамтын ажиллагаа, мэдлэг солилцоо, тогтвортой хөгжлийг дэмжих зорилготой ашгийн бус байгууллага юм.",
-    en: "Ikh Khuree International Business Cooperation Association is a non-profit organization dedicated to fostering international collaboration, knowledge exchange, and sustainable growth.",
-    ja: "イフ・フレー国際ビジネス協力協会は、国際協力、知識交換、持続可能な成長を促進する非営利団体です。",
+    mn: 'Их Хүрээ олон улсын бизнесийн хамтын ажиллагааны холбоо нь олон улсын хамтын ажиллагаа, мэдлэг солилцоо, тогтвортой хөгжлийг дэмжих зорилготой ашгийн бус байгууллага юм.',
+    en: 'Ikh Khuree International Business Cooperation Association is a non-profit organization dedicated to fostering international collaboration, knowledge exchange, and sustainable growth.',
+    ja: 'イフ・フレー国際ビジネス協力協会は、国際協力、知識交換、持続可能な成長を促進する非営利団体です。',
   },
-  cta: { mn: "ДЭЛГЭРЭНГҮЙ", en: "READ MORE", ja: "詳細を見る" },
+  cta: { mn: 'ДЭЛГЭРЭНГҮЙ', en: 'READ MORE', ja: '詳細を見る' },
 };
 
 const purpose: {
@@ -55,124 +59,152 @@ const purpose: {
 }[] = [
   {
     icon: Target,
-    title: { mn: "Эрхэм зорилго", en: "Our Mission", ja: "使命" },
+    title: { mn: 'Эрхэм зорилго', en: 'Our Mission', ja: '使命' },
     text: {
-      mn: "Бид олон улсын бизнесийн хамтын ажиллагааг шинэ түвшинд хүргэж, байгууллага, хөрөнгө оруулагчид болон бизнес эрхлэгчдийг холбох замаар урт хугацааны үнэ цэнэ бүхий түншлэлийг бий болгож, тогтвортой өсөлт хөгжил, инноваци, эдийн засгийн үр өгөөжийг дэмжихийг эрхэмлэдэг.",
-      en: "We are committed to elevating international business cooperation to a new level by connecting organizations, investors, and entrepreneurs — building long-term, value-creating partnerships and supporting sustainable growth, innovation, and economic prosperity.",
-      ja: "国際ビジネス協力を新たなレベルに引き上げ、組織、投資家、起業家をつなぐことで、長期的な価値を創造するパートナーシップを構築し、持続可能な成長、イノベーション、経済的繁栄を支援することを使命としています。",
+      mn: 'Бид олон улсын бизнесийн хамтын ажиллагааг шинэ түвшинд хүргэж, байгууллага, хөрөнгө оруулагчид болон бизнес эрхлэгчдийг холбох замаар урт хугацааны үнэ цэнэ бүхий түншлэлийг бий болгож, тогтвортой өсөлт хөгжил, инноваци, эдийн засгийн үр өгөөжийг дэмжихийг эрхэмлэдэг.',
+      en: 'We are committed to elevating international business cooperation to a new level by connecting organizations, investors, and entrepreneurs — building long-term, value-creating partnerships and supporting sustainable growth, innovation, and economic prosperity.',
+      ja: '国際ビジネス協力を新たなレベルに引き上げ、組織、投資家、起業家をつなぐことで、長期的な価値を創造するパートナーシップを構築し、持続可能な成長、イノベーション、経済的繁栄を支援することを使命としています。',
     },
   },
   {
     icon: Eye,
-    title: { mn: "Алсын хараа", en: "Our Vision", ja: "ビジョン" },
+    title: { mn: 'Алсын хараа', en: 'Our Vision', ja: 'ビジョン' },
     text: {
-      mn: "Бизнес, хөрөнгө оруулагчид, байгууллагуудыг дэлхийн хэмжээнд холбосон найдвартай, үнэ цэн бүтээдэг тэргүүлэгч платформ болж, олон улсын хамтын ажиллагаа болон тогтвортой хөгжлийн шинэ жишгийг тогтоох.",
-      en: "To become a trusted, value-creating leading platform that connects businesses, investors, and organizations worldwide — setting new standards for international cooperation and sustainable development.",
-      ja: "ビジネス、投資家、組織を世界規模でつなぐ信頼できる価値創造の主要プラットフォームとなり、国際協力と持続可能な発展の新しい基準を確立すること。",
+      mn: 'Бизнес, хөрөнгө оруулагчид, байгууллагуудыг дэлхийн хэмжээнд холбосон найдвартай, үнэ цэн бүтээдэг тэргүүлэгч платформ болж, олон улсын хамтын ажиллагаа болон тогтвортой хөгжлийн шинэ жишгийг тогтоох.',
+      en: 'To become a trusted, value-creating leading platform that connects businesses, investors, and organizations worldwide — setting new standards for international cooperation and sustainable development.',
+      ja: 'ビジネス、投資家、組織を世界規模でつなぐ信頼できる価値創造の主要プラットフォームとなり、国際協力と持続可能な発展の新しい基準を確立すること。',
     },
   },
   {
     icon: Handshake,
-    title: { mn: "Үнэт зүйлс", en: "Our Values", ja: "価値観" },
+    title: { mn: 'Үнэт зүйлс', en: 'Our Values', ja: '価値観' },
     items: [
-      { mn: "Итгэлцэл, ил тод байдал, хариуцлага", en: "Trust, transparency, and accountability", ja: "信頼、透明性、責任" },
-      { mn: "Холбоо, түншлэл, хамтын өсөлт", en: "Connection, partnership, and shared growth", ja: "つながり、パートナーシップ、共有成長" },
-      { mn: "Шинэ санаа, шинэ боломж, шинэ шийдэл", en: "New ideas, new opportunities, new solutions", ja: "新しいアイデア、新しい機会、新しい解決策" },
-      { mn: "Урт хугацааны үнэ цэнэ, хариуцлагатай хөгжил", en: "Long-term value and responsible development", ja: "長期的な価値と責任ある発展" },
+      {
+        mn: 'Итгэлцэл, ил тод байдал, хариуцлага',
+        en: 'Trust, transparency, and accountability',
+        ja: '信頼、透明性、責任',
+      },
+      {
+        mn: 'Холбоо, түншлэл, хамтын өсөлт',
+        en: 'Connection, partnership, and shared growth',
+        ja: 'つながり、パートナーシップ、共有成長',
+      },
+      {
+        mn: 'Шинэ санаа, шинэ боломж, шинэ шийдэл',
+        en: 'New ideas, new opportunities, new solutions',
+        ja: '新しいアイデア、新しい機会、新しい解決策',
+      },
+      {
+        mn: 'Урт хугацааны үнэ цэнэ, хариуцлагатай хөгжил',
+        en: 'Long-term value and responsible development',
+        ja: '長期的な価値と責任ある発展',
+      },
     ],
   },
   {
     icon: Globe,
-    title: { mn: "Бидний хандлага", en: "Our Approach", ja: "アプローチ" },
+    title: { mn: 'Бидний хандлага', en: 'Our Approach', ja: 'アプローチ' },
     text: {
-      mn: "Бид бизнесийн харилцааг зөвхөн танилын хүрээ бус, харин итгэлцэлд суурилсан урт хугацааны түншлэл гэж үздэг. Тиймээс бид гишүүддээ чанартай сүлжээ, үнэ цэнтэй мэдээлэл, мэргэжлийн зөвлөгөө, хамтын ажиллагааны бодит боломжийг бий болгоход төвлөрдөг.",
-      en: "We view business relationships not merely as networks of acquaintances, but as long-term partnerships built on trust. Therefore, we focus on providing our members with quality networks, valuable information, professional advisory, and tangible cooperation opportunities.",
-      ja: "私たちはビジネス関係を単なる知人のネットワークではなく、信頼に基づく長期的なパートナーシップと考えています。そのため、会員に質の高いネットワーク、価値ある情報、専門的な助言、具体的な協力の機会を提供することに注力しています。",
+      mn: 'Бид бизнесийн харилцааг зөвхөн танилын хүрээ бус, харин итгэлцэлд суурилсан урт хугацааны түншлэл гэж үздэг. Тиймээс бид гишүүддээ чанартай сүлжээ, үнэ цэнтэй мэдээлэл, мэргэжлийн зөвлөгөө, хамтын ажиллагааны бодит боломжийг бий болгоход төвлөрдөг.',
+      en: 'We view business relationships not merely as networks of acquaintances, but as long-term partnerships built on trust. Therefore, we focus on providing our members with quality networks, valuable information, professional advisory, and tangible cooperation opportunities.',
+      ja: '私たちはビジネス関係を単なる知人のネットワークではなく、信頼に基づく長期的なパートナーシップと考えています。そのため、会員に質の高いネットワーク、価値ある情報、専門的な助言、具体的な協力の機会を提供することに注力しています。',
     },
   },
 ];
 
 const stats: { icon: LucideIcon; value: string; label: L }[] = [
-  { icon: Users, value: "120+", label: { mn: "Гишүүн", en: "Members", ja: "会員" } },
-  { icon: Globe, value: "30+", label: { mn: "Улс орон", en: "Countries", ja: "カ国" } },
-  { icon: Briefcase, value: "50+", label: { mn: "Төсөл", en: "Projects", ja: "プロジェクト" } },
+  {
+    icon: Users,
+    value: '120+',
+    label: { mn: 'Гишүүн', en: 'Members', ja: '会員' },
+  },
+  {
+    icon: Globe,
+    value: '30+',
+    label: { mn: 'Улс орон', en: 'Countries', ja: 'カ国' },
+  },
+  {
+    icon: Briefcase,
+    value: '50+',
+    label: { mn: 'Төсөл', en: 'Projects', ja: 'プロジェクト' },
+  },
   {
     icon: CalendarDays,
-    value: "10+",
-    label: { mn: "Жилийн туршлага", en: "Years of Impact", ja: "年の実績" },
+    value: '10+',
+    label: { mn: 'Жилийн туршлага', en: 'Years of Impact', ja: '年の実績' },
   },
 ];
 
 const timeline: { icon: LucideIcon; year: string; title: L; text: L }[] = [
   {
     icon: Flag,
-    year: "2014",
-    title: { mn: "Үүсгэн байгуулсан", en: "Established", ja: "設立" },
+    year: '2014',
+    title: { mn: 'Үүсгэн байгуулсан', en: 'Established', ja: '設立' },
     text: {
-      mn: "Их Хүрээ олон улсын бизнесийн хамтын ажиллагааны холбоог үүсгэн байгуулав.",
-      en: "Foundation of Ikh Khuree International Business Cooperation Association.",
-      ja: "イフ・フレー国際ビジネス協力協会を設立。",
+      mn: 'Их Хүрээ олон улсын бизнесийн хамтын ажиллагааны холбоог үүсгэн байгуулав.',
+      en: 'Foundation of Ikh Khuree International Business Cooperation Association.',
+      ja: 'イフ・フレー国際ビジネス協力協会を設立。',
     },
   },
   {
     icon: Globe,
-    year: "2016",
-    title: { mn: "Тэлэлт", en: "Expansion", ja: "拡大" },
+    year: '2016',
+    title: { mn: 'Тэлэлт', en: 'Expansion', ja: '拡大' },
     text: {
-      mn: "Олон улсын сүлжээ, түншлэлээ өргөжүүлэв.",
-      en: "Expanded our network and partnerships internationally.",
-      ja: "国際的なネットワークとパートナーシップを拡大。",
+      mn: 'Олон улсын сүлжээ, түншлэлээ өргөжүүлэв.',
+      en: 'Expanded our network and partnerships internationally.',
+      ja: '国際的なネットワークとパートナーシップを拡大。',
     },
   },
   {
     icon: BarChart3,
-    year: "2019",
-    title: { mn: "Өсөлт", en: "Growth", ja: "成長" },
+    year: '2019',
+    title: { mn: 'Өсөлт', en: 'Growth', ja: '成長' },
     text: {
-      mn: "Бизнес, хөрөнгө оруулалтыг дэмжих томоохон санаачилгуудыг хэрэгжүүлэв.",
-      en: "Launched major initiatives to support business and investment.",
-      ja: "ビジネスと投資を支援する主要な取り組みを開始。",
+      mn: 'Бизнес, хөрөнгө оруулалтыг дэмжих томоохон санаачилгуудыг хэрэгжүүлэв.',
+      en: 'Launched major initiatives to support business and investment.',
+      ja: 'ビジネスと投資を支援する主要な取り組みを開始。',
     },
   },
   {
     icon: Users,
-    year: "2023+",
-    title: { mn: "Нөлөөлөл", en: "Impact", ja: "インパクト" },
+    year: '2023+',
+    title: { mn: 'Нөлөөлөл', en: 'Impact', ja: 'インパクト' },
     text: {
-      mn: "Боломжуудыг бий болгож, тогтвортой ирээдүйг үргэлжлүүлэн бүтээж байна.",
-      en: "Continuing to create opportunities and build sustainable futures.",
-      ja: "機会を創出し、持続可能な未来を築き続けています。",
+      mn: 'Боломжуудыг бий болгож, тогтвортой ирээдүйг үргэлжлүүлэн бүтээж байна.',
+      en: 'Continuing to create opportunities and build sustainable futures.',
+      ja: '機会を創出し、持続可能な未来を築き続けています。',
     },
   },
 ];
 
 const history = {
   intro: {
-    mn: "Монголыг дэлхийн бизнесийн нийгэмлэгтэй холбох зорилгоор үүсгэн байгуулагдсан Их Хүрээ нь өнөөдөр манлайлагч, бизнес эрхлэгч, байгууллагуудыг нэгтгэсэн итгэлтэй сүлжээ болон өсчээ.",
-    en: "Founded with the vision of connecting Mongolia to the global business community, Ikh Khuree has grown into a trusted network of leaders, entrepreneurs, and organizations working together for mutual success.",
-    ja: "モンゴルを世界のビジネスコミュニティとつなぐというビジョンのもとに設立されたイフ・フレーは、相互の成功のために協力するリーダー、起業家、組織の信頼されるネットワークへと成長しました。",
+    mn: 'Монголыг дэлхийн бизнесийн нийгэмлэгтэй холбох зорилгоор үүсгэн байгуулагдсан Их Хүрээ нь өнөөдөр манлайлагч, бизнес эрхлэгч, байгууллагуудыг нэгтгэсэн итгэлтэй сүлжээ болон өсчээ.',
+    en: 'Founded with the vision of connecting Mongolia to the global business community, Ikh Khuree has grown into a trusted network of leaders, entrepreneurs, and organizations working together for mutual success.',
+    ja: 'モンゴルを世界のビジネスコミュニティとつなぐというビジョンのもとに設立されたイフ・フレーは、相互の成功のために協力するリーダー、起業家、組織の信頼されるネットワークへと成長しました。',
   },
-  cta: { mn: "ДЭЛГЭРЭНГҮЙ", en: "LEARN MORE ABOUT US", ja: "もっと見る" },
+  cta: { mn: 'ДЭЛГЭРЭНГҮЙ', en: 'LEARN MORE ABOUT US', ja: 'もっと見る' },
 };
 
 const leadership = {
   title: {
-    mn: "Даргын мэндчилгээ",
-    en: "Message from the Chairman",
-    ja: "会長からのメッセージ",
+    mn: 'Даргын мэндчилгээ',
+    en: 'Message from the Chairman',
+    ja: '会長からのメッセージ',
   },
   text: {
-    mn: "Их Хүрээнд бид хамтын ажиллагааны хүчинд итгэдэг. Бид хамтдаа сорилтыг даван туулж, боломжийг нээж, ирээдүй хойч үедээ хөгжил цэцэглэлтэй ирээдүйг бүтээж чадна.",
-    en: "At Ikh Khuree, we believe in the power of cooperation. Together, we can overcome challenges, unlock potential, and build a prosperous future for generations to come.",
-    ja: "イフ・フレーでは、協力の力を信じています。共に課題を乗り越え、可能性を引き出し、次世代のために繁栄する未来を築くことができます。",
+    mn: 'Их Хүрээнд бид хамтын ажиллагааны хүчинд итгэдэг. Бид хамтдаа сорилтыг даван туулж, боломжийг нээж, ирээдүй хойч үедээ хөгжил цэцэглэлтэй ирээдүйг бүтээж чадна.',
+    en: 'At Ikh Khuree, we believe in the power of cooperation. Together, we can overcome challenges, unlock potential, and build a prosperous future for generations to come.',
+    ja: 'イフ・フレーでは、協力の力を信じています。共に課題を乗り越え、可能性を引き出し、次世代のために繁栄する未来を築くことができます。',
   },
-  cta: { mn: "БҮТЭН ЗУРВАС УНШИХ", en: "READ FULL MESSAGE", ja: "全文を読む" },
+  cta: { mn: 'БҮТЭН ЗУРВАС УНШИХ', en: 'READ FULL MESSAGE', ja: '全文を読む' },
   quote: {
-    mn: "Бидний хүч хамтын ажиллагаанд, амжилт хамтын өсөлтөд оршино.",
-    en: "Our strength lies in collaboration, our success in shared growth.",
-    ja: "私たちの強みは協働にあり、成功は共有された成長にあります。",
+    mn: 'Бидний хүч хамтын ажиллагаанд, амжилт хамтын өсөлтөд оршино.',
+    en: 'Our strength lies in collaboration, our success in shared growth.',
+    ja: '私たちの強みは協働にあり、成功は共有された成長にあります。',
   },
-  role: { mn: "Дарга", en: "Chairman", ja: "会長" },
+  role: { mn: 'Дарга', en: 'Chairman', ja: '会長' },
 };
 
 export default async function AboutPage({
@@ -222,7 +254,49 @@ export default async function AboutPage({
           </div>
         </div>
       </section>
+      {/* Leadership */}
+      <section className="bg-brand-50/50">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <SectionTitle label={pick(sectionLabels.leadership, locale)} />
+          <div className="mt-12 grid items-center gap-10 lg:grid-cols-12">
+            <div className="flex items-center gap-6 lg:col-span-7">
+              <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-full ring-4 ring-white shadow-lg sm:h-36 sm:w-36">
+                <Image
+                  src="/bilguun.webp"
+                  alt="Chairman"
+                  fill
+                  className="object-cover object-top"
+                />
+              </div>
+              <div>
+                <h3 className="font-serif text-2xl font-bold text-brand-700">
+                  {pick(leadership.title, locale)}
+                </h3>
+                <p className="mt-3 max-w-md leading-relaxed text-neutral-700">
+                  {pick(leadership.text, locale)}
+                </p>
+                <Link
+                  href="/contact"
+                  className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-brand-600"
+                >
+                  {pick(leadership.cta, locale)}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
 
+            <div className="relative rounded-2xl bg-white p-8 shadow-sm lg:col-span-5">
+              <Quote className="h-9 w-9 text-brand-200" />
+              <p className="mt-4 font-serif text-xl italic leading-relaxed text-brand-800">
+                {pick(leadership.quote, locale)}
+              </p>
+              <p className="mt-4 text-sm font-medium text-brand-500">
+                — {pick(leadership.role, locale)}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* Our purpose */}
       <section className="bg-gradient-to-b from-white to-brand-50/30">
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
@@ -237,7 +311,10 @@ export default async function AboutPage({
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-50">
-                      <Icon className="h-6 w-6 text-brand-600" strokeWidth={1.5} />
+                      <Icon
+                        className="h-6 w-6 text-brand-600"
+                        strokeWidth={1.5}
+                      />
                     </div>
                     <h3 className="pt-2 font-serif text-lg font-bold text-brand-700">
                       {pick(p.title, locale)}
@@ -276,9 +353,14 @@ export default async function AboutPage({
             {stats.map((s, i) => {
               const Icon = s.icon;
               return (
-                <div key={i} className="flex flex-col items-center px-4 text-center">
+                <div
+                  key={i}
+                  className="flex flex-col items-center px-4 text-center"
+                >
                   <Icon className="h-8 w-8 text-brand-200" strokeWidth={1.5} />
-                  <span className="mt-4 font-serif text-4xl font-bold">{s.value}</span>
+                  <span className="mt-4 font-serif text-4xl font-bold">
+                    {s.value}
+                  </span>
                   <span className="mt-1 text-xs font-medium uppercase tracking-wider text-brand-100">
                     {pick(s.label, locale)}
                   </span>
@@ -313,7 +395,10 @@ export default async function AboutPage({
               {timeline.map((m, i) => {
                 const Icon = m.icon;
                 return (
-                  <div key={i} className="relative flex flex-col items-center text-center">
+                  <div
+                    key={i}
+                    className="relative flex flex-col items-center text-center"
+                  >
                     {i < timeline.length - 1 && (
                       <span className="absolute left-1/2 top-7 hidden h-px w-full bg-neutral-200 sm:block" />
                     )}
@@ -336,45 +421,6 @@ export default async function AboutPage({
           </div>
         </div>
       </section>
-
-      {/* Leadership */}
-      <section className="bg-brand-50/50">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <SectionTitle label={pick(sectionLabels.leadership, locale)} />
-          <div className="mt-12 grid items-center gap-10 lg:grid-cols-12">
-            <div className="flex items-center gap-6 lg:col-span-7">
-              <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-full ring-4 ring-white shadow-lg sm:h-36 sm:w-36">
-                <Image src="/images/chairman.svg" alt="Chairman" fill className="object-cover" />
-              </div>
-              <div>
-                <h3 className="font-serif text-2xl font-bold text-brand-700">
-                  {pick(leadership.title, locale)}
-                </h3>
-                <p className="mt-3 max-w-md leading-relaxed text-neutral-700">
-                  {pick(leadership.text, locale)}
-                </p>
-                <Link
-                  href="/contact"
-                  className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-brand-600"
-                >
-                  {pick(leadership.cta, locale)}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </div>
-            </div>
-
-            <div className="relative rounded-2xl bg-white p-8 shadow-sm lg:col-span-5">
-              <Quote className="h-9 w-9 text-brand-200" />
-              <p className="mt-4 font-serif text-xl italic leading-relaxed text-brand-800">
-                {pick(leadership.quote, locale)}
-              </p>
-              <p className="mt-4 text-sm font-medium text-brand-500">
-                — {pick(leadership.role, locale)}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
@@ -384,7 +430,7 @@ function SectionTitle({ label, light }: { label: string; light?: boolean }) {
     <div className="flex flex-col items-center text-center">
       <h2
         className={`font-serif text-2xl font-semibold uppercase tracking-[0.12em] sm:text-3xl ${
-          light ? "text-white" : "text-brand-700"
+          light ? 'text-white' : 'text-brand-700'
         }`}
       >
         {label}

@@ -40,7 +40,22 @@ const labels = {
     en: "MEMBER CERTIFICATES",
     ja: "会員証",
   },
+  countries: {
+    mn: "ГИШҮҮН УЛСЫН ЦАР ХҮРЭЭ",
+    en: "MEMBER COUNTRY REACH",
+    ja: "会員国の広がり",
+  },
 };
+
+const countries: { code: string; name: L }[] = [
+  { code: "jp", name: { mn: "Япон", en: "Japan", ja: "日本" } },
+  { code: "tw", name: { mn: "Тайвань", en: "Taiwan", ja: "台湾" } },
+  { code: "us", name: { mn: "АНУ", en: "USA", ja: "アメリカ" } },
+  { code: "sg", name: { mn: "Сингапур", en: "Singapore", ja: "シンガポール" } },
+  { code: "it", name: { mn: "Итали", en: "Italy", ja: "イタリア" } },
+  { code: "ae", name: { mn: "АНЭУ", en: "UAE", ja: "アラブ首長国連邦" } },
+  { code: "kr", name: { mn: "Солонгос", en: "Korea", ja: "韓国" } },
+];
 
 const certificates = Array.from(
   { length: 15 },
@@ -130,8 +145,8 @@ const types: {
       en: "Exclusive Member (Noyon)",
       ja: "エクスクルーシブ会員（ノヨン）",
     },
-    price: "$2,500",
-    monthly: "$208",
+    price: "$10,000",
+    monthly: "$833",
     features: [
       {
         mn: "Клубын хүндэт зөвлөх статустай болох",
@@ -167,8 +182,8 @@ const types: {
       en: "Elite Class (Taij)",
       ja: "エリートクラス（タイジ）",
     },
-    price: "$2,000",
-    monthly: "$166",
+    price: "$5,000",
+    monthly: "$417",
     featured: true,
     badge: { mn: "ЭРЭЛТТЭЙ", en: "POPULAR", ja: "人気" },
     features: [
@@ -504,8 +519,35 @@ export default async function MembershipPage({
         </div>
       </section>
 
-      {/* How to become a member */}
+      {/* Member country reach */}
       <section className="bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <SectionTitle label={pick(labels.countries, locale)} />
+          <div className="mt-12 flex flex-wrap items-stretch justify-center gap-5">
+            {countries.map((c) => (
+              <div
+                key={c.code}
+                className="flex w-32 flex-col items-center gap-3 rounded-2xl border border-neutral-200 bg-white px-4 py-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://flagcdn.com/w160/${c.code}.png`}
+                  alt={pick(c.name, locale)}
+                  width={64}
+                  height={43}
+                  className="h-11 w-16 rounded object-cover shadow ring-1 ring-neutral-200"
+                />
+                <span className="text-sm font-semibold text-brand-700">
+                  {pick(c.name, locale)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How to become a member */}
+      <section className="bg-neutral-50">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <SectionTitle label={pick(labels.how, locale)} />
           <div className="mt-12 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4">
@@ -536,7 +578,7 @@ export default async function MembershipPage({
       </section>
 
       {/* Member certificates */}
-      <section className="bg-neutral-50">
+      <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <SectionTitle label={pick(labels.certificates, locale)} />
           <div className="mt-12">
