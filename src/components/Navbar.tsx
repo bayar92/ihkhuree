@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import Image from "next/image";
 import { BrandLogo } from "./BrandLogo";
+import { CyclingFlag } from "./CyclingFlag";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 const links = [
@@ -32,17 +33,20 @@ export function Navbar() {
           <BrandLogo size={46} priority />
           <span className="leading-tight">
             <span className="flex items-center gap-2 font-serif text-xl font-semibold tracking-wide text-brand-700">
-              Ikh Khuree
-              <Image
-                src="/dalbaa.png"
-                alt="Mongolia"
-                width={32}
-                height={16}
-                className="h-4 w-auto rounded-[2px] shadow-sm ring-1 ring-black/5"
-              />
+              {t("brandName")}
+              <span className="flex items-center gap-1">
+                <Image
+                  src="/dalbaa.png"
+                  alt="Mongolia"
+                  width={24}
+                  height={16}
+                  className="h-4 w-auto rounded-[2px]"
+                />
+                <CyclingFlag />
+              </span>
             </span>
             <span className="block text-[11px] text-neutral-500">
-              international business cooperation association
+              {t("tagline")}
             </span>
           </span>
         </Link>

@@ -10,7 +10,6 @@ import {
   CalendarDays,
   Flag,
   BarChart3,
-  Quote,
   ArrowRight,
   type LucideIcon,
 } from 'lucide-react';
@@ -189,22 +188,35 @@ const history = {
 
 const leadership = {
   title: {
-    mn: 'Даргын мэндчилгээ',
-    en: 'Message from the Chairman',
-    ja: '会長からのメッセージ',
+    mn: 'Холбооны ерөнхийлөгчийн мэндчилгээ',
+    en: 'Message from the Federation President',
+    ja: '連盟会長からのメッセージ',
   },
   text: {
-    mn: 'Их Хүрээнд бид хамтын ажиллагааны хүчинд итгэдэг. Бид хамтдаа сорилтыг даван туулж, боломжийг нээж, ирээдүй хойч үедээ хөгжил цэцэглэлтэй ирээдүйг бүтээж чадна.',
-    en: 'At Ikh Khuree, we believe in the power of cooperation. Together, we can overcome challenges, unlock potential, and build a prosperous future for generations to come.',
-    ja: 'イフ・フレーでは、協力の力を信じています。共に課題を乗り越え、可能性を引き出し、次世代のために繁栄する未来を築くことができます。',
+    mn: '"Их Хүрээ" холбооны хувьд бид хамтын ажиллагааны хүч бол тогтвортой хөгжил, урт хугацааны амжилтын үндэс гэдэгт гүнээ итгэдэг. Бид хамтдаа сорилтуудыг боломж болгон хувиргаж, шинэ үнэ цэнийг бүтээж, олон улсын хөгжил дэвшилд хувь нэмэр оруулан, ирээдүй хойч үедээ илүү хөгжин цэцэглэсэн ирээдүйг цогцлоохыг зорьж байна.\n\nТа бүхэн энэхүү эрхэм зорилго дор нэгдэж, хамтын өсөлт, харилцан ашигтай түншлэлийн шинэ ирээдүйг хамтдаа бүтээе.',
+    en: 'At the Ikh Khuree association, we deeply believe that the power of cooperation is the foundation of sustainable development and long-term success. Together, we strive to turn challenges into opportunities, create new value, contribute to international progress, and build an ever more prosperous future for generations to come.\n\nWe invite you to join us under this mission and together build a new future of shared growth and mutually beneficial partnership.',
+    ja: '「イフ・フレー」協会において、私たちは協力の力こそが持続可能な発展と長期的な成功の礎であると深く信じています。私たちは共に課題を機会へと変え、新たな価値を創造し、国際的な発展に貢献し、次世代のためにより一層繁栄した未来を築くことを目指しています。\n\n皆様もこの崇高な使命のもとに集い、共に成長し、相互に有益なパートナーシップの新たな未来を共に築いてまいりましょう。',
   },
-  cta: { mn: 'БҮТЭН ЗУРВАС УНШИХ', en: 'READ FULL MESSAGE', ja: '全文を読む' },
-  quote: {
-    mn: 'Бидний хүч хамтын ажиллагаанд, амжилт хамтын өсөлтөд оршино.',
-    en: 'Our strength lies in collaboration, our success in shared growth.',
-    ja: '私たちの強みは協働にあり、成功は共有された成長にあります。',
+  signoff: { mn: 'Хүндэтгэсэн:', en: 'Sincerely,', ja: '敬具' },
+  position: {
+    mn: '"Их Хүрээ" олон улсын бизнесийн хамтын ажиллагааны холбооны Ерөнхийлөгч',
+    en: 'President, "Ikh Khuree" International Business Cooperation Association',
+    ja: '「イフ・フレー」国際ビジネス協力連盟 会長',
   },
-  role: { mn: 'Дарга', en: 'Chairman', ja: '会長' },
+  name: {
+    mn: 'Сорогдогийн Жаргалсайханы Билгүүн',
+    en: 'Sorogdogiin Jargalsaikhany Bilguun',
+    ja: 'ソログドギーン・ジャルガルサイハニー・ビルグーン',
+  },
+  date: '2026.05.05',
+  role: { mn: 'Ерөнхийлөгч', en: 'President', ja: '会長' },
+  // cta: { mn: 'БҮТЭН ЗУРВАС УНШИХ', en: 'READ FULL MESSAGE', ja: '全文を読む' },
+  // quote: {
+  //   mn: 'Бидний хүч хамтын ажиллагаанд, амжилт хамтын өсөлтөд оршино.',
+  //   en: 'Our strength lies in collaboration, our success in shared growth.',
+  //   ja: '私たちの強みは協働にあり、成功は共有された成長にあります。',
+  // },
+  // role: { mn: 'Ерөнхийлөгч', en: 'President', ja: '会長' },
 };
 
 export default async function AboutPage({
@@ -221,7 +233,7 @@ export default async function AboutPage({
       {/* Hero banner */}
       <section className="relative overflow-hidden border-b border-neutral-100">
         <Image
-          src="/aboutus.png"
+          src="/about.jpg"
           alt=""
           fill
           priority
@@ -230,23 +242,27 @@ export default async function AboutPage({
           sizes="100vw"
           className="object-cover object-right"
         />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-linear-to-r from-brand-950/85 via-brand-900/65 to-brand-900/20"
+        />
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28 lg:px-8">
           <div className="max-w-xl">
-            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">
+            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-200">
               {pick(sectionLabels.about, locale)}
             </span>
             <div className="mt-4 h-0.5 w-16 bg-[#c8a44d]" />
-            <h1 className="mt-8 font-serif text-4xl leading-tight text-brand-700 sm:text-5xl">
+            <h1 className="mt-8 font-serif text-4xl leading-tight text-white drop-shadow-sm sm:text-5xl">
               {pick(hero.title1, locale)}
               <br />
               {pick(hero.title2, locale)}
             </h1>
-            <p className="mt-6 max-w-2xl leading-8 text-neutral-700">
+            <p className="mt-6 max-w-2xl leading-8 text-neutral-100">
               {pick(hero.text, locale)}
             </p>
             <Link
               href="/membership"
-              className="group mt-10 inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-wider text-brand-600 transition hover:gap-4"
+              className="group mt-10 inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-wider text-white transition hover:gap-4"
             >
               {pick(hero.cta, locale)}
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -258,41 +274,43 @@ export default async function AboutPage({
       <section className="bg-brand-50/50">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <SectionTitle label={pick(sectionLabels.leadership, locale)} />
-          <div className="mt-12 grid items-center gap-10 lg:grid-cols-12">
-            <div className="flex items-center gap-6 lg:col-span-7">
-              <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-full ring-4 ring-white shadow-lg sm:h-36 sm:w-36">
-                <Image
-                  src="/bilguun.webp"
-                  alt="Chairman"
-                  fill
-                  className="object-cover object-top"
-                />
+          <div className="mx-auto mt-12 max-w-5xl overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-neutral-100">
+            <div className="flex flex-col md:flex-row">
+              <div className="flex flex-col items-center gap-4 bg-brand-50/60 px-8 py-10 text-center md:w-72 md:shrink-0">
+                <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-full ring-4 ring-white shadow-md">
+                  <Image
+                    src="/bilguun.webp"
+                    alt={pick(leadership.name, locale)}
+                    fill
+                    className="object-cover object-top"
+                  />
+                </div>
+                <div>
+                  <p className="font-serif text-lg font-bold text-brand-700">
+                    {pick(leadership.name, locale)}
+                  </p>
+                  <p className="mt-1 text-sm text-neutral-500">
+                    {pick(leadership.role, locale)}
+                  </p>
+                </div>
               </div>
-              <div>
+
+              <div className="flex-1 px-8 py-10">
                 <h3 className="font-serif text-2xl font-bold text-brand-700">
                   {pick(leadership.title, locale)}
                 </h3>
-                <p className="mt-3 max-w-md leading-relaxed text-neutral-700">
+                <p className="mt-4 whitespace-pre-line leading-relaxed text-neutral-700">
                   {pick(leadership.text, locale)}
                 </p>
-                <Link
-                  href="/contact"
-                  className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-brand-600"
-                >
-                  {pick(leadership.cta, locale)}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
+                <div className="mt-6 border-t border-neutral-100 pt-5 text-sm leading-relaxed text-neutral-600">
+                  <p>{pick(leadership.signoff, locale)}</p>
+                  <p className="mt-1">{pick(leadership.position, locale)}</p>
+                  <p className="mt-1 font-semibold text-brand-700">
+                    {pick(leadership.name, locale)}
+                  </p>
+                  <p className="mt-1 text-neutral-400">{leadership.date}</p>
+                </div>
               </div>
-            </div>
-
-            <div className="relative rounded-2xl bg-white p-8 shadow-sm lg:col-span-5">
-              <Quote className="h-9 w-9 text-brand-200" />
-              <p className="mt-4 font-serif text-xl italic leading-relaxed text-brand-800">
-                {pick(leadership.quote, locale)}
-              </p>
-              <p className="mt-4 text-sm font-medium text-brand-500">
-                — {pick(leadership.role, locale)}
-              </p>
             </div>
           </div>
         </div>

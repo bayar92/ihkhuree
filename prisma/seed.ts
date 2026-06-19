@@ -273,6 +273,7 @@ async function main() {
         slug: "annual-business-forum-2026",
         published: true,
         publishedAt: new Date("2026-05-10"),
+        coverImage: "/inter.jpg",
         title: {
           mn: "2026 оны жилийн бизнес форум",
           en: "Annual Business Forum 2026",
@@ -293,6 +294,7 @@ async function main() {
         slug: "new-partnership-japan",
         published: true,
         publishedAt: new Date("2026-04-22"),
+        coverImage: "/jpn_mng.jpg",
         title: {
           mn: "Япон улстай шинэ түншлэл",
           en: "New Partnership with Japan",
@@ -313,6 +315,7 @@ async function main() {
         slug: "sustainability-initiative",
         published: true,
         publishedAt: new Date("2026-03-15"),
+        coverImage: "/togtwortoi.jpg",
         title: {
           mn: "Тогтвортой хөгжлийн санаачилга",
           en: "Sustainability Initiative",
