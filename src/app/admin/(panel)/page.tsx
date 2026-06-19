@@ -41,8 +41,10 @@ export default async function DashboardPage() {
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         {[
           { href: "/admin/hero", label: "Нүүр баннер засах" },
-          { href: "/admin/features", label: "Үнэт зүйлс засах" },
-          { href: "/admin/pages", label: "Хуудаснууд засах" },
+          { href: "/admin/home", label: "Нүүр хуудас засах" },
+          { href: "/admin/about", label: "Бидний тухай засах" },
+          { href: "/admin/membership", label: "Гишүүнчлэл засах" },
+          { href: "/admin/translations", label: "Орчуулга засах" },
           { href: "/admin/news", label: "Мэдээ нэмэх" },
         ].map((q) => (
           <Link

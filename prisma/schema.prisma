@@ -93,6 +93,16 @@ model Page {
   updatedAt DateTime @updatedAt
 }
 
+// Structured, localized page content edited from the admin (about, membership,
+// home extras, and UI string overrides). One row per area, keyed by `key`.
+// `value` holds a JSON document whose leaf strings are localized
+// ({ mn, en, ja }) or per-locale message overrides for the `ui` key.
+model SiteContent {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
 // Site-wide settings (contact info, socials, etc.).
 model Setting {
   id        String   @id @default(cuid())

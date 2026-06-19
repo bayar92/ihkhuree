@@ -203,6 +203,34 @@ export async function savePage(formData: FormData) {
   redirect(`/admin/pages/${key}?saved=1`);
 }
 
+// ---------------- Structured site content ----------------
+const contentRedirects: Record<string, string> = {
+  about: "/admin/about",
+  membership: "/admin/membership",
+  home: "/admin/home",
+  ui: "/admin/translations",
+};
+
+export async function saveContent(formData: FormData) {
+  await requireAdmin();
+  const key = String(formData.get("key") ?? "");
+  if (!key) throw new Error("Missing content key");
+  const raw = String(formData.get("data") ?? "{}");
+  let value: unknown;
+  try {
+    value = JSON.parse(raw);
+  } catch {
+    throw new Error("Invalid content payload");
+  }
+  await prisma.siteContent.upsert({
+    where: { key },
+    update: { value: value as object },
+    create: { key, value: value as object },
+  });
+  revalidatePath("/", "layout");
+  redirect(`${contentRedirects[key] ?? "/admin"}?saved=1`);
+}
+
 // ---------------- Settings (contact) ----------------
 export async function saveContactSettings(formData: FormData) {
   await requireAdmin();

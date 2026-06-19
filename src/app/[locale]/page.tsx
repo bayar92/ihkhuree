@@ -35,27 +35,10 @@ const focusLucide: Record<string, LucideIcon> = {
 };
 import { NewsCard } from '@/components/NewsCard';
 import { EventCard } from '@/components/EventCard';
+import { getContent } from '@/lib/content';
+import { homeDefaults } from '@/content/defaults';
 
 export const dynamic = 'force-dynamic';
-
-const aboutTeaser = {
-  label: { mn: 'БИДНИЙ ТУХАЙ', en: 'ABOUT US', ja: '私たちについて' },
-  title1: {
-    mn: 'Хил дамнан холбож,',
-    en: 'Bridging borders.',
-    ja: '国境を越えてつなぎ、',
-  },
-  title2: {
-    mn: 'хамтын ажиллагааг бэхжүүлнэ.',
-    en: 'Empowering cooperation.',
-    ja: '協力を強化する。',
-  },
-  text: {
-    mn: 'Бид олон улсын бизнесийн хамтын ажиллагааг шинэ түвшинд хүргэж, байгууллага, хөрөнгө оруулагчид болон бизнес эрхлэгчдийг холбох замаар урт хугацааны үнэ цэнэ бүхий түншлэлийг бий болгож, тогтвортой өсөлт хөгжил, инноваци, эдийн засгийн үр өгөөжийг дэмжихийг эрхэмлэдэг.',
-    en: "We are committed to elevating international business cooperation to a new level by connecting organizations, investors, and entrepreneurs — building long-term, value-creating partnerships and supporting sustainable growth, innovation, and economic prosperity.",
-    ja: '国際ビジネス協力を新たなレベルに引き上げ、組織、投資家、起業家をつなぐことで、長期的な価値を創造するパートナーシップを構築し、持続可能な成長、イノベーション、経済的繁栄を支援することを使命としています。',
-  },
-};
 
 export default async function HomePage({
   params,
@@ -67,7 +50,7 @@ export default async function HomePage({
   const locale = rawLocale as Locale;
   const t = await getTranslations();
 
-  const [hero, features, focusAreas, news, events] = await Promise.all([
+  const [hero, features, focusAreas, news, events, homeContent] = await Promise.all([
     safe(prisma.hero.findFirst({ orderBy: { updatedAt: 'desc' } }), null),
     safe(prisma.feature.findMany({ orderBy: { order: 'asc' } }), []),
     safe(prisma.focusArea.findMany({ orderBy: { order: 'asc' } }), []),
@@ -87,7 +70,9 @@ export default async function HomePage({
       }),
       []
     ),
+    getContent('home', homeDefaults),
   ]);
+  const aboutTeaser = homeContent.aboutTeaser;
 
   return (
     <div>

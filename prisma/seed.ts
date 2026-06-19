@@ -1,5 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import {
+  aboutDefaults,
+  membershipDefaults,
+  homeDefaults,
+} from "../src/content/defaults";
+import mn from "../src/messages/mn.json";
+import en from "../src/messages/en.json";
+import ja from "../src/messages/ja.json";
 
 const prisma = new PrismaClient();
 
@@ -373,6 +381,22 @@ async function main() {
     ],
   });
   console.log("✔ events");
+
+  // ---- Structured site content ----
+  const contentRows: { key: string; value: object }[] = [
+    { key: "about", value: aboutDefaults },
+    { key: "membership", value: membershipDefaults },
+    { key: "home", value: homeDefaults },
+    { key: "ui", value: { mn, en, ja } },
+  ];
+  for (const row of contentRows) {
+    await prisma.siteContent.upsert({
+      where: { key: row.key },
+      update: { value: row.value },
+      create: row,
+    });
+  }
+  console.log("✔ site content");
 }
 
 main()
