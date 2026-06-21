@@ -30,7 +30,7 @@ export type AboutContent = {
 
 export const aboutDefaults: AboutContent = {
   hero: {
-    image: '/about.jpg',
+    image: '/main.jpg',
     title1: {
       mn: 'Хил дамнан холбож,',
       en: 'Bridging borders.',

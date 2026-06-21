@@ -18,6 +18,7 @@ import { pick } from '@/lib/i18n';
 import type { Locale } from '@/i18n/routing';
 import { getContent } from '@/lib/content';
 import { aboutDefaults } from '@/content/defaults';
+import { CountUp } from '@/components/CountUp';
 
 export const dynamic = 'force-dynamic';
 
@@ -45,7 +46,8 @@ export default async function AboutPage({
   const locale = raw as Locale;
 
   const c = await getContent('about', aboutDefaults);
-  const { hero, sectionLabels, purpose, stats, timeline, history, leadership } = c;
+  const { hero, sectionLabels, purpose, stats, timeline, history, leadership } =
+    c;
 
   return (
     <div>
@@ -148,7 +150,10 @@ export default async function AboutPage({
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-50">
-                      <Icon className="h-6 w-6 text-brand-600" strokeWidth={1.5} />
+                      <Icon
+                        className="h-6 w-6 text-brand-600"
+                        strokeWidth={1.5}
+                      />
                     </div>
                     <h3 className="pt-2 font-serif text-lg font-bold text-brand-700">
                       {pick(p.title, locale)}
@@ -187,11 +192,15 @@ export default async function AboutPage({
             {stats.map((s, i) => {
               const Icon = icon(s.icon);
               return (
-                <div key={i} className="flex flex-col items-center px-4 text-center">
+                <div
+                  key={i}
+                  className="flex flex-col items-center px-4 text-center"
+                >
                   <Icon className="h-8 w-8 text-brand-200" strokeWidth={1.5} />
-                  <span className="mt-4 font-serif text-4xl font-bold">
-                    {s.value}
-                  </span>
+                  <CountUp
+                    value={s.value}
+                    className="mt-4 font-serif text-4xl font-bold tabular-nums"
+                  />
                   <span className="mt-1 text-xs font-medium uppercase tracking-wider text-brand-100">
                     {pick(s.label, locale)}
                   </span>
