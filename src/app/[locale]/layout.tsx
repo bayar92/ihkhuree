@@ -21,7 +21,7 @@ const notoSerif = Noto_Serif({
 export const metadata: Metadata = {
   title: "Ikh Khuree — International Business Cooperation Association",
   description:
-    "Их хүрээ олон улсын бизнесс хамтын ажиллагааны холбоо. Promoting international business cooperation and sustainable development.",
+    "Их хүрээ олон улсын бизнесийн хамтын ажиллагааны холбоо. Promoting international business cooperation and sustainable development.",
   icons: {
     icon: [{ url: "/logo.jpg", type: "image/jpeg" }],
     shortcut: "/logo.jpg",

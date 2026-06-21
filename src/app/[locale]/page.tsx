@@ -101,7 +101,7 @@ export default async function HomePage({
             <p className="max-w-md text-lg text-neutral-600">
               {hero
                 ? pick(hero.tagline, locale)
-                : 'Их хүрээ олон улсын бизнесс хамтын ажиллагааны холбоо'}
+                : 'Их хүрээ олон улсын бизнесийн хамтын ажиллагааны холбоо'}
             </p>
             <Link
               href={hero?.ctaHref ?? '/about'}
@@ -273,7 +273,7 @@ export default async function HomePage({
           <div className="relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-neutral-200/60">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/about-city.svg"
+              src="/img1.png"
               alt=""
               className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
             />
