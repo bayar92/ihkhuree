@@ -61,6 +61,20 @@ export default async function NewsDetailPage({
         <div className="whitespace-pre-line leading-relaxed text-neutral-700">
           {pick(news.content, locale)}
         </div>
+
+        {news.images.length > 0 && (
+          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+            {news.images.map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src={src}
+                alt={`${pick(news.title, locale)} — ${i + 1}`}
+                className="w-full rounded-xl object-cover shadow-sm ring-1 ring-neutral-200"
+              />
+            ))}
+          </div>
+        )}
       </div>
     </article>
   );

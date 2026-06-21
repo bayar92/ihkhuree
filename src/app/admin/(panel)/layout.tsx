@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { logout } from "../actions";
 import { Sidebar } from "@/components/admin/Sidebar";
+import { SessionGuard } from "@/components/admin/SessionGuard";
 import { BrandLogo } from "@/components/BrandLogo";
 
 export default async function PanelLayout({
@@ -15,6 +16,7 @@ export default async function PanelLayout({
 
   return (
     <div className="flex min-h-screen">
+      <SessionGuard />
       <aside className="flex w-64 shrink-0 flex-col border-r border-neutral-200 bg-white">
         <div className="flex items-center gap-2 border-b border-neutral-100 px-5 py-4">
           <BrandLogo size={36} />

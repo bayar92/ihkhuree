@@ -1,6 +1,7 @@
 import type { News } from "@prisma/client";
 import { saveNews } from "@/app/admin/actions";
 import { LocalizedField } from "./LocalizedField";
+import { NewsImagesField } from "./NewsImagesField";
 import { Card, PrimaryButton } from "./ui";
 
 const input =
@@ -54,6 +55,7 @@ export function NewsForm({ news }: { news?: News }) {
             className={input}
           />
         </div>
+        <NewsImagesField initial={news?.images ?? []} />
         <label className="flex items-center gap-2 text-sm text-neutral-700">
           <input
             type="checkbox"

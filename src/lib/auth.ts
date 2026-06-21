@@ -9,9 +9,14 @@ const credentialsSchema = z.object({
   password: z.string().min(1),
 });
 
+// Admin session lifetime: 30 minutes of inactivity. The token is refreshed on
+// activity, so an actively-used session keeps rolling forward in 30-min windows.
+const SESSION_MAX_AGE = 60 * 30; // 30 minutes
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: SESSION_MAX_AGE },
+  jwt: { maxAge: SESSION_MAX_AGE },
   pages: {
     signIn: "/admin/login",
   },

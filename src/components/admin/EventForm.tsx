@@ -64,6 +64,12 @@ export function EventForm({ event }: { event?: Event }) {
           </label>
           <input name="image" defaultValue={event?.image ?? ""} placeholder="https://..." className={input} />
         </div>
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-neutral-700">
+            Холбоос URL (дарахад нээгдэх, заавал биш)
+          </label>
+          <input name="link" defaultValue={event?.link ?? ""} placeholder="https://..." className={input} />
+        </div>
         <label className="flex items-center gap-2 text-sm text-neutral-700">
           <input
             type="checkbox"

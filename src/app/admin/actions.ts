@@ -125,12 +125,17 @@ export async function saveNews(formData: FormData) {
   let slug = String(formData.get("slug") ?? "").trim();
   if (!slug) slug = slugify(title.en || title.mn || "news") + "-" + Date.now().toString(36);
   const publishedAtRaw = String(formData.get("publishedAt") ?? "");
+  const images = formData
+    .getAll("images")
+    .map((v) => String(v).trim())
+    .filter(Boolean);
   const data = {
     slug,
     title,
     excerpt: parseLocalized(formData, "excerpt"),
     content: parseLocalized(formData, "content"),
     coverImage: String(formData.get("coverImage") ?? "") || null,
+    images,
     published: formData.get("published") === "on",
     publishedAt: publishedAtRaw ? new Date(publishedAtRaw) : new Date(),
   };
@@ -165,6 +170,7 @@ export async function saveEvent(formData: FormData) {
     description: parseLocalized(formData, "description"),
     location: parseLocalized(formData, "location"),
     image: String(formData.get("image") ?? "") || null,
+    link: String(formData.get("link") ?? "") || null,
     published: formData.get("published") === "on",
     startsAt: startsAt ? new Date(startsAt) : new Date(),
     endsAt: endsAt ? new Date(endsAt) : null,

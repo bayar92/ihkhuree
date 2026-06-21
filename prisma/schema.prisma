@@ -61,6 +61,7 @@ model News {
   excerpt     Json
   content     Json
   coverImage  String?
+  images      String[]  @default([])
   published   Boolean   @default(true)
   publishedAt DateTime  @default(now())
   createdAt   DateTime  @default(now())
@@ -75,6 +76,7 @@ model Event {
   description Json
   location    Json
   image       String?
+  link        String?
   startsAt    DateTime
   endsAt      DateTime?
   published   Boolean  @default(true)

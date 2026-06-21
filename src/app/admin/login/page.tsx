@@ -1,14 +1,21 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { authenticate } from "../actions";
 import { BrandLogo } from "@/components/BrandLogo";
+import { ADMIN_ALIVE_KEY } from "@/components/admin/SessionGuard";
 
 export default function LoginPage() {
   const [errorMessage, formAction, pending] = useActionState(
     authenticate,
     undefined,
   );
+
+  // Mark this browser/tab session as active so the panel's SessionGuard keeps
+  // the user logged in until the tab/browser is closed.
+  useEffect(() => {
+    sessionStorage.setItem(ADMIN_ALIVE_KEY, "1");
+  }, []);
 
   const field =
     "w-full rounded-lg border border-neutral-300 px-3 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100";
