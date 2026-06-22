@@ -6,6 +6,7 @@ import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { auth, signIn, signOut } from "@/lib/auth";
 import { parseLocalized, parseBlocks } from "@/lib/form";
+import { saveNewsUpload } from "@/lib/upload";
 
 async function requireAdmin() {
   const session = await auth();
@@ -118,6 +119,15 @@ export async function deleteFocusArea(formData: FormData) {
 }
 
 // ---------------- News ----------------
+export async function uploadNewsImage(formData: FormData): Promise<string> {
+  await requireAdmin();
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) {
+    throw new Error("Файл сонгоно уу.");
+  }
+  return saveNewsUpload(file);
+}
+
 export async function saveNews(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");

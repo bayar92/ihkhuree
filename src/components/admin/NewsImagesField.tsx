@@ -1,18 +1,71 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { uploadNewsImage } from "@/app/admin/actions";
 
 const input =
   "w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100";
 
 /**
- * Manages the list of in-article image URLs. Each row submits an `images`
- * field, so the server action can read them with `formData.getAll("images")`.
+ * Manages in-article image URLs with optional file upload per row.
  */
 export function NewsImagesField({ initial }: { initial: string[] }) {
-  const [images, setImages] = useState<string[]>(
-    initial.length ? initial : [],
-  );
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [images, setImages] = useState<string[]>(initial.length ? initial : []);
+  const [uploading, setUploading] = useState(false);
+  const [uploadIndex, setUploadIndex] = useState<number | null>(null);
+  const [error, setError] = useState("");
+
+  async function uploadAt(index: number, file: File) {
+    setUploading(true);
+    setUploadIndex(index);
+    setError("");
+    const fd = new FormData();
+    fd.set("file", file);
+
+    try {
+      const url = await uploadNewsImage(fd);
+      setImages((a) => a.map((v, i) => (i === index ? url : v)));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload амжилтгүй.");
+    } finally {
+      setUploading(false);
+      setUploadIndex(null);
+    }
+  }
+
+  async function uploadNew(file: File) {
+    setUploading(true);
+    setUploadIndex(-1);
+    setError("");
+    const fd = new FormData();
+    fd.set("file", file);
+
+    try {
+      const url = await uploadNewsImage(fd);
+      setImages((a) => [...a, url]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload амжилтгүй.");
+    } finally {
+      setUploading(false);
+      setUploadIndex(null);
+    }
+  }
+
+  function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const index = Number(e.target.dataset.index ?? "-1");
+    if (index >= 0) uploadAt(index, file);
+    else uploadNew(file);
+    e.target.value = "";
+  }
+
+  function pickFile(index: number) {
+    if (!fileRef.current) return;
+    fileRef.current.dataset.index = String(index);
+    fileRef.current.click();
+  }
 
   return (
     <div>
@@ -20,14 +73,34 @@ export function NewsImagesField({ initial }: { initial: string[] }) {
         <label className="text-sm font-medium text-neutral-700">
           Мэдээн доторх зургууд (заавал биш)
         </label>
-        <button
-          type="button"
-          onClick={() => setImages((a) => [...a, ""])}
-          className="rounded-lg border border-dashed border-neutral-300 px-3 py-1.5 text-sm font-medium text-brand-600 transition hover:bg-brand-50"
-        >
-          + Зураг нэмэх
-        </button>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setImages((a) => [...a, ""])}
+            className="rounded-lg border border-dashed border-neutral-300 px-3 py-1.5 text-sm font-medium text-brand-600 transition hover:bg-brand-50"
+          >
+            + URL нэмэх
+          </button>
+          <button
+            type="button"
+            onClick={() => pickFile(-1)}
+            disabled={uploading}
+            className="rounded-lg border border-brand-600 px-3 py-1.5 text-sm font-medium text-brand-700 transition hover:bg-brand-50 disabled:opacity-50"
+          >
+            {uploading && uploadIndex === -1 ? "Оруулж байна..." : "+ Upload"}
+          </button>
+        </div>
       </div>
+
+      <input
+        ref={fileRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        className="hidden"
+        data-index="-1"
+        onChange={onFileChange}
+      />
+
       {images.length === 0 ? (
         <p className="text-xs text-neutral-400">Одоогоор зураг нэмээгүй байна.</p>
       ) : (
@@ -47,7 +120,7 @@ export function NewsImagesField({ initial }: { initial: string[] }) {
               <input
                 name="images"
                 value={src}
-                placeholder="/image.jpg эсвэл https://..."
+                placeholder="/uploads/news/... эсвэл https://..."
                 onChange={(e) =>
                   setImages((a) =>
                     a.map((v, idx) => (idx === i ? e.target.value : v)),
@@ -55,6 +128,14 @@ export function NewsImagesField({ initial }: { initial: string[] }) {
                 }
                 className={input}
               />
+              <button
+                type="button"
+                onClick={() => pickFile(i)}
+                disabled={uploading}
+                className="shrink-0 rounded-lg border border-neutral-300 px-2 py-1.5 text-xs font-medium text-brand-700 hover:bg-brand-50 disabled:opacity-50"
+              >
+                {uploading && uploadIndex === i ? "..." : "Upload"}
+              </button>
               <button
                 type="button"
                 onClick={() =>
@@ -68,6 +149,8 @@ export function NewsImagesField({ initial }: { initial: string[] }) {
           ))}
         </div>
       )}
+
+      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
   );
 }
