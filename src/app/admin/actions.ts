@@ -8,6 +8,7 @@ import { auth, signIn, signOut } from "@/lib/auth";
 import { parseLocalized, parseBlocks } from "@/lib/form";
 import { saveNewsUpload } from "@/lib/upload";
 import { resolveSlugForSave } from "@/lib/slug";
+import { translateNewsBundle, type NewsTranslationBundle } from "@/lib/translate";
 
 async function requireAdmin() {
   const session = await auth();
@@ -118,6 +119,16 @@ export async function uploadNewsImage(formData: FormData): Promise<string> {
     throw new Error("Файл сонгоно уу.");
   }
   return saveNewsUpload(file);
+}
+
+export async function translateNewsFields(source: NewsTranslationBundle) {
+  await requireAdmin();
+
+  if (!source.title.trim() && !source.excerpt.trim() && !source.content.trim()) {
+    throw new Error("Эхлээд монгол хэл дээр текст оруулна уу.");
+  }
+
+  return translateNewsBundle(source, "mn");
 }
 
 export async function saveNews(formData: FormData) {

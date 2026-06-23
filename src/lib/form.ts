@@ -1,5 +1,20 @@
 import { locales, type Locale } from "@/i18n/routing";
 
+/** Parse a localized JSON DB value into form state. */
+export function localizedFromJson(value: unknown): Record<Locale, string> {
+  if (value && typeof value === "object") {
+    const o = value as Record<string, unknown>;
+    return locales.reduce(
+      (acc, l) => ({ ...acc, [l]: String(o[l] ?? "").trim() }),
+      {} as Record<Locale, string>,
+    );
+  }
+  return locales.reduce(
+    (acc, l) => ({ ...acc, [l]: "" }),
+    {} as Record<Locale, string>,
+  );
+}
+
 /** Build a localized JSON object from FormData fields named `${name}.${locale}`. */
 export function parseLocalized(
   formData: FormData,

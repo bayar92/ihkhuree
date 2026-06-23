@@ -14,6 +14,8 @@ export function LocalizedField({
   name,
   label,
   defaultValue,
+  values,
+  onChange,
   textarea = false,
   required = false,
   rows = 4,
@@ -21,14 +23,25 @@ export function LocalizedField({
   name: string;
   label: string;
   defaultValue?: unknown;
+  values?: Record<Locale, string>;
+  onChange?: (locale: Locale, value: string) => void;
   textarea?: boolean;
   required?: boolean;
   rows?: number;
 }) {
   const [active, setActive] = useState<Locale>("mn");
+  const controlled = values != null && onChange != null;
 
   const field =
     "w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100";
+
+  function valueFor(locale: Locale): string {
+    if (controlled) return values[locale] ?? "";
+    if (defaultValue && typeof defaultValue === "object") {
+      return pick({ [locale]: (defaultValue as Record<string, unknown>)[locale] }, locale);
+    }
+    return "";
+  }
 
   return (
     <div>
@@ -53,21 +66,18 @@ export function LocalizedField({
           ))}
         </div>
       </div>
-      {/* All three inputs always exist (one visible) so FormData includes every locale. */}
       {locales.map((l) => {
-        const value =
-          defaultValue && typeof defaultValue === "object"
-            ? pick(
-                { [l]: (defaultValue as Record<string, unknown>)[l] },
-                l,
-              )
-            : "";
+        const value = valueFor(l);
         return (
           <div key={l} className={active === l ? "block" : "hidden"}>
             {textarea ? (
               <textarea
                 name={`${name}.${l}`}
-                defaultValue={value}
+                value={controlled ? value : undefined}
+                defaultValue={controlled ? undefined : value}
+                onChange={
+                  controlled ? (e) => onChange(l, e.target.value) : undefined
+                }
                 rows={rows}
                 required={required && l === "mn"}
                 className={field}
@@ -75,7 +85,11 @@ export function LocalizedField({
             ) : (
               <input
                 name={`${name}.${l}`}
-                defaultValue={value}
+                value={controlled ? value : undefined}
+                defaultValue={controlled ? undefined : value}
+                onChange={
+                  controlled ? (e) => onChange(l, e.target.value) : undefined
+                }
                 required={required && l === "mn"}
                 className={field}
               />
