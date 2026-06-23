@@ -61,7 +61,7 @@ export function SlugField({
       />
       <p className="mt-1 text-xs text-neutral-500">
         {isNew
-          ? "Гарчгаас эхний 2–3 үг автоматаар үүснэ (EN → MN → JA)."
+          ? "Гарчгаас эхний 2–3 үг автоматаар үүснэ (MN → EN → JA)."
           : "Хадгалсан URL. Өөрчлөх боломжгүй."}
       </p>
     </div>

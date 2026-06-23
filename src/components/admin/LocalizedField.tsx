@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { locales, type Locale } from "@/i18n/routing";
 import { pick } from "@/lib/i18n";
 
@@ -16,6 +16,7 @@ export function LocalizedField({
   defaultValue,
   values,
   onChange,
+  viewLocale,
   textarea = false,
   required = false,
   rows = 4,
@@ -25,12 +26,17 @@ export function LocalizedField({
   defaultValue?: unknown;
   values?: Record<Locale, string>;
   onChange?: (locale: Locale, value: string) => void;
+  viewLocale?: Locale;
   textarea?: boolean;
   required?: boolean;
   rows?: number;
 }) {
   const [active, setActive] = useState<Locale>("mn");
   const controlled = values != null && onChange != null;
+
+  useEffect(() => {
+    if (viewLocale) setActive(viewLocale);
+  }, [viewLocale]);
 
   const field =
     "w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100";

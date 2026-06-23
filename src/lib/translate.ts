@@ -8,6 +8,11 @@ const LANG_NAME: Record<Locale, string> = {
 };
 
 const FIELDS = ["title", "excerpt", "content"] as const;
+const FIELD_LABEL: Record<(typeof FIELDS)[number], string> = {
+  title: "гарчиг",
+  excerpt: "товч агуулга",
+  content: "үндсэн агуулга",
+};
 
 export type NewsTranslationBundle = {
   title: string;
@@ -22,16 +27,12 @@ export type NewsTranslationResult = {
   notice?: string;
 };
 
-function parseBundle(value: unknown, label: string): NewsTranslationBundle {
-  if (!value || typeof value !== "object") {
-    throw new Error(`${label} орчуулгын формат буруу байна.`);
+function getOpenAIClient() {
+  const apiKey = process.env.OPENAI_API_KEY?.trim();
+  if (!apiKey) {
+    throw new Error("OPENAI_API_KEY тохируулаагүй байна.");
   }
-  const o = value as Record<string, unknown>;
-  return {
-    title: String(o.title ?? ""),
-    excerpt: String(o.excerpt ?? ""),
-    content: String(o.content ?? ""),
-  };
+  return new OpenAI({ apiKey });
 }
 
 function isOpenAIQuotaError(error: unknown): boolean {
@@ -68,6 +69,10 @@ function splitText(text: string, maxLen: number): string[] {
 
   if (rest) chunks.push(rest);
   return chunks;
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function translateWithMyMemory(
@@ -109,20 +114,71 @@ async function translateWithMyMemory(
     }
 
     parts.push(data.responseData.translatedText);
+    await sleep(250);
   }
 
   return parts.join("\n\n");
 }
 
-async function translateBundleWithMyMemory(
+async function translateFieldOpenAI(
+  text: string,
+  from: Locale,
+  to: Locale,
+  field: (typeof FIELDS)[number],
+): Promise<string> {
+  if (!text.trim()) return text;
+
+  const client = getOpenAIClient();
+  const response = await client.chat.completions.create({
+    model: process.env.OPENAI_MODEL?.trim() || "gpt-4o-mini",
+    messages: [
+      {
+        role: "system",
+        content: [
+          `Translate ${FIELD_LABEL[field]} from ${LANG_NAME[from]} to ${LANG_NAME[to]}.`,
+          "Return only the translated text.",
+          "Preserve paragraph breaks and formatting.",
+          "Do not add quotes or commentary.",
+        ].join(" "),
+      },
+      { role: "user", content: text },
+    ],
+  });
+
+  const out = response.choices[0]?.message?.content?.trim();
+  if (!out) {
+    throw new Error(`${FIELD_LABEL[field]} (${LANG_NAME[to]}) орчуулагдаагүй.`);
+  }
+  return out;
+}
+
+async function translateBundleForLanguage(
   source: NewsTranslationBundle,
   from: Locale,
   to: Locale,
+  provider: "openai" | "mymemory",
 ): Promise<NewsTranslationBundle> {
   const out = {} as NewsTranslationBundle;
+
   for (const field of FIELDS) {
-    out[field] = await translateWithMyMemory(source[field], from, to);
+    const src = source[field];
+    if (!src.trim()) {
+      out[field] = "";
+      continue;
+    }
+
+    out[field] =
+      provider === "openai"
+        ? await translateFieldOpenAI(src, from, to, field)
+        : await translateWithMyMemory(src, from, to);
+
+    if (!out[field].trim()) {
+      throw new Error(
+        `${FIELD_LABEL[field]} (${LANG_NAME[to]}) хоосон орчуулагдлаа.`,
+      );
+    }
   }
+
   return out;
 }
 
@@ -130,47 +186,20 @@ async function translateNewsBundleOpenAI(
   source: NewsTranslationBundle,
   from: Locale,
 ): Promise<{ en: NewsTranslationBundle; ja: NewsTranslationBundle }> {
-  const apiKey = process.env.OPENAI_API_KEY?.trim();
-  if (!apiKey) {
-    throw new Error("OPENAI_API_KEY тохируулаагүй байна.");
-  }
+  const [en, ja] = await Promise.all([
+    translateBundleForLanguage(source, from, "en", "openai"),
+    translateBundleForLanguage(source, from, "ja", "openai"),
+  ]);
+  return { en, ja };
+}
 
-  const client = new OpenAI({ apiKey });
-  const response = await client.chat.completions.create({
-    model: process.env.OPENAI_MODEL?.trim() || "gpt-4o-mini",
-    response_format: { type: "json_object" },
-    messages: [
-      {
-        role: "system",
-        content: [
-          `Translate website news content from ${LANG_NAME[from]} into English and Japanese.`,
-          "Return JSON only:",
-          '{"en":{"title":"","excerpt":"","content":""},"ja":{"title":"","excerpt":"","content":""}}',
-          "Preserve meaning, tone, and paragraph breaks. Do not add extra commentary.",
-        ].join(" "),
-      },
-      {
-        role: "user",
-        content: JSON.stringify(source),
-      },
-    ],
-  });
-
-  const raw = response.choices[0]?.message?.content;
-  if (!raw) throw new Error("OpenAI-аас хариу ирсэнгүй.");
-
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(raw);
-  } catch {
-    throw new Error("Орчуулгын JSON буруу байна.");
-  }
-
-  const root = parsed as Record<string, unknown>;
-  return {
-    en: parseBundle(root.en, "English"),
-    ja: parseBundle(root.ja, "Japanese"),
-  };
+async function translateNewsBundleMyMemory(
+  source: NewsTranslationBundle,
+  from: Locale,
+): Promise<{ en: NewsTranslationBundle; ja: NewsTranslationBundle }> {
+  const en = await translateBundleForLanguage(source, from, "en", "mymemory");
+  const ja = await translateBundleForLanguage(source, from, "ja", "mymemory");
+  return { en, ja };
 }
 
 export async function translateNewsBundle(
@@ -193,14 +222,10 @@ export async function translateNewsBundle(
     }
   }
 
-  const [en, ja] = await Promise.all([
-    translateBundleWithMyMemory(source, from, "en"),
-    translateBundleWithMyMemory(source, from, "ja"),
-  ]);
+  const result = await translateNewsBundleMyMemory(source, from);
 
   return {
-    en,
-    ja,
+    ...result,
     provider: "mymemory",
     notice: hasOpenAI
       ? "OpenAI quota дууссан тул MyMemory үнэгүй орчуулга ашиглалаа. Үр дүнг заавал шалгаарай."

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useRef, useState, type Dispatch, type SetStateAction } from "react";
 import type { News } from "@prisma/client";
 import { saveNews, translateNewsFields } from "@/app/admin/actions";
 import { localizedFromJson } from "@/lib/form";
@@ -19,10 +19,20 @@ function toDateInput(d?: Date | null) {
   return new Date(d).toISOString().slice(0, 10);
 }
 
+function readMnField(form: HTMLFormElement, name: string) {
+  const el = form.querySelector(`[name="${name}.mn"]`);
+  if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+    return el.value;
+  }
+  return "";
+}
+
 export function NewsForm({ news }: { news?: News }) {
+  const formRef = useRef<HTMLFormElement>(null);
   const [title, setTitle] = useState(() => localizedFromJson(news?.title));
   const [excerpt, setExcerpt] = useState(() => localizedFromJson(news?.excerpt));
   const [content, setContent] = useState(() => localizedFromJson(news?.content));
+  const [viewLocale, setViewLocale] = useState<Locale>("mn");
   const [translating, setTranslating] = useState(false);
   const [translateError, setTranslateError] = useState<string | null>(null);
   const [translateOk, setTranslateOk] = useState<string | null>(null);
@@ -37,15 +47,24 @@ export function NewsForm({ news }: { news?: News }) {
   }
 
   async function handleAutoTranslate() {
+    const form = formRef.current;
+    if (!form) return;
+
+    const source = {
+      title: readMnField(form, "title"),
+      excerpt: readMnField(form, "excerpt"),
+      content: readMnField(form, "content"),
+    };
+
+    setTitle((prev) => ({ ...prev, mn: source.title }));
+    setExcerpt((prev) => ({ ...prev, mn: source.excerpt }));
+    setContent((prev) => ({ ...prev, mn: source.content }));
+
     setTranslating(true);
     setTranslateError(null);
     setTranslateOk(null);
     try {
-      const result = await translateNewsFields({
-        title: title.mn,
-        excerpt: excerpt.mn,
-        content: content.mn,
-      });
+      const result = await translateNewsFields(source);
       setTitle((prev) => ({ ...prev, en: result.en.title, ja: result.ja.title }));
       setExcerpt((prev) => ({
         ...prev,
@@ -57,9 +76,10 @@ export function NewsForm({ news }: { news?: News }) {
         en: result.en.content,
         ja: result.ja.content,
       }));
+      setViewLocale("en");
       setTranslateOk(
         result.notice ??
-          `✓ EN, JA орчуулга бөглөгдлөө (${result.provider === "openai" ? "OpenAI" : "MyMemory"}). Шалгаад хадгална уу.`,
+          `✓ Гарчиг, товч агуулга, үндсэн агуулга EN/JA-руу орчуулагдлаа (${result.provider === "openai" ? "OpenAI" : "MyMemory"}). Шалгаад хадгална уу.`,
       );
     } catch (error) {
       setTranslateError(
@@ -72,7 +92,7 @@ export function NewsForm({ news }: { news?: News }) {
 
   return (
     <Card>
-      <form action={saveNews} className="space-y-5">
+      <form ref={formRef} action={saveNews} className="space-y-5">
         <input type="hidden" name="id" defaultValue={news?.id ?? ""} />
         <div>
           <label className="mb-1.5 block text-sm font-medium text-neutral-700">
@@ -89,6 +109,34 @@ export function NewsForm({ news }: { news?: News }) {
           />
         </div>
 
+        <LocalizedField
+          name="title"
+          label="Гарчиг"
+          values={title}
+          onChange={setField(setTitle)}
+          viewLocale={viewLocale}
+          required
+        />
+        <SlugField initialSlug={news?.slug} fallback="news" />
+        <LocalizedField
+          name="excerpt"
+          label="Товч агуулга"
+          values={excerpt}
+          onChange={setField(setExcerpt)}
+          viewLocale={viewLocale}
+          textarea
+          rows={2}
+        />
+        <LocalizedField
+          name="content"
+          label="Үндсэн агуулга"
+          values={content}
+          onChange={setField(setContent)}
+          viewLocale={viewLocale}
+          textarea
+          rows={8}
+        />
+
         <div className="flex flex-wrap items-center gap-3 rounded-lg border border-brand-100 bg-brand-50/60 px-4 py-3">
           <button
             type="button"
@@ -99,7 +147,8 @@ export function NewsForm({ news }: { news?: News }) {
             {translating ? "Орчуулж байна..." : "Автомат орчуулах (MN → EN, JA)"}
           </button>
           <p className="text-xs text-neutral-600">
-            Монгол текстээс англи, япон орчуулга автоматаар бөглөнө.
+            Гарчиг, товч агуулга, үндсэн агуулга — гурвыг монголоос орчуулна.
+            Эхлээд MN таб дээр бичээд товч дарна уу.
           </p>
         </div>
         {translateError && (
@@ -113,30 +162,6 @@ export function NewsForm({ news }: { news?: News }) {
           </p>
         )}
 
-        <LocalizedField
-          name="title"
-          label="Гарчиг"
-          values={title}
-          onChange={setField(setTitle)}
-          required
-        />
-        <SlugField initialSlug={news?.slug} fallback="news" />
-        <LocalizedField
-          name="excerpt"
-          label="Товч агуулга"
-          values={excerpt}
-          onChange={setField(setExcerpt)}
-          textarea
-          rows={2}
-        />
-        <LocalizedField
-          name="content"
-          label="Үндсэн агуулга"
-          values={content}
-          onChange={setField(setContent)}
-          textarea
-          rows={8}
-        />
         <ImageUploadField
           name="coverImage"
           label="Нүүр зураг (заавал биш)"
