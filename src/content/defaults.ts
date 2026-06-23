@@ -37,7 +37,7 @@ export const aboutDefaults: AboutContent = {
       ja: '今あるネットワークを基に、',
     },
     title2: {
-      mn: 'Олон улсын Их Хүрээ-нд тэлнэ.',
+      mn: 'Олон улсын Их Хүрээнд тэлнэ.',
       en: 'we expand into the global Ikh Khuree.',
       ja: '国際的なイヒ・フレーへと拡大する。',
     },
@@ -634,7 +634,7 @@ export const homeDefaults: HomeContent = {
       ja: '今あるネットワークを基に、',
     },
     title2: {
-      mn: 'Олон улсын Их Хүрээ-нд тэлнэ.',
+      mn: 'Олон улсын Их Хүрээнд тэлнэ.',
       en: 'we expand into the global Ikh Khuree.',
       ja: '国際的なイヒ・フレーへと拡大する。',
     },
