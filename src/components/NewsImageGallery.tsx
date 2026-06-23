@@ -91,13 +91,17 @@ function Lightbox({
         </>
       )}
 
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={images[index]}
-        alt={`${alt} — ${index + 1}`}
+      <div
+        className="relative h-[88vh] w-full max-w-5xl"
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[88vh] max-w-full rounded-md object-contain shadow-2xl"
-      />
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={images[index]}
+          alt={`${alt} — ${index + 1}`}
+          className="absolute inset-0 h-full w-full rounded-md object-contain shadow-2xl"
+        />
+      </div>
     </div>
   );
 }
@@ -129,12 +133,14 @@ export function NewsImageGallery({
           className="group relative -mt-2 block w-full overflow-hidden rounded-xl shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
           aria-label="Зураг томруулж харах"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={hero}
-            alt={alt}
-            className="aspect-[16/9] w-full object-cover transition duration-300 group-hover:scale-[1.02]"
-          />
+          <div className="relative aspect-[16/9] w-full bg-neutral-100">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={hero}
+              alt={alt}
+              className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+            />
+          </div>
           <span className="absolute inset-0 bg-black/0 transition group-hover:bg-black/10" />
           <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-black/45 px-2.5 py-1 text-xs font-medium text-white opacity-0 transition group-hover:opacity-100">
             <ZoomIn className="h-3.5 w-3.5" />
@@ -155,12 +161,14 @@ export function NewsImageGallery({
               className="group overflow-hidden rounded-xl shadow-sm ring-1 ring-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
               aria-label={`${alt} — ${i + 2}`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt={`${alt} — ${i + 2}`}
-                className="aspect-[4/3] w-full object-cover transition duration-300 group-hover:scale-105"
-              />
+              <div className="relative aspect-[4/3] w-full bg-neutral-100">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt={`${alt} — ${i + 2}`}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                />
+              </div>
             </button>
           ))}
         </div>
