@@ -3,6 +3,9 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 
+const naturalImageClass =
+  "mx-auto block h-auto max-w-full rounded-xl object-contain";
+
 function Lightbox({
   images,
   alt,
@@ -91,18 +94,47 @@ function Lightbox({
         </>
       )}
 
-      <div
-        className="relative h-[88vh] w-full max-w-5xl"
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={images[index]}
+        alt={`${alt} — ${index + 1}`}
         onClick={(e) => e.stopPropagation()}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={images[index]}
-          alt={`${alt} — ${index + 1}`}
-          className="absolute inset-0 h-full w-full rounded-md object-contain shadow-2xl"
-        />
-      </div>
+        className="max-h-[88vh] max-w-full rounded-md object-contain shadow-2xl"
+      />
     </div>
+  );
+}
+
+function GalleryImageButton({
+  src,
+  alt,
+  label,
+  onOpen,
+}: {
+  src: string;
+  alt: string;
+  label: string;
+  onOpen: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className="group relative block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+      aria-label={label}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={alt}
+        className={`${naturalImageClass} shadow transition duration-300 group-hover:opacity-95`}
+      />
+      <span className="absolute inset-0 rounded-xl bg-black/0 transition group-hover:bg-black/5" />
+      <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-black/45 px-2.5 py-1 text-xs font-medium text-white opacity-0 transition group-hover:opacity-100">
+        <ZoomIn className="h-3.5 w-3.5" />
+        Томруулах
+      </span>
+    </button>
   );
 }
 
@@ -127,49 +159,30 @@ export function NewsImageGallery({
   return (
     <>
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <button
-          type="button"
-          onClick={() => setOpen(0)}
-          className="group relative -mt-2 block w-full overflow-hidden rounded-xl shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-          aria-label="Зураг томруулж харах"
-        >
-          <div className="relative aspect-[16/9] w-full bg-neutral-100">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={hero}
-              alt={alt}
-              className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
-            />
-          </div>
-          <span className="absolute inset-0 bg-black/0 transition group-hover:bg-black/10" />
-          <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-black/45 px-2.5 py-1 text-xs font-medium text-white opacity-0 transition group-hover:opacity-100">
-            <ZoomIn className="h-3.5 w-3.5" />
-            {images.length > 1 ? `${images.length} зураг` : "Томруулах"}
-          </span>
-        </button>
+        <GalleryImageButton
+          src={hero}
+          alt={alt}
+          label={
+            images.length > 1
+              ? `Зураг томруулж харах — ${images.length} зураг`
+              : "Зураг томруулж харах"
+          }
+          onOpen={() => setOpen(0)}
+        />
       </div>
 
       {children}
 
       {rest.length > 0 && (
-        <div className="mx-auto mt-10 grid max-w-3xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:px-8">
+        <div className="mx-auto mt-10 flex max-w-4xl flex-col gap-6 px-4 sm:px-6 lg:px-8">
           {rest.map((src, i) => (
-            <button
+            <GalleryImageButton
               key={src}
-              type="button"
-              onClick={() => setOpen(i + 1)}
-              className="group overflow-hidden rounded-xl shadow-sm ring-1 ring-neutral-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
-              aria-label={`${alt} — ${i + 2}`}
-            >
-              <div className="relative aspect-[4/3] w-full bg-neutral-100">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={src}
-                  alt={`${alt} — ${i + 2}`}
-                  className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                />
-              </div>
-            </button>
+              src={src}
+              alt={`${alt} — ${i + 2}`}
+              label={`${alt} — ${i + 2}`}
+              onOpen={() => setOpen(i + 1)}
+            />
           ))}
         </div>
       )}

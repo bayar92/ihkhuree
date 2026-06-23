@@ -28,7 +28,7 @@ export default async function NewsDetailPage({
   const title = pick(news.title, locale);
 
   return (
-    <article>
+    <article className="pb-16 lg:pb-20">
       <div className="hero-lines border-b border-neutral-100 bg-gradient-to-b from-brand-50/60 to-white">
         <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
           <Link
