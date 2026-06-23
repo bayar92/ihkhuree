@@ -301,7 +301,7 @@ export default async function HomePage({
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {news.map((n) => (
-                <NewsCard key={n.id} news={n} locale={locale} />
+                <NewsCard key={n.id} news={n} locale={locale} slideshow />
               ))}
             </div>
           )}

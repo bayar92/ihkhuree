@@ -3,8 +3,18 @@ import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/i18n";
 import type { Locale } from "@/i18n/routing";
 import { formatDate } from "@/lib/format-date";
+import { getNewsImages } from "@/lib/news-images";
+import { NewsCardImageSlider } from "@/components/NewsCardImageSlider";
 
-export function NewsCard({ news, locale }: { news: News; locale: Locale }) {
+export function NewsCard({
+  news,
+  locale,
+  slideshow = false,
+}: {
+  news: News;
+  locale: Locale;
+  slideshow?: boolean;
+}) {
   const title = pick(news.title, locale);
 
   return (
@@ -13,7 +23,9 @@ export function NewsCard({ news, locale }: { news: News; locale: Locale }) {
       className="group flex flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm transition hover:shadow-md"
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-brand-100">
-        {news.coverImage ? (
+        {slideshow ? (
+          <NewsCardImageSlider images={getNewsImages(news)} alt={title} />
+        ) : news.coverImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={news.coverImage}
