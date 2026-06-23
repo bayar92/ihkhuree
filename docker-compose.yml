@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      UPLOAD_DIR: /data/uploads/news
+    volumes:
+      - uploads:/data/uploads
+
+volumes:
+  uploads:
