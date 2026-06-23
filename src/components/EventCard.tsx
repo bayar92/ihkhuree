@@ -4,6 +4,7 @@ import type { Event } from "@prisma/client";
 import { pick } from "@/lib/i18n";
 import type { Locale } from "@/i18n/routing";
 import { formatDate, utcParts } from "@/lib/format-date";
+import { NewsCardFillImage } from "@/components/NewsCardFillImage";
 
 function isMonthSpan(start: Date, end: Date | null) {
   if (!end) return false;
@@ -36,7 +37,7 @@ function DateBadge({
       utcParts(end).year !== utcParts(start).year);
 
   return (
-    <div className="flex w-20 shrink-0 flex-col items-center justify-center rounded-lg bg-brand-600/95 px-1 py-2.5 text-center text-white shadow-md backdrop-blur-sm">
+    <div className="inline-flex w-20 shrink-0 flex-col items-center justify-center rounded-lg bg-brand-600 px-1 py-2.5 text-center text-white shadow-sm">
       {monthSpan ? (
         <>
           <span className="text-2xl font-bold leading-none">
@@ -82,7 +83,6 @@ function EventCardBody({
   locale,
   start,
   end,
-  hasImage,
   title,
   location,
   description,
@@ -92,7 +92,6 @@ function EventCardBody({
   locale: Locale;
   start: Date;
   end: Date | null;
-  hasImage: boolean;
   title: string;
   location: string;
   description: string;
@@ -100,63 +99,48 @@ function EventCardBody({
 }) {
   return (
     <div
-      className={`relative flex h-full flex-col overflow-hidden rounded-xl border shadow-sm transition duration-200 ${
+      className={`flex h-full flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm transition duration-200 ${
         clickable ? "group-hover:-translate-y-0.5 group-hover:shadow-lg" : ""
-      } ${hasImage ? "border-neutral-200/60" : "border-neutral-200 bg-white"}`}
+      }`}
     >
-      {hasImage && (
-        <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={event.image!}
-            alt=""
-            aria-hidden
-            draggable={false}
-            className={`pointer-events-none absolute inset-0 z-0 h-full w-full object-cover transition duration-300 ${
-              clickable ? "group-hover:scale-105" : ""
-            }`}
+      <div className="relative aspect-[16/10] overflow-hidden bg-brand-100">
+        {event.image ? (
+          <NewsCardFillImage
+            src={event.image}
+            alt={title}
+            className={clickable ? "transition-transform duration-300 group-hover:scale-105" : ""}
           />
-          <div
-            aria-hidden
-            className={`pointer-events-none absolute inset-0 z-0 bg-linear-to-t from-brand-950/95 via-brand-900/80 to-brand-800/35 transition duration-200 ${
-              clickable ? "group-hover:via-brand-900/90" : ""
-            }`}
-          />
-        </>
-      )}
+        ) : (
+          <div className="absolute inset-0 bg-linear-to-br from-brand-500 to-brand-700" />
+        )}
+      </div>
 
-      <div className="relative z-10 flex flex-1 flex-col justify-end p-5">
+      <div className="flex flex-1 flex-col p-5">
         <DateBadge start={start} end={end} locale={locale} />
 
-        <div className={`mt-3 flex flex-col ${hasImage ? "text-white" : ""}`}>
-          <h3
-            className={`line-clamp-3 font-semibold ${
-              hasImage ? "text-white drop-shadow-sm" : "text-brand-800"
-            }`}
-          >
-            {title}
-          </h3>
-          {location && (
-            <p
-              className={`mt-1.5 flex items-center gap-1 text-xs ${
-                hasImage ? "text-brand-100" : "text-brand-500"
-              }`}
+        <h3 className="mt-3 line-clamp-3 font-semibold text-brand-800">
+          {title}
+        </h3>
+        {location && (
+          <p className="mt-1.5 flex items-center gap-1 text-xs text-brand-500">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              aria-hidden
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11Z" />
-                <circle cx="12" cy="10" r="2.5" />
-              </svg>
-              {location}
-            </p>
-          )}
-          <p
-            className={`mt-2 line-clamp-4 text-sm leading-relaxed ${
-              hasImage ? "text-neutral-100" : "text-neutral-600"
-            }`}
-          >
-            {description}
+              <path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11Z" />
+              <circle cx="12" cy="10" r="2.5" />
+            </svg>
+            {location}
           </p>
-        </div>
+        )}
+        <p className="mt-2 line-clamp-4 text-sm leading-relaxed text-neutral-600">
+          {description}
+        </p>
       </div>
     </div>
   );
@@ -165,7 +149,6 @@ function EventCardBody({
 export function EventCard({ event, locale }: { event: Event; locale: Locale }) {
   const start = new Date(event.startsAt);
   const end = event.endsAt ? new Date(event.endsAt) : null;
-  const hasImage = Boolean(event.image);
   const title = pick(event.title, locale);
   const location = pick(event.location, locale);
   const description = pick(event.description, locale);
@@ -176,7 +159,6 @@ export function EventCard({ event, locale }: { event: Event; locale: Locale }) {
       locale={locale}
       start={start}
       end={end}
-      hasImage={hasImage}
       title={title}
       location={location}
       description={description}
@@ -191,12 +173,12 @@ export function EventCard({ event, locale }: { event: Event; locale: Locale }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={title}
-        className="group block h-[420px] cursor-pointer no-underline"
+        className="group block h-full cursor-pointer no-underline"
       >
         {body}
       </a>
     );
   }
 
-  return <div className="h-[420px]">{body}</div>;
+  return <div className="h-full">{body}</div>;
 }

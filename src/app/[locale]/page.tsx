@@ -34,7 +34,7 @@ const focusLucide: Record<string, LucideIcon> = {
   exchange: Globe,
 };
 import { NewsCard } from '@/components/NewsCard';
-import { EventCard } from '@/components/EventCard';
+import { EventCardsSlider } from '@/components/EventCardsSlider';
 import { getContent } from '@/lib/content';
 import { homeDefaults } from '@/content/defaults';
 
@@ -66,7 +66,7 @@ export default async function HomePage({
       prisma.event.findMany({
         where: { published: true, startsAt: { gte: new Date() } },
         orderBy: { startsAt: 'asc' },
-        take: 3,
+        take: 8,
       }),
       []
     ),
@@ -325,11 +325,7 @@ export default async function HomePage({
           {events.length === 0 ? (
             <p className="text-neutral-500">{t('home.noEvents')}</p>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {events.map((e) => (
-                <EventCard key={e.id} event={e} locale={locale} />
-              ))}
-            </div>
+            <EventCardsSlider events={events} locale={locale} />
           )}
         </div>
       </section>
