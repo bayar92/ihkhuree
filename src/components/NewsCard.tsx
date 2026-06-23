@@ -4,6 +4,7 @@ import { pick } from "@/lib/i18n";
 import type { Locale } from "@/i18n/routing";
 import { formatDate } from "@/lib/format-date";
 import { getNewsImages } from "@/lib/news-images";
+import { NewsCardFillImage } from "@/components/NewsCardFillImage";
 import { NewsCardImageSlider } from "@/components/NewsCardImageSlider";
 
 export function NewsCard({
@@ -26,11 +27,10 @@ export function NewsCard({
         {slideshow ? (
           <NewsCardImageSlider images={getNewsImages(news)} alt={title} />
         ) : news.coverImage ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <NewsCardFillImage
             src={news.coverImage}
             alt={title}
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-brand-500 to-brand-700" />

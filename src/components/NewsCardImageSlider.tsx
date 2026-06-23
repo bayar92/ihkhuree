@@ -1,3 +1,5 @@
+import { NewsCardFillImage } from "@/components/NewsCardFillImage";
+
 const SLIDE_SECONDS = 4;
 
 export function NewsCardImageSlider({
@@ -19,23 +21,22 @@ export function NewsCardImageSlider({
   return (
     <div className="absolute inset-0 overflow-hidden">
       {images.map((src, i) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <NewsCardFillImage
           key={src}
           src={src}
           alt={i === 0 ? alt : ""}
           aria-hidden={multi && i !== 0}
-          className={`absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105 ${
+          className={`transition-transform duration-300 group-hover:scale-105 ${
             multi ? "news-card-image-slide" : "opacity-100"
           }`}
-          style={
-            multi
-              ? {
+          {...(multi
+            ? {
+                style: {
                   animationDuration: `${cycleSeconds}s`,
                   animationDelay: `${i * SLIDE_SECONDS}s`,
-                }
-              : undefined
-          }
+                },
+              }
+            : {})}
         />
       ))}
       {multi && (

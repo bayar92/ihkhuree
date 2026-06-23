@@ -172,14 +172,16 @@ function GalleryImageButton({
     <button
       type="button"
       onClick={onOpen}
-      className="group relative block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
+      className={`group relative block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2${
+        panoramic ? " sm:col-span-2" : ""
+      }`}
       aria-label={label}
     >
       <div
         className={
           panoramic
-            ? "overflow-x-auto rounded-xl shadow ring-1 ring-neutral-200/80 [scrollbar-width:thin]"
-            : ""
+            ? "overflow-x-auto rounded-xl shadow ring-1 ring-neutral-200/80 scrollbar-thin"
+            : "rounded-xl shadow ring-1 ring-neutral-200/80"
         }
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -190,7 +192,7 @@ function GalleryImageButton({
           className={
             panoramic
               ? "block h-auto max-h-[min(380px,45vh)] w-auto max-w-none rounded-xl object-contain transition duration-300 group-hover:opacity-95"
-              : "mx-auto block h-auto max-w-full rounded-xl object-contain shadow transition duration-300 group-hover:opacity-95"
+              : "mx-auto block h-auto w-full max-w-full rounded-xl object-contain transition duration-300 group-hover:opacity-95"
           }
         />
       </div>
@@ -250,7 +252,7 @@ export function NewsImageGallery({
       {children}
 
       {rest.length > 0 && (
-        <div className="mx-auto mt-10 flex max-w-4xl flex-col gap-6 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto mt-10 grid max-w-4xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:px-8">
           {rest.map((src, i) => (
             <GalleryImageButton
               key={src}
