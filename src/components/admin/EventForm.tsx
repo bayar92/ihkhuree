@@ -1,6 +1,7 @@
 import type { Event } from "@prisma/client";
 import { saveEvent } from "@/app/admin/actions";
 import { LocalizedField } from "./LocalizedField";
+import { SlugField } from "./SlugField";
 import { Card, PrimaryButton } from "./ui";
 
 const input =
@@ -44,18 +45,8 @@ export function EventForm({ event }: { event?: Event }) {
             />
           </div>
         </div>
-        <div>
-          <label className="mb-1.5 block text-sm font-medium text-neutral-700">
-            Slug (URL)
-          </label>
-          <input
-            name="slug"
-            defaultValue={event?.slug ?? ""}
-            placeholder="хоосон бол автоматаар үүснэ"
-            className={input}
-          />
-        </div>
         <LocalizedField name="title" label="Гарчиг" defaultValue={event?.title} required />
+        <SlugField initialSlug={event?.slug} fallback="event" />
         <LocalizedField name="location" label="Байршил" defaultValue={event?.location} />
         <LocalizedField name="description" label="Тайлбар" defaultValue={event?.description} textarea />
         <div>

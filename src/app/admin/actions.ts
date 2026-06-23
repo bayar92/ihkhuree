@@ -7,19 +7,11 @@ import { prisma } from "@/lib/prisma";
 import { auth, signIn, signOut } from "@/lib/auth";
 import { parseLocalized, parseBlocks } from "@/lib/form";
 import { saveNewsUpload } from "@/lib/upload";
+import { resolveSlugForSave } from "@/lib/slug";
 
 async function requireAdmin() {
   const session = await auth();
   if (!session?.user) redirect("/admin/login");
-}
-
-function slugify(input: string) {
-  return input
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9Ѐ-ӿ]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80);
 }
 
 // ---------------- Auth ----------------
@@ -132,8 +124,10 @@ export async function saveNews(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   const title = parseLocalized(formData, "title");
-  let slug = String(formData.get("slug") ?? "").trim();
-  if (!slug) slug = slugify(title.en || title.mn || "news") + "-" + Date.now().toString(36);
+  const existing = id
+    ? await prisma.news.findUnique({ where: { id }, select: { slug: true } })
+    : null;
+  const slug = resolveSlugForSave(title, "news", existing?.slug);
   const publishedAtRaw = String(formData.get("publishedAt") ?? "");
   const images = formData
     .getAll("images")
@@ -170,8 +164,10 @@ export async function saveEvent(formData: FormData) {
   await requireAdmin();
   const id = String(formData.get("id") ?? "");
   const title = parseLocalized(formData, "title");
-  let slug = String(formData.get("slug") ?? "").trim();
-  if (!slug) slug = slugify(title.en || title.mn || "event") + "-" + Date.now().toString(36);
+  const existing = id
+    ? await prisma.event.findUnique({ where: { id }, select: { slug: true } })
+    : null;
+  const slug = resolveSlugForSave(title, "event", existing?.slug);
   const startsAt = String(formData.get("startsAt") ?? "");
   const endsAt = String(formData.get("endsAt") ?? "");
   const data = {

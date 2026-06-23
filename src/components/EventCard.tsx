@@ -3,15 +3,18 @@
 import type { Event } from "@prisma/client";
 import { pick } from "@/lib/i18n";
 import type { Locale } from "@/i18n/routing";
+import { formatDate, utcParts } from "@/lib/format-date";
 
 function isMonthSpan(start: Date, end: Date | null) {
   if (!end) return false;
-  const lastDay = new Date(start.getFullYear(), start.getMonth() + 1, 0).getDate();
+  const s = utcParts(start);
+  const e = utcParts(end);
+  const lastDay = new Date(Date.UTC(s.year, s.month + 1, 0)).getUTCDate();
   return (
-    start.getDate() === 1 &&
-    end.getDate() === lastDay &&
-    start.getMonth() === end.getMonth() &&
-    start.getFullYear() === end.getFullYear()
+    s.day === 1 &&
+    e.day === lastDay &&
+    s.month === e.month &&
+    s.year === e.year
   );
 }
 
@@ -28,44 +31,45 @@ function DateBadge({
   const multiDay =
     end &&
     !monthSpan &&
-    end.toDateString() !== start.toDateString() &&
-    end.getDate() !== start.getDate();
+    (utcParts(end).day !== utcParts(start).day ||
+      utcParts(end).month !== utcParts(start).month ||
+      utcParts(end).year !== utcParts(start).year);
 
   return (
     <div className="flex w-20 shrink-0 flex-col items-center justify-center rounded-lg bg-brand-600/95 px-1 py-2.5 text-center text-white shadow-md backdrop-blur-sm">
       {monthSpan ? (
         <>
           <span className="text-2xl font-bold leading-none">
-            {start.toLocaleDateString(locale, { month: "short" })}
+            {formatDate(start, locale, { month: "short" })}
           </span>
           <span className="mt-1 text-xs text-brand-200">
-            {start.toLocaleDateString(locale, { year: "numeric" })}
+            {formatDate(start, locale, { year: "numeric" })}
           </span>
         </>
       ) : multiDay ? (
         <>
           <span className="text-lg font-bold leading-none">
-            {start.toLocaleDateString(locale, { day: "2-digit" })}
+            {formatDate(start, locale, { day: "2-digit" })}
             <span className="mx-0.5 text-sm font-normal">–</span>
-            {end!.toLocaleDateString(locale, { day: "2-digit" })}
+            {formatDate(end!, locale, { day: "2-digit" })}
           </span>
           <span className="mt-1 text-xs uppercase tracking-wider">
-            {start.toLocaleDateString(locale, { month: "short" })}
+            {formatDate(start, locale, { month: "short" })}
           </span>
           <span className="text-xs text-brand-200">
-            {start.toLocaleDateString(locale, { year: "numeric" })}
+            {formatDate(start, locale, { year: "numeric" })}
           </span>
         </>
       ) : (
         <>
           <span className="text-3xl font-bold leading-none">
-            {start.toLocaleDateString(locale, { day: "2-digit" })}
+            {formatDate(start, locale, { day: "2-digit" })}
           </span>
           <span className="mt-1 text-xs uppercase tracking-wider">
-            {start.toLocaleDateString(locale, { month: "short" })}
+            {formatDate(start, locale, { month: "short" })}
           </span>
           <span className="text-xs text-brand-200">
-            {start.toLocaleDateString(locale, { year: "numeric" })}
+            {formatDate(start, locale, { year: "numeric" })}
           </span>
         </>
       )}

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { Noto_Serif } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { notoSansJP } from "@/lib/fonts";
@@ -45,6 +45,7 @@ export default async function LocaleLayout({
     notFound();
   }
   setRequestLocale(locale);
+  const messages = await getMessages();
 
   return (
     <html lang={locale} className={`${notoSerif.variable} ${notoSansJP.variable}`}>
@@ -52,7 +53,7 @@ export default async function LocaleLayout({
         suppressHydrationWarning
         className="flex min-h-screen flex-col bg-white text-neutral-800"
       >
-        <NextIntlClientProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { prisma, safe } from "@/lib/prisma";
 import { pick } from "@/lib/i18n";
 import type { Locale } from "@/i18n/routing";
+import { normalizeSlugParam } from "@/lib/slug";
 
 export const dynamic = "force-dynamic";
 
@@ -12,10 +13,11 @@ export default async function NewsDetailPage({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { locale: rawLocale, slug } = await params;
+  const { locale: rawLocale, slug: rawSlug } = await params;
   setRequestLocale(rawLocale);
   const locale = rawLocale as Locale;
   const t = await getTranslations();
+  const slug = normalizeSlugParam(rawSlug);
 
   const news = await safe(prisma.news.findUnique({ where: { slug } }), null);
   if (!news || !news.published) notFound();

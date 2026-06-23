@@ -3,6 +3,7 @@ import { saveNews } from "@/app/admin/actions";
 import { LocalizedField } from "./LocalizedField";
 import { NewsImagesField } from "./NewsImagesField";
 import { ImageUploadField } from "./ImageUploadField";
+import { SlugField } from "./SlugField";
 import { Card, PrimaryButton } from "./ui";
 
 const input =
@@ -18,31 +19,19 @@ export function NewsForm({ news }: { news?: News }) {
     <Card>
       <form action={saveNews} className="space-y-5">
         <input type="hidden" name="id" defaultValue={news?.id ?? ""} />
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-neutral-700">
-              Slug (URL)
-            </label>
-            <input
-              name="slug"
-              defaultValue={news?.slug ?? ""}
-              placeholder="хоосон бол автоматаар үүснэ"
-              className={input}
-            />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-neutral-700">
-              Огноо
-            </label>
-            <input
-              name="publishedAt"
-              type="date"
-              defaultValue={toDateInput(news?.publishedAt) || new Date().toISOString().slice(0, 10)}
-              className={input}
-            />
-          </div>
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-neutral-700">
+            Огноо
+          </label>
+          <input
+            name="publishedAt"
+            type="date"
+            defaultValue={toDateInput(news?.publishedAt) || new Date().toISOString().slice(0, 10)}
+            className={input}
+          />
         </div>
         <LocalizedField name="title" label="Гарчиг" defaultValue={news?.title} required />
+        <SlugField initialSlug={news?.slug} fallback="news" />
         <LocalizedField name="excerpt" label="Товч агуулга" defaultValue={news?.excerpt} textarea rows={2} />
         <LocalizedField name="content" label="Үндсэн агуулга" defaultValue={news?.content} textarea rows={8} />
         <ImageUploadField

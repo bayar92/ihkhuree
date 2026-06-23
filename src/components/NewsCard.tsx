@@ -2,6 +2,7 @@ import type { News } from "@prisma/client";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/i18n";
 import type { Locale } from "@/i18n/routing";
+import { formatDate } from "@/lib/format-date";
 
 export function NewsCard({ news, locale }: { news: News; locale: Locale }) {
   return (
@@ -23,7 +24,7 @@ export function NewsCard({ news, locale }: { news: News; locale: Locale }) {
       </div>
       <div className="flex flex-1 flex-col p-5">
         <time className="text-xs font-medium uppercase tracking-wide text-brand-500">
-          {new Date(news.publishedAt).toLocaleDateString(locale, {
+          {formatDate(news.publishedAt, locale, {
             year: "numeric",
             month: "short",
             day: "numeric",
