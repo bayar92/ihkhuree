@@ -5,6 +5,8 @@ import { prisma, safe } from "@/lib/prisma";
 import { pick } from "@/lib/i18n";
 import type { Locale } from "@/i18n/routing";
 import { normalizeSlugParam } from "@/lib/slug";
+import { getNewsImages } from "@/lib/news-images";
+import { NewsImageGallery } from "@/components/NewsImageGallery";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +23,9 @@ export default async function NewsDetailPage({
 
   const news = await safe(prisma.news.findUnique({ where: { slug } }), null);
   if (!news || !news.published) notFound();
+
+  const images = getNewsImages(news);
+  const title = pick(news.title, locale);
 
   return (
     <article>
@@ -40,44 +45,21 @@ export default async function NewsDetailPage({
             })}
           </time>
           <h1 className="mt-2 font-serif text-3xl font-bold text-brand-700 sm:text-4xl">
-            {pick(news.title, locale)}
+            {title}
           </h1>
         </div>
       </div>
 
-      {news.coverImage && (
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={news.coverImage}
-            alt={pick(news.title, locale)}
-            className="-mt-2 aspect-[16/9] w-full rounded-xl object-cover shadow"
-          />
-        </div>
-      )}
-
-      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
-        <p className="mb-6 text-lg font-medium text-neutral-700">
-          {pick(news.excerpt, locale)}
-        </p>
-        <div className="whitespace-pre-line leading-relaxed text-neutral-700">
-          {pick(news.content, locale)}
-        </div>
-
-        {news.images.length > 0 && (
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {news.images.map((src, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={i}
-                src={src}
-                alt={`${pick(news.title, locale)} — ${i + 1}`}
-                className="w-full rounded-xl object-cover shadow-sm ring-1 ring-neutral-200"
-              />
-            ))}
+      <NewsImageGallery images={images} alt={title}>
+        <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+          <p className="mb-6 text-lg font-medium text-neutral-700">
+            {pick(news.excerpt, locale)}
+          </p>
+          <div className="whitespace-pre-line leading-relaxed text-neutral-700">
+            {pick(news.content, locale)}
           </div>
-        )}
-      </div>
+        </div>
+      </NewsImageGallery>
     </article>
   );
 }
