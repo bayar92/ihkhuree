@@ -1,10 +1,40 @@
 "use client";
 
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  type ReactNode,
+  type SyntheticEvent,
+} from "react";
 import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 
-const naturalImageClass =
-  "mx-auto block h-auto max-w-full rounded-xl object-contain";
+/** Width/height ratio above this is treated as a panoramic image. */
+const PANORAMIC_RATIO = 2;
+
+type ImageLayout = "normal" | "panoramic";
+
+function detectLayout(img: HTMLImageElement): ImageLayout {
+  const { naturalWidth, naturalHeight } = img;
+  if (naturalHeight > 0 && naturalWidth / naturalHeight >= PANORAMIC_RATIO) {
+    return "panoramic";
+  }
+  return "normal";
+}
+
+function useImageLayout(src: string) {
+  const [layout, setLayout] = useState<ImageLayout>("normal");
+
+  useEffect(() => {
+    setLayout("normal");
+  }, [src]);
+
+  const onLoad = useCallback((e: SyntheticEvent<HTMLImageElement>) => {
+    setLayout(detectLayout(e.currentTarget));
+  }, []);
+
+  return { layout, onLoad };
+}
 
 function Lightbox({
   images,
@@ -18,6 +48,9 @@ function Lightbox({
   onClose: () => void;
 }) {
   const [index, setIndex] = useState(initialIndex);
+  const src = images[index];
+  const { layout, onLoad } = useImageLayout(src);
+  const panoramic = layout === "panoramic";
 
   useEffect(() => {
     setIndex(initialIndex);
@@ -94,13 +127,29 @@ function Lightbox({
         </>
       )}
 
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={images[index]}
-        alt={`${alt} — ${index + 1}`}
+      <div
+        className={`max-w-[95vw] ${panoramic ? "overflow-x-auto" : ""}`}
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[88vh] max-w-full rounded-md object-contain shadow-2xl"
-      />
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          key={src}
+          src={src}
+          alt={`${alt} — ${index + 1}`}
+          onLoad={onLoad}
+          className={
+            panoramic
+              ? "block max-h-[88vh] w-auto max-w-none rounded-md shadow-2xl"
+              : "max-h-[88vh] max-w-full rounded-md object-contain shadow-2xl"
+          }
+        />
+      </div>
+
+      {panoramic && (
+        <span className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/70">
+          ← → гүйлгэн бүтэн зургийг үзнэ үү
+        </span>
+      )}
     </div>
   );
 }
@@ -116,6 +165,9 @@ function GalleryImageButton({
   label: string;
   onOpen: () => void;
 }) {
+  const { layout, onLoad } = useImageLayout(src);
+  const panoramic = layout === "panoramic";
+
   return (
     <button
       type="button"
@@ -123,13 +175,37 @@ function GalleryImageButton({
       className="group relative block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
       aria-label={label}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={alt}
-        className={`${naturalImageClass} shadow transition duration-300 group-hover:opacity-95`}
+      <div
+        className={
+          panoramic
+            ? "overflow-x-auto rounded-xl shadow ring-1 ring-neutral-200/80 [scrollbar-width:thin]"
+            : ""
+        }
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={alt}
+          onLoad={onLoad}
+          className={
+            panoramic
+              ? "block h-auto max-h-[min(380px,45vh)] w-auto max-w-none rounded-xl object-contain transition duration-300 group-hover:opacity-95"
+              : "mx-auto block h-auto max-w-full rounded-xl object-contain shadow transition duration-300 group-hover:opacity-95"
+          }
+        />
+      </div>
+
+      {panoramic && (
+        <span className="pointer-events-none absolute bottom-2 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/55 px-2.5 py-1 text-[11px] font-medium text-white/95">
+          ← → гүйлгэн үзнэ үү
+        </span>
+      )}
+
+      <span
+        className={`absolute inset-0 rounded-xl bg-black/0 transition group-hover:bg-black/5 ${
+          panoramic ? "pointer-events-none" : ""
+        }`}
       />
-      <span className="absolute inset-0 rounded-xl bg-black/0 transition group-hover:bg-black/5" />
       <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-black/45 px-2.5 py-1 text-xs font-medium text-white opacity-0 transition group-hover:opacity-100">
         <ZoomIn className="h-3.5 w-3.5" />
         Томруулах
