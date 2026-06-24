@@ -51,7 +51,7 @@ export function EventCardsSlider({
     <div className="relative">
       <div className="overflow-hidden">
         <div
-          className="flex gap-6 transition-transform duration-500 ease-out"
+          className="flex items-stretch gap-6 transition-transform duration-500 ease-out"
           style={{
             transform: `translateX(calc(-${index} * ((100% - ${(visibleCount - 1) * 1.5}rem) / ${visibleCount} + 1.5rem)))`,
           }}
@@ -59,7 +59,7 @@ export function EventCardsSlider({
           {events.map((event) => (
             <div
               key={event.id}
-              className="shrink-0"
+              className="flex shrink-0"
               style={{
                 width: `calc((100% - ${(visibleCount - 1) * 1.5}rem) / ${visibleCount})`,
               }}

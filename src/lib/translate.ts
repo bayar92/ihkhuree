@@ -13,6 +13,14 @@ const FIELD_LABEL: Record<(typeof FIELDS)[number], string> = {
   excerpt: "товч агуулга",
   content: "үндсэн агуулга",
 };
+const FIELD_KIND: Record<(typeof FIELDS)[number], string> = {
+  title: "news headline",
+  excerpt: "short summary",
+  content: "full article body",
+};
+
+/** OpenAI chunk size (chars). Long MN→JA bodies are split to avoid truncation. */
+const OPENAI_CHUNK_SIZE = 2500;
 
 export type NewsTranslationBundle = {
   title: string;
@@ -120,6 +128,59 @@ async function translateWithMyMemory(
   return parts.join("\n\n");
 }
 
+function isSuspiciouslyShortTranslation(
+  source: string,
+  translated: string,
+  field: (typeof FIELDS)[number],
+): boolean {
+  const srcLen = source.trim().length;
+  const outLen = translated.trim().length;
+  if (field !== "content" || srcLen < 200) return false;
+  // MN Cyrillic vs JA/CJK length differs; flag obvious misses (e.g. label-only output).
+  return outLen < Math.min(80, srcLen * 0.12);
+}
+
+async function translateFieldOpenAIChunk(
+  text: string,
+  from: Locale,
+  to: Locale,
+  field: (typeof FIELDS)[number],
+): Promise<string> {
+  const client = getOpenAIClient();
+  const maxTokens =
+    field === "content" ? 4096 : field === "excerpt" ? 1024 : 256;
+
+  const response = await client.chat.completions.create({
+    model: process.env.OPENAI_MODEL?.trim() || "gpt-4o-mini",
+    max_tokens: maxTokens,
+    messages: [
+      {
+        role: "system",
+        content: [
+          "You are a professional translator.",
+          `Translate the user's ${FIELD_KIND[field]} from ${LANG_NAME[from]} to ${LANG_NAME[to]}.`,
+          "Output only the translation — no field labels, titles, quotes, or commentary.",
+          "Preserve paragraph breaks and formatting.",
+          "Translate the entire message; never summarize or omit any part.",
+        ].join(" "),
+      },
+      { role: "user", content: text },
+    ],
+  });
+
+  const choice = response.choices[0];
+  const out = choice?.message?.content?.trim();
+  if (!out) {
+    throw new Error(`${FIELD_LABEL[field]} (${LANG_NAME[to]}) орчуулагдаагүй.`);
+  }
+  if (choice?.finish_reason === "length") {
+    throw new Error(
+      `${FIELD_LABEL[field]} (${LANG_NAME[to]}) бүрэн орчуулагдаагүй (хэт урт). Дахин оролдоно уу.`,
+    );
+  }
+  return out;
+}
+
 async function translateFieldOpenAI(
   text: string,
   from: Locale,
@@ -128,26 +189,18 @@ async function translateFieldOpenAI(
 ): Promise<string> {
   if (!text.trim()) return text;
 
-  const client = getOpenAIClient();
-  const response = await client.chat.completions.create({
-    model: process.env.OPENAI_MODEL?.trim() || "gpt-4o-mini",
-    messages: [
-      {
-        role: "system",
-        content: [
-          `Translate ${FIELD_LABEL[field]} from ${LANG_NAME[from]} to ${LANG_NAME[to]}.`,
-          "Return only the translated text.",
-          "Preserve paragraph breaks and formatting.",
-          "Do not add quotes or commentary.",
-        ].join(" "),
-      },
-      { role: "user", content: text },
-    ],
-  });
+  const chunks = splitText(text, OPENAI_CHUNK_SIZE);
+  const parts: string[] = [];
 
-  const out = response.choices[0]?.message?.content?.trim();
-  if (!out) {
-    throw new Error(`${FIELD_LABEL[field]} (${LANG_NAME[to]}) орчуулагдаагүй.`);
+  for (const chunk of chunks) {
+    parts.push(await translateFieldOpenAIChunk(chunk, from, to, field));
+  }
+
+  const out = parts.join(chunks.length > 1 ? "\n\n" : "");
+  if (isSuspiciouslyShortTranslation(text, out, field)) {
+    throw new Error(
+      `${FIELD_LABEL[field]} (${LANG_NAME[to]}) хэт богино орчуулагдлаа. Дахин оролдоно уу.`,
+    );
   }
   return out;
 }

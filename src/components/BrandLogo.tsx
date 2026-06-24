@@ -1,10 +1,6 @@
 import Image from "next/image";
 
-/**
- * The official Ikh Khuree seal. Place the image at `public/logo.jpg`.
- * Rendered inside a circular mask so any square/black background in the
- * source image is clipped away (the seal itself is circular).
- */
+/** The official Ikh Khuree seal (`public/logo.png`, transparent circular PNG). */
 export function BrandLogo({
   size,
   className = "",
@@ -17,15 +13,15 @@ export function BrandLogo({
 }) {
   return (
     <span
-      className={`relative inline-block shrink-0 overflow-hidden rounded-full ${className}`}
+      className={`relative inline-block shrink-0 ${className}`}
       style={size ? { width: size, height: size } : undefined}
     >
       <Image
-        src="/logo.jpg"
+        src="/logo.png"
         alt="Ikh Khuree"
         fill
         sizes={size ? `${size}px` : "320px"}
-        className="object-cover"
+        className="object-contain"
         priority={priority}
       />
     </span>

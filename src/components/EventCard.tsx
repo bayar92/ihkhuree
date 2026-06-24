@@ -4,7 +4,6 @@ import type { Event } from "@prisma/client";
 import { pick } from "@/lib/i18n";
 import type { Locale } from "@/i18n/routing";
 import { formatDate, utcParts } from "@/lib/format-date";
-import { NewsCardFillImage } from "@/components/NewsCardFillImage";
 
 function isMonthSpan(start: Date, end: Date | null) {
   if (!end) return false;
@@ -103,19 +102,20 @@ function EventCardBody({
         clickable ? "group-hover:-translate-y-0.5 group-hover:shadow-lg" : ""
       }`}
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-brand-100">
+      <div className="relative aspect-[16/10] shrink-0 overflow-hidden bg-brand-100">
         {event.image ? (
-          <NewsCardFillImage
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={event.image}
             alt={title}
-            className={clickable ? "transition-transform duration-300 group-hover:scale-105" : ""}
+            className={`absolute inset-0 h-full w-full object-cover object-top ${clickable ? "transition-transform duration-300 group-hover:scale-105" : ""}`}
           />
         ) : (
           <div className="absolute inset-0 bg-linear-to-br from-brand-500 to-brand-700" />
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex min-h-0 flex-1 flex-col p-5">
         <DateBadge start={start} end={end} locale={locale} />
 
         <h3 className="mt-3 line-clamp-3 font-semibold text-brand-800">
@@ -173,12 +173,12 @@ export function EventCard({ event, locale }: { event: Event; locale: Locale }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={title}
-        className="group block h-full cursor-pointer no-underline"
+        className="group flex h-full w-full cursor-pointer no-underline"
       >
         {body}
       </a>
     );
   }
 
-  return <div className="h-full">{body}</div>;
+  return <div className="h-full w-full">{body}</div>;
 }

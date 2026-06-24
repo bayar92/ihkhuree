@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   description:
     "Их хүрээ олон улсын бизнесийн хамтын ажиллагааны холбоо. Promoting international business cooperation and sustainable development.",
   icons: {
-    icon: [{ url: "/logo.jpg", type: "image/jpeg" }],
-    shortcut: "/logo.jpg",
-    apple: "/logo.jpg",
+    icon: [{ url: "/logo.png", type: "image/png" }],
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 };
 

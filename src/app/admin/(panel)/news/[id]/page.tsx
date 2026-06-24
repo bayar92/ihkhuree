@@ -4,6 +4,7 @@ import { AdminHeader } from "@/components/admin/ui";
 import { NewsForm } from "@/components/admin/NewsForm";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 120;
 
 export default async function EditNewsPage({
   params,

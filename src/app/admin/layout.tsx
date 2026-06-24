@@ -13,7 +13,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Admin — Ikh Khuree",
   robots: { index: false, follow: false },
-  icons: { icon: [{ url: "/logo.jpg", type: "image/jpeg" }] },
+  icons: { icon: [{ url: "/logo.png", type: "image/png" }] },
 };
 
 export default function AdminRootLayout({ children }: { children: ReactNode }) {
