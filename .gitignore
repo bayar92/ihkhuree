@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# user-uploaded news images (not in git; use UPLOAD_DIR volume in production)
+/public/uploads/news/*
+!/public/uploads/news/.gitkeep

@@ -2,7 +2,7 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { NextResponse } from "next/server";
 import {
-  getNewsUploadDir,
+  findNewsUploadPath,
   isSafeUploadFilename,
 } from "@/lib/upload-dir";
 
@@ -23,7 +23,11 @@ export async function GET(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const filePath = path.join(getNewsUploadDir(), filename);
+  const filePath = await findNewsUploadPath(filename);
+  if (!filePath) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   try {
     const data = await readFile(filePath);
     const ext = path.extname(filename).toLowerCase();

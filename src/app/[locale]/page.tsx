@@ -50,28 +50,29 @@ export default async function HomePage({
   const locale = rawLocale as Locale;
   const t = await getTranslations();
 
-  const [hero, features, focusAreas, news, events, homeContent] = await Promise.all([
-    safe(prisma.hero.findFirst({ orderBy: { updatedAt: 'desc' } }), null),
-    safe(prisma.feature.findMany({ orderBy: { order: 'asc' } }), []),
-    safe(prisma.focusArea.findMany({ orderBy: { order: 'asc' } }), []),
-    safe(
-      prisma.news.findMany({
-        where: { published: true },
-        orderBy: { publishedAt: 'desc' },
-        take: 3,
-      }),
-      []
-    ),
-    safe(
-      prisma.event.findMany({
-        where: { published: true, startsAt: { gte: new Date() } },
-        orderBy: { startsAt: 'asc' },
-        take: 8,
-      }),
-      []
-    ),
-    getContent('home', homeDefaults),
-  ]);
+  const [hero, features, focusAreas, news, events, homeContent] =
+    await Promise.all([
+      safe(prisma.hero.findFirst({ orderBy: { updatedAt: 'desc' } }), null),
+      safe(prisma.feature.findMany({ orderBy: { order: 'asc' } }), []),
+      safe(prisma.focusArea.findMany({ orderBy: { order: 'asc' } }), []),
+      safe(
+        prisma.news.findMany({
+          where: { published: true },
+          orderBy: { publishedAt: 'desc' },
+          take: 3,
+        }),
+        []
+      ),
+      safe(
+        prisma.event.findMany({
+          where: { published: true, startsAt: { gte: new Date() } },
+          orderBy: { startsAt: 'asc' },
+          take: 8,
+        }),
+        []
+      ),
+      getContent('home', homeDefaults),
+    ]);
   const aboutTeaser = homeContent.aboutTeaser;
 
   return (
@@ -114,10 +115,10 @@ export default async function HomePage({
 
           <div className="flex justify-center lg:justify-end">
             <div className="relative">
-              <div className="absolute inset-0 scale-110 rounded-full bg-brand-100/50 blur-2xl" />
+              <div className="absolute inset-0 " />
               <BrandLogo
                 priority
-                className="relative h-64 w-64 sm:h-80 sm:w-80 shadow-xl ring-1 ring-brand-100"
+                className="relative h-64 w-64 sm:h-96 sm:w-96  "
               />
             </div>
           </div>
@@ -140,7 +141,10 @@ export default async function HomePage({
                 const card = (
                   <article className="group flex h-full flex-col rounded-2xl border border-neutral-200/80 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md">
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-50 transition group-hover:bg-brand-100">
-                      <Icon className="h-6 w-6 text-brand-600" strokeWidth={1.5} />
+                      <Icon
+                        className="h-6 w-6 text-brand-600"
+                        strokeWidth={1.5}
+                      />
                     </div>
                     <h3 className="mt-5 font-serif text-lg font-bold text-brand-700">
                       {pick(f.title, locale)}

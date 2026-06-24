@@ -1,7 +1,11 @@
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import { randomBytes } from "crypto";
-import { getNewsUploadDir, NEWS_UPLOAD_PUBLIC_PREFIX } from "@/lib/upload-dir";
+import {
+  getNewsUploadDir,
+  getNewsUploadSearchDirs,
+  NEWS_UPLOAD_PUBLIC_PREFIX,
+} from "@/lib/upload-dir";
 
 const ALLOWED_TYPES = new Set([
   "image/jpeg",
@@ -32,11 +36,12 @@ export async function saveNewsUpload(file: File): Promise<string> {
     path.extname(file.name).toLowerCase().slice(0, 5) ??
     ".jpg";
   const name = `${Date.now()}-${randomBytes(4).toString("hex")}${ext}`;
-  const dir = getNewsUploadDir();
-  await mkdir(dir, { recursive: true });
-
   const buffer = Buffer.from(await file.arrayBuffer());
-  await writeFile(path.join(dir, name), buffer);
+
+  for (const dir of getNewsUploadSearchDirs()) {
+    await mkdir(dir, { recursive: true });
+    await writeFile(path.join(dir, name), buffer);
+  }
 
   return `${NEWS_UPLOAD_PUBLIC_PREFIX}/${name}`;
 }
