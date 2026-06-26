@@ -19,6 +19,7 @@ import type { Locale } from '@/i18n/routing';
 import { getContent } from '@/lib/content';
 import { aboutDefaults } from '@/content/defaults';
 import { CountUp } from '@/components/CountUp';
+import { StackedName } from '@/components/StackedName';
 
 export const dynamic = 'force-dynamic';
 
@@ -108,7 +109,7 @@ export default async function AboutPage({
                 </div>
                 <div>
                   <p className="font-serif text-lg font-bold text-brand-700">
-                    {pick(leadership.name, locale)}
+                    <StackedName name={pick(leadership.name, locale)} />
                   </p>
                   <p className="mt-1 text-sm text-neutral-500">
                     {pick(leadership.role, locale)}
@@ -127,7 +128,7 @@ export default async function AboutPage({
                   <p>{pick(leadership.signoff, locale)}</p>
                   <p className="mt-1">{pick(leadership.position, locale)}</p>
                   <p className="mt-1 font-semibold text-brand-700">
-                    {pick(leadership.name, locale)}
+                    <StackedName name={pick(leadership.name, locale)} />
                   </p>
                   <p className="mt-1 text-neutral-400">{leadership.date}</p>
                 </div>
