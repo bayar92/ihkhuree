@@ -232,6 +232,7 @@ export type MembershipContent = {
   benefits: { icon: string; title: L; text: L }[];
   types: {
     icon: string;
+    image?: string;
     name: L;
     price: string;
     monthly: string;
@@ -366,6 +367,7 @@ export const membershipDefaults: MembershipContent = {
   types: [
     {
       icon: 'crown',
+      image: '/membership-icons/tem-0.png',
       name: {
         mn: 'Exclusive Member (Ноён)',
         en: 'Exclusive Member (Noyon)',
@@ -403,6 +405,7 @@ export const membershipDefaults: MembershipContent = {
     },
     {
       icon: 'gem',
+      image: '/membership-icons/tem-1.png',
       name: {
         mn: 'Elite ангилал (Тайж)',
         en: 'Elite Class (Taij)',
@@ -442,6 +445,7 @@ export const membershipDefaults: MembershipContent = {
     },
     {
       icon: 'award',
+      image: '/membership-icons/tem-2.png',
       name: {
         mn: 'Senior Member (Ван)',
         en: 'Senior Member (Van)',
@@ -479,6 +483,7 @@ export const membershipDefaults: MembershipContent = {
     },
     {
       icon: 'shield',
+      image: '/membership-icons/tem-3.png',
       name: {
         mn: 'Middle Member (Засагт)',
         en: 'Middle Member (Zasagt)',
@@ -516,6 +521,7 @@ export const membershipDefaults: MembershipContent = {
     },
     {
       icon: 'user',
+      image: '/membership-icons/tem-4.png',
       name: { mn: 'Member (Хан)', en: 'Member (Khan)', ja: '会員（ハン）' },
       price: '$500',
       monthly: '$41',

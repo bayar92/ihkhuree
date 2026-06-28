@@ -13,6 +13,16 @@ function isPlainObject(v: unknown): v is Json {
  */
 export function deepMerge<T>(base: T, override: unknown): T {
   if (override === undefined || override === null) return base;
+  if (Array.isArray(base) && Array.isArray(override)) {
+    const len = Math.max(base.length, override.length);
+    const merged: unknown[] = [];
+    for (let i = 0; i < len; i++) {
+      if (i >= override.length) merged.push(base[i]);
+      else if (i >= base.length) merged.push(override[i]);
+      else merged.push(deepMerge(base[i], override[i]));
+    }
+    return merged as T;
+  }
   if (isPlainObject(base) && isPlainObject(override)) {
     const out: Json = { ...base };
     for (const key of Object.keys(override)) {
@@ -20,7 +30,7 @@ export function deepMerge<T>(base: T, override: unknown): T {
     }
     return out as T;
   }
-  // arrays + primitives: override wins
+  // primitives: override wins
   return override as T;
 }
 

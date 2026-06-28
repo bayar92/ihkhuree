@@ -48,6 +48,15 @@ const iconMap: Record<string, LucideIcon> = {
 };
 const icon = (key: string): LucideIcon => iconMap[key] ?? Globe;
 
+// Cropped from public/tem.png — index matches types[] order in content.
+const MEMBERSHIP_TYPE_IMAGES = [
+  "/membership-icons/tem-0.png",
+  "/membership-icons/tem-1.png",
+  "/membership-icons/tem-2.png",
+  "/membership-icons/tem-3.png",
+  "/membership-icons/tem-4.png",
+] as const;
+
 export default async function MembershipPage({
   params,
 }: {
@@ -131,6 +140,7 @@ export default async function MembershipPage({
             {types.map((tp, i) => {
               const Icon = icon(tp.icon);
               const featured = tp.featured;
+              const typeImage = tp.image ?? MEMBERSHIP_TYPE_IMAGES[i];
               return (
                 <div
                   key={i}
@@ -145,15 +155,28 @@ export default async function MembershipPage({
                       {pick(tp.badge, locale)}
                     </span>
                   )}
-                  <div
-                    className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full ${
-                      featured ? "bg-white/15" : "bg-brand-50"
-                    }`}
-                  >
-                    <Icon
-                      className={`h-7 w-7 ${featured ? "text-white" : "text-brand-600"}`}
-                      strokeWidth={1.5}
-                    />
+                  <div className="mx-auto flex h-20 w-20 items-center justify-center">
+                    {typeImage ? (
+                      <Image
+                        src={typeImage}
+                        alt=""
+                        width={80}
+                        height={80}
+                        unoptimized
+                        className="h-20 w-20 object-contain"
+                      />
+                    ) : (
+                      <div
+                        className={`flex h-16 w-16 items-center justify-center rounded-full ${
+                          featured ? "bg-white/15" : "bg-brand-50"
+                        }`}
+                      >
+                        <Icon
+                          className={`h-7 w-7 ${featured ? "text-white" : "text-brand-600"}`}
+                          strokeWidth={1.5}
+                        />
+                      </div>
+                    )}
                   </div>
                   <h3
                     className={`mt-5 text-center text-sm font-bold leading-snug uppercase tracking-wide ${
