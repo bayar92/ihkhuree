@@ -6,8 +6,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { Noto_Serif } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { notoSansJP } from "@/lib/fonts";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { ComingSoon } from "@/components/ComingSoon";
 import "../globals.css";
 
 // Latin + Cyrillic (mn/en) with Japanese fallback via Noto Sans JP.
@@ -34,7 +33,7 @@ export function generateStaticParams() {
 }
 
 export default async function LocaleLayout({
-  children,
+  children: _children,
   params,
 }: {
   children: ReactNode;
@@ -54,9 +53,7 @@ export default async function LocaleLayout({
         className="flex min-h-screen flex-col bg-white text-neutral-800"
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <ComingSoon />
         </NextIntlClientProvider>
       </body>
     </html>
