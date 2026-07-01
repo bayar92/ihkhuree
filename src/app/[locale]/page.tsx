@@ -102,7 +102,7 @@ export default async function HomePage({
             <p className="max-w-md text-lg text-neutral-600">
               {hero
                 ? pick(hero.tagline, locale)
-                : 'Их хүрээ олон улсын бизнесийн хамтын ажиллагааны холбоо'}
+                : 'Их хүрээ олон улсын бизнес хамтын ажиллагааны холбоо'}
             </p>
             <Link
               href={hero?.ctaHref ?? '/about'}

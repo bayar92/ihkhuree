@@ -34,7 +34,7 @@ async function main() {
         ja: '国際ビジネス協力協会',
       },
       tagline: {
-        mn: 'Их хүрээ олон улсын бизнесийн хамтын ажиллагааны холбоо',
+        mn: 'Их хүрээ олон улсын бизнес хамтын ажиллагааны холбоо',
         en: 'Connecting businesses across the world for sustainable growth.',
         ja: '持続可能な成長のために世界中のビジネスをつなぎます。',
       },
