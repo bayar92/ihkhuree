@@ -34,29 +34,28 @@ export function CertificateGallery({ images }: { images: string[] }) {
 
   return (
     <>
-      {/* Thumbnail grid — fixed height cells, image shown in full (portrait or landscape) */}
-      <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+      {/* Masonry grid — each image keeps its natural aspect (portrait or landscape) */}
+      <div className="columns-2 gap-5 sm:columns-3 lg:columns-4">
         {images.map((src, i) => (
           <button
-            key={src}
+            key={`${src}-${i}`}
             type="button"
             onClick={() => setOpen(i)}
-            className="group relative flex h-52 items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:h-56 lg:h-64"
+            className="group mb-5 block w-full break-inside-avoid overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             aria-label={`Certificate ${i + 1}`}
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={src}
               alt={`Certificate ${i + 1}`}
-              fill
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+              loading="lazy"
+              className="block h-auto w-full transition-transform duration-500 group-hover:scale-[1.01]"
             />
-            <span className="absolute inset-0 bg-brand-900/0 transition group-hover:bg-brand-900/5" />
           </button>
         ))}
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox — full image, any orientation */}
       {open !== null && (
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm"
@@ -64,12 +63,10 @@ export function CertificateGallery({ images }: { images: string[] }) {
           role="dialog"
           aria-modal="true"
         >
-          {/* counter */}
           <span className="absolute left-1/2 top-5 -translate-x-1/2 text-sm font-medium text-white/80">
             {open + 1} / {images.length}
           </span>
 
-          {/* close */}
           <button
             type="button"
             onClick={close}
@@ -79,7 +76,6 @@ export function CertificateGallery({ images }: { images: string[] }) {
             <X className="h-6 w-6" />
           </button>
 
-          {/* prev */}
           <button
             type="button"
             onClick={(e) => {
@@ -92,7 +88,6 @@ export function CertificateGallery({ images }: { images: string[] }) {
             <ChevronLeft className="h-7 w-7" />
           </button>
 
-          {/* image */}
           <Image
             src={images[open]}
             alt={`Certificate ${open + 1}`}
@@ -103,7 +98,6 @@ export function CertificateGallery({ images }: { images: string[] }) {
             priority
           />
 
-          {/* next */}
           <button
             type="button"
             onClick={(e) => {
