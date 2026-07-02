@@ -6,9 +6,16 @@ import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { auth, signIn, signOut } from "@/lib/auth";
 import { parseLocalized, parseBlocks } from "@/lib/form";
-import { saveNewsUpload } from "@/lib/upload";
+import { saveNewsUpload, saveImageUpload } from "@/lib/upload";
+import type { UploadCategory } from "@/lib/upload-dir";
 import { resolveSlugForSave } from "@/lib/slug";
 import { translateNewsBundle, type NewsTranslationBundle } from "@/lib/translate";
+import { getContent } from "@/lib/content";
+import {
+  membershipDefaults,
+  type MembershipContent,
+  type L,
+} from "@/content/defaults";
 
 async function requireAdmin() {
   const session = await auth();
@@ -113,12 +120,25 @@ export async function deleteFocusArea(formData: FormData) {
 
 // ---------------- News ----------------
 export async function uploadNewsImage(formData: FormData): Promise<string> {
+  return uploadImage(formData, "news");
+}
+
+export async function uploadImage(
+  formData: FormData,
+  categoryOverride?: UploadCategory,
+): Promise<string> {
   await requireAdmin();
   const file = formData.get("file");
+  const category = (categoryOverride ??
+    String(formData.get("category") ?? "news")) as UploadCategory;
+
+  if (!["news", "certificates", "site"].includes(category)) {
+    throw new Error("Буруу upload төрөл.");
+  }
   if (!(file instanceof File) || file.size === 0) {
     throw new Error("Файл сонгоно уу.");
   }
-  return saveNewsUpload(file);
+  return saveImageUpload(file, category);
 }
 
 export async function translateNewsFields(source: NewsTranslationBundle) {
@@ -251,7 +271,37 @@ export async function saveContent(formData: FormData) {
     create: { key, value: value as object },
   });
   revalidatePath("/", "layout");
-  redirect(`${contentRedirects[key] ?? "/admin"}?saved=1`);
+  const redirectTo = String(formData.get("redirectTo") ?? "").trim();
+  redirect(`${redirectTo || contentRedirects[key] || "/admin"}?saved=1`);
+}
+
+export async function saveCertificates(formData: FormData) {
+  await requireAdmin();
+  const raw = String(formData.get("data") ?? "{}");
+  let payload: { certificates: string[]; sectionLabel: L };
+  try {
+    payload = JSON.parse(raw);
+  } catch {
+    throw new Error("Invalid content payload");
+  }
+
+  const current = await getContent("membership", membershipDefaults);
+  const value: MembershipContent = {
+    ...current,
+    certificates: payload.certificates.filter(Boolean),
+    labels: {
+      ...current.labels,
+      certificates: payload.sectionLabel,
+    },
+  };
+
+  await prisma.siteContent.upsert({
+    where: { key: "membership" },
+    update: { value: value as object },
+    create: { key: "membership", value: value as object },
+  });
+  revalidatePath("/", "layout");
+  redirect("/admin/membership/certificates?saved=1");
 }
 
 // ---------------- Settings (contact) ----------------

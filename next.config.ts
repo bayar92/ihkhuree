@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
+  experimental: {
+    serverActions: {
+      // Certificate uploads can be several MB each.
+      bodySizeLimit: "10mb",
+    },
+  },
 };
 
 export default withNextIntl(nextConfig);

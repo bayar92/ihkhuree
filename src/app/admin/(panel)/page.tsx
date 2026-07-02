@@ -44,6 +44,7 @@ export default async function DashboardPage() {
           { href: "/admin/home", label: "Нүүр хуудас засах" },
           { href: "/admin/about", label: "Бидний тухай засах" },
           { href: "/admin/membership", label: "Гишүүнчлэл засах" },
+          { href: "/admin/membership/certificates", label: "Гэрчилгээний зургууд" },
           { href: "/admin/translations", label: "Орчуулга засах" },
           { href: "/admin/news", label: "Мэдээ нэмэх" },
         ].map((q) => (

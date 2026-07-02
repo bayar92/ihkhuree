@@ -55,6 +55,7 @@ export function MembershipEditor({ initial }: { initial: MembershipContent }) {
         <ImageInput
           label="Зураг"
           value={c.hero.image}
+          uploadCategory="site"
           onChange={(v) => update((d) => void (d.hero.image = v))}
         />
         <LocalizedInput
@@ -77,7 +78,6 @@ export function MembershipEditor({ initial }: { initial: MembershipContent }) {
             ["types", "Төрөл"],
             ["countries", "Улсууд"],
             ["how", "Гишүүн болох зам"],
-            ["certificates", "Гэрчилгээ"],
           ] as const
         ).map(([key, label]) => (
           <LocalizedInput
@@ -367,33 +367,6 @@ export function MembershipEditor({ initial }: { initial: MembershipContent }) {
                 onChange={(v) => update((d) => void (d.steps[i].text = v))}
               />
             </div>
-          </div>
-        ))}
-      </Section>
-
-      <Section
-        title="Гэрчилгээний зургууд"
-        action={
-          <AddButton onClick={() => update((d) => d.certificates.push(""))}>
-            + Нэмэх
-          </AddButton>
-        }
-      >
-        {c.certificates.map((src, i) => (
-          <div key={i} className="flex items-start gap-2">
-            <div className="flex-1">
-              <ImageInput
-                value={src}
-                onChange={(v) => update((d) => void (d.certificates[i] = v))}
-              />
-            </div>
-            <button
-              type="button"
-              onClick={() => update((d) => void d.certificates.splice(i, 1))}
-              className="mt-3 text-sm font-medium text-red-600 hover:underline"
-            >
-              ✕
-            </button>
           </div>
         ))}
       </Section>

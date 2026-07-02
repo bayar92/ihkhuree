@@ -44,6 +44,7 @@ export function AboutEditor({ initial }: { initial: AboutContent }) {
         <ImageInput
           label="Зураг"
           value={c.hero.image}
+          uploadCategory="site"
           onChange={(v) => update((d) => void (d.hero.image = v))}
         />
         <LocalizedInput
@@ -296,6 +297,7 @@ export function AboutEditor({ initial }: { initial: AboutContent }) {
         <ImageInput
           label="Зураг"
           value={c.leadership.image}
+          uploadCategory="site"
           onChange={(v) => update((d) => void (d.leadership.image = v))}
         />
         <LocalizedInput

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { locales, type Locale } from "@/i18n/routing";
-import { saveContent } from "@/app/admin/actions";
+import { saveContent, uploadImage } from "@/app/admin/actions";
+import type { UploadCategory } from "@/lib/upload-dir";
 
 export type L = Record<Locale, string>;
 
@@ -121,20 +122,44 @@ export function PlainInput({
   );
 }
 
-/** A controlled image-path input with a small preview. */
+/** A controlled image-path input with a small preview and optional file upload. */
 export function ImageInput({
   label,
   value,
   onChange,
+  uploadCategory,
 }: {
   label?: string;
   value: string;
   onChange: (next: string) => void;
+  uploadCategory?: UploadCategory;
 }) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleUpload(file: File) {
+    if (!uploadCategory) return;
+    setUploading(true);
+    setError("");
+    const fd = new FormData();
+    fd.set("file", file);
+    fd.set("category", uploadCategory);
+
+    try {
+      const url = await uploadImage(fd);
+      onChange(url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload амжилтгүй.");
+    } finally {
+      setUploading(false);
+    }
+  }
+
   return (
     <div>
       <LabelRow label={label} />
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         {value ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -151,7 +176,31 @@ export function ImageInput({
           onChange={(e) => onChange(e.target.value)}
           className={inputClass}
         />
+        {uploadCategory && (
+          <>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleUpload(file);
+                e.target.value = "";
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              disabled={uploading}
+              className="shrink-0 rounded-lg border border-neutral-300 px-2 py-1.5 text-xs font-medium text-brand-700 hover:bg-brand-50 disabled:opacity-50"
+            >
+              {uploading ? "..." : "Upload"}
+            </button>
+          </>
+        )}
       </div>
+      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
   );
 }
@@ -284,15 +333,20 @@ export function EditorForm({
   contentKey,
   value,
   children,
+  redirectTo,
 }: {
   contentKey: string;
   value: unknown;
   children: ReactNode;
+  redirectTo?: string;
 }) {
   return (
     <form action={saveContent} className="space-y-5 pb-20">
       <input type="hidden" name="key" value={contentKey} />
       <input type="hidden" name="data" value={JSON.stringify(value)} />
+      {redirectTo ? (
+        <input type="hidden" name="redirectTo" value={redirectTo} />
+      ) : null}
       {children}
       <div className="sticky bottom-4 flex justify-end">
         <button

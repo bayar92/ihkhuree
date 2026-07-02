@@ -1,29 +1,74 @@
 import { access } from "fs/promises";
 import path from "path";
 
-const PUBLIC_NEWS_DIR = path.join("public", "uploads", "news");
+export type UploadCategory = "news" | "certificates" | "site";
+
+const UPLOAD_CATEGORIES: Record<
+  UploadCategory,
+  { relativeDir: string; publicPrefix: string }
+> = {
+  news: {
+    relativeDir: path.join("public", "uploads", "news"),
+    publicPrefix: "/uploads/news",
+  },
+  certificates: {
+    relativeDir: path.join("public", "certificates"),
+    publicPrefix: "/certificates",
+  },
+  site: {
+    relativeDir: path.join("public", "uploads", "site"),
+    publicPrefix: "/uploads/site",
+  },
+};
 
 /** Default public folder for news uploads (dev / no volume). */
 export function getPublicNewsUploadDir(): string {
-  return path.join(process.cwd(), PUBLIC_NEWS_DIR);
+  return getPublicUploadDir("news");
 }
 
 /** Primary write dir: `UPLOAD_DIR` env or public folder. */
 export function getNewsUploadDir(): string {
-  const configured = process.env.UPLOAD_DIR?.trim();
-  if (configured) return configured;
-  return getPublicNewsUploadDir();
+  return getUploadDir("news");
 }
 
 /** All dirs to check when serving an uploaded file. */
 export function getNewsUploadSearchDirs(): string[] {
-  const primary = getNewsUploadDir();
-  const publicDir = getPublicNewsUploadDir();
+  return getUploadSearchDirs("news");
+}
+
+export function getUploadPublicPrefix(category: UploadCategory): string {
+  return UPLOAD_CATEGORIES[category].publicPrefix;
+}
+
+export function getPublicUploadDir(category: UploadCategory): string {
+  return path.join(process.cwd(), UPLOAD_CATEGORIES[category].relativeDir);
+}
+
+/** Primary write dir. News may use `UPLOAD_DIR` env; others use public folders. */
+export function getUploadDir(category: UploadCategory): string {
+  if (category === "news") {
+    const configured = process.env.UPLOAD_DIR?.trim();
+    if (configured) return configured;
+  }
+  return getPublicUploadDir(category);
+}
+
+/** All dirs to check when serving an uploaded file. */
+export function getUploadSearchDirs(category: UploadCategory): string[] {
+  const primary = getUploadDir(category);
+  const publicDir = getPublicUploadDir(category);
   return primary === publicDir ? [primary] : [primary, publicDir];
 }
 
 export async function findNewsUploadPath(filename: string): Promise<string | null> {
-  for (const dir of getNewsUploadSearchDirs()) {
+  return findUploadPath("news", filename);
+}
+
+export async function findUploadPath(
+  category: UploadCategory,
+  filename: string,
+): Promise<string | null> {
+  for (const dir of getUploadSearchDirs(category)) {
     const filePath = path.join(dir, filename);
     try {
       await access(filePath);

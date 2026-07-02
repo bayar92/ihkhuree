@@ -2,9 +2,9 @@ import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 import { randomBytes } from "crypto";
 import {
-  getNewsUploadDir,
-  getNewsUploadSearchDirs,
-  NEWS_UPLOAD_PUBLIC_PREFIX,
+  getUploadPublicPrefix,
+  getUploadSearchDirs,
+  type UploadCategory,
 } from "@/lib/upload-dir";
 
 const ALLOWED_TYPES = new Set([
@@ -23,7 +23,10 @@ const EXT_BY_TYPE: Record<string, string> = {
 
 const MAX_BYTES = 5 * 1024 * 1024;
 
-export async function saveNewsUpload(file: File): Promise<string> {
+export async function saveImageUpload(
+  file: File,
+  category: UploadCategory,
+): Promise<string> {
   if (!ALLOWED_TYPES.has(file.type)) {
     throw new Error("Зөвхөн JPG, PNG, WebP, GIF зураг оруулна.");
   }
@@ -38,10 +41,14 @@ export async function saveNewsUpload(file: File): Promise<string> {
   const name = `${Date.now()}-${randomBytes(4).toString("hex")}${ext}`;
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  for (const dir of getNewsUploadSearchDirs()) {
+  for (const dir of getUploadSearchDirs(category)) {
     await mkdir(dir, { recursive: true });
     await writeFile(path.join(dir, name), buffer);
   }
 
-  return `${NEWS_UPLOAD_PUBLIC_PREFIX}/${name}`;
+  return `${getUploadPublicPrefix(category)}/${name}`;
+}
+
+export async function saveNewsUpload(file: File): Promise<string> {
+  return saveImageUpload(file, "news");
 }

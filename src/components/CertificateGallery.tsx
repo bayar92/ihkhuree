@@ -34,14 +34,14 @@ export function CertificateGallery({ images }: { images: string[] }) {
 
   return (
     <>
-      {/* Thumbnail grid */}
+      {/* Thumbnail grid — fixed height cells, image shown in full (portrait or landscape) */}
       <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
         {images.map((src, i) => (
           <button
             key={src}
             type="button"
             onClick={() => setOpen(i)}
-            className="group relative aspect-[1240/1754] overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+            className="group relative flex h-52 items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 p-2 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:h-56 lg:h-64"
             aria-label={`Certificate ${i + 1}`}
           >
             <Image
@@ -49,9 +49,9 @@ export function CertificateGallery({ images }: { images: string[] }) {
               alt={`Certificate ${i + 1}`}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+              className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
             />
-            <span className="absolute inset-0 bg-brand-900/0 transition group-hover:bg-brand-900/10" />
+            <span className="absolute inset-0 bg-brand-900/0 transition group-hover:bg-brand-900/5" />
           </button>
         ))}
       </div>
@@ -96,10 +96,10 @@ export function CertificateGallery({ images }: { images: string[] }) {
           <Image
             src={images[open]}
             alt={`Certificate ${open + 1}`}
-            width={1240}
-            height={1754}
+            width={1600}
+            height={1200}
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[88vh] w-auto rounded-md object-contain shadow-2xl"
+            className="max-h-[88vh] max-w-[92vw] rounded-md object-contain shadow-2xl"
             priority
           />
 
