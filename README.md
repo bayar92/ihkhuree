@@ -100,4 +100,4 @@ npm start
 2. PostgreSQL plugin нэмнэ (`DATABASE_URL` автоматаар орно — дотоод хаягийг ашиглах нь хурдан).
 3. Environment variables: `AUTH_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`.
 4. Build үед `prisma generate` (postinstall) ажиллана. Анх удаа `npm run db:push && npm run db:seed` ажиллуулна.
-5. **Мэдээний upload зураг:** Railway дээр **Volume** нэмж `/data/uploads` mount хийнэ, `UPLOAD_DIR=/data/uploads/news` тохируулна. Volume байхгүй бол deploy/restart бүрт upload зураг алга болно.
+5. **Upload зураг (мэдээ, гэрчилгээ, сайтын зураг):** Railway дээр **Volume** нэмж `/data/uploads` mount хийгээд **`UPLOAD_DIR=/data/uploads`** тохируулна. Бүх төрлийн upload энэ хавтас руу бичигдэж, `/uploads/<төрөл>/<файл>` замаар (route handler-ээр) үйлчилнэ — production дээр байнга хадгалагдана. Volume/`UPLOAD_DIR` байхгүй бол upload зураг deploy/restart бүрт устана.

@@ -2,8 +2,9 @@ import { readFile } from "fs/promises";
 import path from "path";
 import { NextResponse } from "next/server";
 import {
-  findNewsUploadPath,
+  findUploadPath,
   isSafeUploadFilename,
+  type UploadCategory,
 } from "@/lib/upload-dir";
 
 const MIME: Record<string, string> = {
@@ -14,16 +15,28 @@ const MIME: Record<string, string> = {
   ".gif": "image/gif",
 };
 
+const CATEGORIES: UploadCategory[] = ["news", "certificates", "site"];
+
+/**
+ * Serves runtime-uploaded images for every upload category. Files written to a
+ * persistent volume (or the public folder in dev) are read from disk here, so
+ * they work in production where files added after `next build` are not served
+ * as static assets.
+ */
 export async function GET(
   _request: Request,
-  { params }: { params: Promise<{ filename: string }> },
+  { params }: { params: Promise<{ category: string; filename: string }> },
 ) {
-  const { filename } = await params;
+  const { category, filename } = await params;
+
+  if (!CATEGORIES.includes(category as UploadCategory)) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
   if (!isSafeUploadFilename(filename)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  const filePath = await findNewsUploadPath(filename);
+  const filePath = await findUploadPath(category as UploadCategory, filename);
   if (!filePath) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -31,7 +44,7 @@ export async function GET(
   try {
     const data = await readFile(filePath);
     const ext = path.extname(filename).toLowerCase();
-    return new NextResponse(data, {
+    return new NextResponse(new Uint8Array(data), {
       headers: {
         "Content-Type": MIME[ext] ?? "application/octet-stream",
         "Cache-Control": "public, max-age=86400, immutable",

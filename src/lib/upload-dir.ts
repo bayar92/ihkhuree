@@ -12,8 +12,8 @@ const UPLOAD_CATEGORIES: Record<
     publicPrefix: "/uploads/news",
   },
   certificates: {
-    relativeDir: path.join("public", "certificates"),
-    publicPrefix: "/certificates",
+    relativeDir: path.join("public", "uploads", "certificates"),
+    publicPrefix: "/uploads/certificates",
   },
   site: {
     relativeDir: path.join("public", "uploads", "site"),
@@ -44,11 +44,16 @@ export function getPublicUploadDir(category: UploadCategory): string {
   return path.join(process.cwd(), UPLOAD_CATEGORIES[category].relativeDir);
 }
 
-/** Primary write dir. News may use `UPLOAD_DIR` env; others use public folders. */
+/**
+ * Primary write dir. When `UPLOAD_DIR` (a persistent volume) is configured it is
+ * used for every category so runtime uploads survive redeploys and are served by
+ * the /uploads/[category] route handler. News keeps writing to the volume root
+ * (backwards compatible); other categories get a per-category subfolder.
+ */
 export function getUploadDir(category: UploadCategory): string {
-  if (category === "news") {
-    const configured = process.env.UPLOAD_DIR?.trim();
-    if (configured) return configured;
+  const configured = process.env.UPLOAD_DIR?.trim();
+  if (configured) {
+    return category === "news" ? configured : path.join(configured, category);
   }
   return getPublicUploadDir(category);
 }
