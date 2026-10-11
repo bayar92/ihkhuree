@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import Image from "next/image";
+import { User } from "lucide-react";
 import { BrandLogo } from "./BrandLogo";
 import { CyclingFlag } from "./CyclingFlag";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -51,7 +52,7 @@ export function Navbar() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-0.5 xl:flex">
+        <nav className="hidden items-center xl:flex">
           {links.map((l) => {
             const active = isActive(l.href);
             return (
@@ -59,13 +60,13 @@ export function Navbar() {
                 key={l.key}
                 href={l.href}
                 aria-current={active ? "page" : undefined}
-                className={`group relative whitespace-nowrap px-2.5 py-2 text-[13px] font-medium uppercase transition-colors ${
+                className={`group relative whitespace-nowrap px-2 py-2 text-[13px] font-medium uppercase transition-colors ${
                   active ? "text-brand-700" : "text-neutral-600 hover:text-brand-700"
                 }`}
               >
                 {t(l.key)}
                 <span
-                  className={`pointer-events-none absolute inset-x-2.5 bottom-1 h-0.5 origin-left rounded-full bg-brand-600 transition-transform duration-300 ease-out ${
+                  className={`pointer-events-none absolute inset-x-2 bottom-1 h-0.5 origin-left rounded-full bg-brand-600 transition-transform duration-300 ease-out ${
                     active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                   }`}
                 />
@@ -74,7 +75,15 @@ export function Navbar() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
+          <Link
+            href="/login"
+            aria-label={t("login")}
+            title={t("login")}
+            className="rounded-full p-1.5 text-brand-700 transition hover:bg-brand-50"
+          >
+            <User className="h-5 w-5" strokeWidth={1.75} />
+          </Link>
           <LanguageSwitcher />
           <Link
             href="/join"
@@ -112,6 +121,13 @@ export function Navbar() {
                 {t(l.key)}
               </Link>
             ))}
+            <Link
+              href="/login"
+              onClick={() => setOpen(false)}
+              className="block rounded-md px-3 py-2 text-sm font-medium uppercase text-neutral-700 hover:bg-neutral-50"
+            >
+              {t("login")}
+            </Link>
             <Link
               href="/join"
               onClick={() => setOpen(false)}

@@ -9,7 +9,8 @@
     "contact": "Contact",
     "join": "Register",
     "brandName": "Ikh Khuree",
-    "tagline": "international business cooperation association"
+    "tagline": "international business cooperation association",
+    "login": "Sign in"
   },
   "common": {
     "learnMore": "Learn More",
@@ -56,5 +57,115 @@
   },
   "admin": {
     "title": "Admin Dashboard"
+  },
+  "member": {
+    "register": {
+      "title": "Become a Member",
+      "intro": "Fill out the form below. Once our team has reviewed and approved your registration, you will be able to sign in.",
+      "name": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "passwordHint": "At least 8 characters",
+      "organization": "Organization",
+      "position": "Position",
+      "country": "Country / region",
+      "type": "Membership type",
+      "note": "Why would you like to join?",
+      "notePlaceholder": "Briefly describe the cooperation or advice you are looking for (optional)",
+      "submit": "Register",
+      "submitting": "Submitting...",
+      "haveAccount": "Already registered? Sign in",
+      "successTitle": "Registration received",
+      "successText": "Our team will review and approve your registration. Once approved, you can sign in with your email and password."
+    },
+    "types": {
+      "corporate": "Corporate Member",
+      "premium": "Premium Member",
+      "associate": "Associate Member",
+      "student": "Student Member"
+    },
+    "login": {
+      "title": "Member sign in",
+      "intro": "Sign in with your email and password.",
+      "submit": "Sign in",
+      "submitting": "Signing in...",
+      "noAccount": "No account yet? Become a member"
+    },
+    "account": {
+      "title": "My profile",
+      "welcome": "Welcome",
+      "profileTitle": "Profile",
+      "profileIntro": "Tell us what experience you can share and what advice or partners you are looking for, so we can connect you with the right people.",
+      "phone": "Phone",
+      "phoneNote": "Your contact details are never shown publicly.",
+      "about": "About you",
+      "offers": "Experience you can share",
+      "offersHint": "Separate with commas (e.g. finance, export, marketing)",
+      "seeks": "Topics you want advice or partners for",
+      "seeksHint": "Separate with commas (e.g. funding, partners, legal)",
+      "save": "Save",
+      "saving": "Saving...",
+      "saved": "Profile saved.",
+      "logout": "Sign out",
+      "membershipType": "Membership type"
+    },
+    "errors": {
+      "invalid": "Please check your details and fix the highlighted fields.",
+      "emailTaken": "This email address is already registered.",
+      "credentials": "Incorrect email or password.",
+      "pending": "Your registration is awaiting approval. You can sign in once it is approved.",
+      "rejected": "Your registration was not approved. Please contact us if you have questions.",
+      "staff": "Staff accounts sign in at /admin.",
+      "server": "Something went wrong. Please try again.",
+      "limit": "You can have at most {max} active requests at a time. Close an earlier one before sending another."
+    },
+    "connections": {
+      "nav": "Connections",
+      "title": "Connections",
+      "intro": "Tell us what advice or partnership you need. Our team will suggest a suitable member, expert or organization, and introductions happen only after both sides agree.",
+      "newTitle": "New request",
+      "kind": "Who would you like to be connected with?",
+      "kinds": {
+        "member": "Another member",
+        "expert": "An expert",
+        "partner": "A partner organization",
+        "learning": "Learning / advice"
+      },
+      "topic": "Topic",
+      "topicPlaceholder": "e.g. Looking for a partner to export to Japan",
+      "details": "Details",
+      "detailsHint": "Describe what you need, why, and your timeline.",
+      "submit": "Send request",
+      "submitting": "Sending...",
+      "sent": "Request sent. Our team will get back to you soon.",
+      "errLimit": "You can have at most {max} active requests at a time. Close an earlier one before sending another.",
+      "mine": "My requests",
+      "empty": "No requests yet.",
+      "incoming": "Introductions proposed to you",
+      "incomingIntro": "Our team suggests connecting you with the following requests.",
+      "status": {
+        "submitted": "Submitted",
+        "in_review": "In review",
+        "proposed": "Proposed",
+        "connected": "Connected",
+        "closed": "Closed"
+      },
+      "matchStatus": {
+        "proposed": "Awaiting answers",
+        "connected": "Connected",
+        "declined": "Declined",
+        "withdrawn": "Withdrawn"
+      },
+      "proposedTo": "Proposed",
+      "from": "Requested by",
+      "why": "Why it fits",
+      "accept": "Accept",
+      "decline": "Decline",
+      "youAccepted": "You accepted; waiting for the other side.",
+      "connectedNote": "You are connected. Our staff will introduce you and pass on contact details.",
+      "cancel": "Cancel request",
+      "expert": "Expert",
+      "organization": "Organization"
+    }
   }
 }

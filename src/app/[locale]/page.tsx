@@ -37,6 +37,8 @@ import { NewsCard } from '@/components/NewsCard';
 import { EventCardsSlider } from '@/components/EventCardsSlider';
 import { getContent } from '@/lib/content';
 import { homeDefaults } from '@/content/defaults';
+import { ConnectSection } from '@/components/home/ConnectSection';
+import { JourneySection } from '@/components/home/JourneySection';
 
 export const dynamic = 'force-dynamic';
 
@@ -124,6 +126,8 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+      <ConnectSection content={homeContent.connect} locale={locale} />
+
       {/* Highlights */}
       {features.length > 0 && (
         <section className="border-t border-neutral-100 bg-gradient-to-b from-brand-50/40 to-white">
@@ -285,6 +289,8 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      <JourneySection content={homeContent.journey} locale={locale} />
 
       {/* Latest news */}
       <section className="bg-neutral-50">

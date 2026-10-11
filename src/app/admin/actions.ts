@@ -4,7 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prisma";
-import { auth, signIn, signOut } from "@/lib/auth";
+import { signIn, signOut } from "@/lib/auth";
+import { requireStaff, isStaff } from "@/lib/dal";
+import { checkCredentials } from "@/lib/credentials";
 import { parseLocalized, parseBlocks } from "@/lib/form";
 import { saveNewsUpload, saveImageUpload } from "@/lib/upload";
 import type { UploadCategory } from "@/lib/upload-dir";
@@ -17,9 +19,10 @@ import {
   type L,
 } from "@/content/defaults";
 
+// Every admin mutation goes through here. Checks the *role* (not just "signed
+// in"), so an approved member can never call admin actions.
 async function requireAdmin() {
-  const session = await auth();
-  if (!session?.user) redirect("/admin/login");
+  await requireStaff();
 }
 
 // ---------------- Auth ----------------
@@ -27,10 +30,25 @@ export async function authenticate(
   _prev: string | undefined,
   formData: FormData,
 ) {
+  const email = String(formData.get("email") ?? "");
+  const password = String(formData.get("password") ?? "");
+
+  // Members have their own login; the admin panel only lets staff in.
+  let check: Awaited<ReturnType<typeof checkCredentials>>;
+  try {
+    check = await checkCredentials(email, password);
+  } catch (error) {
+    console.error("[admin login] failed:", (error as Error).message);
+    return "Алдаа гарлаа. Дахин оролдоно уу.";
+  }
+  if (!check.ok || !isStaff(check.user)) {
+    return "Имэйл эсвэл нууц үг буруу байна.";
+  }
+
   try {
     await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
+      email,
+      password,
       redirectTo: "/admin",
     });
   } catch (error) {

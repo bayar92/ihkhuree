@@ -17,6 +17,85 @@ export function HomeEditor({ initial }: { initial: HomeContent }) {
 
   return (
     <EditorForm contentKey="home" value={c}>
+      <Section title="Гишүүнчлэлийн танилцуулга (нүүр хуудасны дээд хэсэг)">
+        <LocalizedInput
+          label="Шошго"
+          value={c.connect.label}
+          onChange={(v) => update((d) => void (d.connect.label = v))}
+        />
+        <LocalizedInput
+          label="Гарчиг"
+          textarea
+          rows={3}
+          value={c.connect.title}
+          onChange={(v) => update((d) => void (d.connect.title = v))}
+        />
+        <LocalizedInput
+          label="Тайлбар"
+          textarea
+          rows={3}
+          value={c.connect.text}
+          onChange={(v) => update((d) => void (d.connect.text = v))}
+        />
+        {c.connect.cards.map((card, i) => (
+          <div key={i} className="space-y-4 rounded-lg border border-neutral-200 p-4">
+            <p className="text-sm font-semibold text-neutral-500">Карт #{i + 1}</p>
+            <LocalizedInput
+              label="Гарчиг"
+              value={card.title}
+              onChange={(v) => update((d) => void (d.connect.cards[i].title = v))}
+            />
+            <LocalizedInput
+              label="Тайлбар"
+              textarea
+              rows={3}
+              value={card.text}
+              onChange={(v) => update((d) => void (d.connect.cards[i].text = v))}
+            />
+          </div>
+        ))}
+        <LocalizedInput
+          label="Үндсэн товчны текст (бүртгүүлэх)"
+          value={c.connect.primaryCta}
+          onChange={(v) => update((d) => void (d.connect.primaryCta = v))}
+        />
+        <LocalizedInput
+          label="Хоёр дахь товчны текст (дэлгэрэнгүй)"
+          value={c.connect.secondaryCta}
+          onChange={(v) => update((d) => void (d.connect.secondaryCta = v))}
+        />
+      </Section>
+
+      <Section title="Элссэний дараах 4 алхам">
+        <LocalizedInput
+          label="Шошго"
+          value={c.journey.label}
+          onChange={(v) => update((d) => void (d.journey.label = v))}
+        />
+        <LocalizedInput
+          label="Гарчиг"
+          value={c.journey.title}
+          onChange={(v) => update((d) => void (d.journey.title = v))}
+        />
+        {c.journey.steps.map((step, i) => (
+          <div key={i} className="space-y-4 rounded-lg border border-neutral-200 p-4">
+            <p className="text-sm font-semibold text-neutral-500">Алхам {step.no}</p>
+            <LocalizedInput
+              label="Гарчиг"
+              value={step.title}
+              onChange={(v) => update((d) => void (d.journey.steps[i].title = v))}
+            />
+            <LocalizedInput
+              label="Тайлбар"
+              textarea
+              rows={2}
+              value={step.text}
+              onChange={(v) => update((d) => void (d.journey.steps[i].text = v))}
+            />
+          </div>
+        ))}
+      </Section>
+
       <Section title="Бидний тухай блок (нүүр хуудас)">
         <LocalizedInput
           label="Шошго"

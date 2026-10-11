@@ -5,11 +5,12 @@ import { AdminHeader } from "@/components/admin/ui";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const [news, events, inquiries, unhandled] = await Promise.all([
+  const [news, events, inquiries, unhandled, pendingMembers] = await Promise.all([
     prisma.news.count(),
     prisma.event.count(),
     prisma.inquiry.count(),
     prisma.inquiry.count({ where: { handled: false } }),
+    prisma.user.count({ where: { role: "member", status: "pending" } }),
   ]);
 
   const stats = [
@@ -17,6 +18,11 @@ export default async function DashboardPage() {
     { label: "Арга хэмжээ", value: events, href: "/admin/events" },
     { label: "Нийт хүсэлт", value: inquiries, href: "/admin/inquiries" },
     { label: "Шинэ хүсэлт", value: unhandled, href: "/admin/inquiries" },
+    {
+      label: "Баталгаажуулах гишүүн",
+      value: pendingMembers,
+      href: "/admin/members",
+    },
   ];
 
   return (
@@ -25,7 +31,7 @@ export default async function DashboardPage() {
         title="Хяналтын самбар"
         description="Ikh Khuree сайтын агуулгыг эндээс удирдана."
       />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {stats.map((s) => (
           <Link
             key={s.label}

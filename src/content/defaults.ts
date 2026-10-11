@@ -629,9 +629,145 @@ export const membershipDefaults: MembershipContent = {
 // ---------------- Home extras ----------------
 export type HomeContent = {
   aboutTeaser: { label: L; title1: L; title2: L; text: L };
+  // Statement band under the hero: who you connect with + what you get.
+  connect: {
+    label: L;
+    title: L;
+    text: L;
+    cards: { icon: string; title: L; text: L; href: string }[];
+    primaryCta: L;
+    secondaryCta: L;
+  };
+  // What happens after someone joins (4 steps).
+  journey: {
+    label: L;
+    title: L;
+    steps: { icon: string; no: string; title: L; text: L }[];
+  };
 };
 
 export const homeDefaults: HomeContent = {
+  connect: {
+    label: {
+      mn: 'ГИШҮҮНЧЛЭЛТЭЙ НИЙГЭМЛЭГ',
+      en: 'MEMBERSHIP COMMUNITY',
+      ja: '会員制コミュニティ',
+    },
+    title: {
+      mn: 'Бизнес эрхлэгчид хамтран ажиллах түнш болон боломжит харилцагчтайгаа холбогдох гишүүнчлэлтэй нийгэмлэг',
+      en: 'A membership community where entrepreneurs connect with partners and potential customers',
+      ja: '起業家がパートナーや見込み顧客とつながる会員制コミュニティ',
+    },
+    text: {
+      mn: 'Их Хүрээнд нэгдэж, олон улсын бизнес эрхлэгч, байгууллага, мэргэжилтнүүдтэй танилцан, өөрт тохирох түншээ олоорой.',
+      en: 'Join Ikh Khuree to meet international entrepreneurs, organizations and experts, and find the partners that fit your business.',
+      ja: 'イヒ・フレーに参加して、国際的な起業家・組織・専門家と出会い、ビジネスに合ったパートナーを見つけましょう。',
+    },
+    cards: [
+      {
+        icon: 'userCheck',
+        href: '/membership',
+        title: { mn: 'Хэн элсэж болох вэ?', en: 'Who can join?', ja: '誰が参加できますか？' },
+        text: {
+          mn: 'Бизнес эрхлэгч, компани, байгууллага, мэргэжилтэн, оюутан. Корпорат, Премиум, Гишүүн, Оюутан гэсэн төрлөөс сонгоно.',
+          en: 'Entrepreneurs, companies, organizations, professionals and students. Choose from Corporate, Premium, Associate or Student membership.',
+          ja: '起業家、企業、団体、専門家、学生が参加できます。法人・プレミアム・準会員・学生会員からお選びください。',
+        },
+      },
+      {
+        icon: 'handshake',
+        href: '/join',
+        title: {
+          mn: 'Гишүүд хэрхэн холбогдох вэ?',
+          en: 'How do members connect?',
+          ja: '会員同士はどうつながる？',
+        },
+        text: {
+          mn: 'Профайлдаа туршлага болон хүсэж буй түншийнхээ шалгуурыг оруулна. Манай баг тохирох гишүүн, мэргэжилтэн, байгууллагыг танилцуулна.',
+          en: 'Add your experience and the kind of partner you are looking for to your profile. Our team introduces you to suitable members, experts and organizations.',
+          ja: 'プロフィールに経験と求めるパートナー像を入力すると、当協会が適した会員・専門家・組織をご紹介します。',
+        },
+      },
+      {
+        icon: 'fee',
+        href: '/membership',
+        title: {
+          mn: 'Гишүүнчлэлийн төлбөр',
+          en: 'Membership fees',
+          ja: '会費について',
+        },
+        text: {
+          mn: 'Жилийн төлбөр гишүүнчлэлийн төрлөөс хамаарна. Төрөл бүрийн давуу тал, үнийг гишүүнчлэлийн хуудаснаас үзнэ үү.',
+          en: 'The annual fee depends on the membership type. See the benefits and prices of each type on the membership page.',
+          ja: '年会費は会員の種類によって異なります。各種類の特典と料金は会員制度ページをご覧ください。',
+        },
+      },
+    ],
+    primaryCta: { mn: 'Гишүүнээр бүртгүүлэх', en: 'Become a member', ja: '会員登録' },
+    secondaryCta: { mn: 'Гишүүнчлэлийн дэлгэрэнгүй', en: 'Membership details', ja: '会員制度の詳細' },
+  },
+  journey: {
+    label: { mn: 'ЭЛССЭНИЙ ДАРАА', en: 'AFTER YOU JOIN', ja: '参加後の流れ' },
+    title: {
+      mn: 'Гишүүнээр элссэний дараах 4 алхам',
+      en: 'Your first four steps as a member',
+      ja: '会員になった後の4ステップ',
+    },
+    steps: [
+      {
+        icon: 'profile',
+        no: '01',
+        title: { mn: 'Танилцуулгаа бөглөнө', en: 'Complete your profile', ja: 'プロフィールを入力' },
+        text: {
+          mn: 'Байгууллага, туршлага, хуваалцаж чадах зүйлээ профайлдаа оруулна.',
+          en: 'Add your organization, experience and what you can share to your profile.',
+          ja: '組織、経験、共有できることをプロフィールに入力します。',
+        },
+      },
+      {
+        icon: 'target',
+        no: '02',
+        title: {
+          mn: 'Хүсэж буй түншийн шалгуураа тодорхойлно',
+          en: 'Define the partner you want',
+          ja: '求めるパートナーの条件を決める',
+        },
+        text: {
+          mn: 'Ямар түнш, харилцагч, зөвлөгөө хэрэгтэйгээ тодорхой бичнэ.',
+          en: 'Describe the partners, customers or advice you are looking for.',
+          ja: '必要なパートナー、顧客、アドバイスを具体的に記入します。',
+        },
+      },
+      {
+        icon: 'meeting',
+        no: '03',
+        title: {
+          mn: 'Танилцуулга, уулзалтад оролцоно',
+          en: 'Join introductions and meetings',
+          ja: '紹介・ミーティングに参加',
+        },
+        text: {
+          mn: 'Манай баг шалгуурт тохирох хүнтэй танилцуулна, эсвэл арга хэмжээнд оролцож уулзана.',
+          en: 'Our team introduces you to people who match your criteria, or you meet them at our events.',
+          ja: '当協会が条件に合う方をご紹介するほか、イベントでも出会えます。',
+        },
+      },
+      {
+        icon: 'chat',
+        no: '04',
+        title: {
+          mn: 'Ажил хэргийн яриа өрнүүлнэ',
+          en: 'Start the business conversation',
+          ja: 'ビジネスの対話を始める',
+        },
+        text: {
+          mn: 'Хоёр тал зөвшөөрсний дараа хамтын ажиллагааны яриагаа эхэлнэ.',
+          en: 'Once both sides agree, you begin discussing how to work together.',
+          ja: '双方が同意したら、協力に向けた対話を始めます。',
+        },
+      },
+    ],
+  },
   aboutTeaser: {
     label: { mn: 'БИДНИЙ ТУХАЙ', en: 'ABOUT US', ja: '私たちについて' },
     title1: {

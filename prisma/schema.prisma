@@ -7,15 +7,104 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Admin users who can edit site content.
+// Everyone who can sign in. `role` decides what they can reach:
+//   admin | staff -> /admin panel (staff review member applications)
+//   member        -> /account (association members)
+// `status` gates sign-in: members start as "pending" until staff approve them.
+// Existing admin rows default to "approved" so they keep working.
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String         @id @default(cuid())
+  email     String         @unique
   name      String
   password  String
-  role      String   @default("admin")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role      String         @default("admin") // admin | staff | member
+  status    String         @default("approved") // pending | approved | rejected
+  profile   MemberProfile?
+  requestsMade    ConnectionRequest[] @relation("RequestsMade")
+  matchesAsTarget Match[]             @relation("MatchTargetMember")
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([role, status])
+}
+
+// Member profile: what the member does, what they can share and what help
+// they are looking for. Contact details stay private (never shown publicly).
+model MemberProfile {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   String
+  position       String?
+  country        String?
+  phone          String?
+  membershipType String   @default("associate") // corporate | premium | associate | student
+  about          String?
+  offers         String[] // topics the member can share experience on
+  seeks          String[] // topics the member wants advice / partners for
+  applicationNote String? // why they want to join (from the registration form)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// Experts and partner organizations staff can introduce members to. They have
+// no login: staff contact them and record their answer on their behalf.
+model DirectoryEntry {
+  id           String   @id @default(cuid())
+  kind         String   @default("expert") // expert | organization
+  name         String
+  organization String?
+  title        String?
+  expertise    String[]
+  contactEmail String?
+  contactPhone String?
+  notes        String? // internal, never shown to members
+  active       Boolean  @default(true)
+  matches      Match[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// A member asking to be connected with someone. Staff review it and propose
+// one or more Matches.
+model ConnectionRequest {
+  id          String   @id @default(cuid())
+  requesterId String
+  requester   User     @relation("RequestsMade", fields: [requesterId], references: [id], onDelete: Cascade)
+  kind        String // member | expert | partner | learning
+  topic       String
+  details     String
+  // submitted | in_review | proposed | connected | closed
+  status      String   @default("submitted")
+  staffNote   String? // internal
+  matches     Match[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([requesterId])
+}
+
+// Staff proposing one target (a member OR a directory entry) for a request.
+// It becomes "connected" only when BOTH sides have accepted.
+model Match {
+  id                String            @id @default(cuid())
+  requestId         String
+  request           ConnectionRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  targetMemberId    String?
+  targetMember      User?             @relation("MatchTargetMember", fields: [targetMemberId], references: [id], onDelete: Cascade)
+  targetEntryId     String?
+  targetEntry       DirectoryEntry?   @relation(fields: [targetEntryId], references: [id], onDelete: Cascade)
+  introNote         String? // why staff think this is a good fit; shown to both sides
+  requesterResponse String            @default("pending") // pending | accepted | declined
+  targetResponse    String            @default("pending") // pending | accepted | declined
+  status            String            @default("proposed") // proposed | connected | declined | withdrawn
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@unique([requestId, targetMemberId])
+  @@unique([requestId, targetEntryId])
+  @@index([targetMemberId, status])
 }
 
 // Hero / banner section on the home page. Localized text stored as

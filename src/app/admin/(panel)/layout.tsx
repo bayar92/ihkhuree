@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { requireStaff } from "@/lib/dal";
 import { logout } from "../actions";
 import { Sidebar } from "@/components/admin/Sidebar";
 import { SessionGuard } from "@/components/admin/SessionGuard";
@@ -11,8 +10,8 @@ export default async function PanelLayout({
 }: {
   children: ReactNode;
 }) {
-  const session = await auth();
-  if (!session?.user) redirect("/admin/login");
+  // Staff only — a signed-in member is sent back to the admin login.
+  const user = await requireStaff();
 
   return (
     <div className="flex min-h-screen">
@@ -32,7 +31,7 @@ export default async function PanelLayout({
         </div>
         <div className="border-t border-neutral-100 p-3">
           <p className="px-3 pb-2 text-xs text-neutral-400">
-            {session.user.email}
+            {user.email}
           </p>
           <div className="flex gap-2">
             <a
